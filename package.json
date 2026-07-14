@@ -1,0 +1,16 @@
+{
+  "name": "tuffie-portfolio-website",
+  "version": "1.0.0",
+  "description": "金絲桃（Tuffie Chang）個人作品集網站",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3",
+    "vite": "^8.1.4"
+  }
+}
