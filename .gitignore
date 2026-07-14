@@ -1,0 +1,9 @@
+# OS
+.DS_Store
+
+# 交接原始壓縮檔，內容已解壓至 handoff/，不重複入庫
+portfolio-handoff.zip
+
+# 環境變數與敏感資訊
+.env
+.env.*
