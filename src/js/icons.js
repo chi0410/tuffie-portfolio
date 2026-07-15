@@ -6,11 +6,23 @@
 import aiPrototyping from '../icons/ai-prototyping.svg?raw';
 import aiIdeation from '../icons/ai-ideation.svg?raw';
 import designClarity from '../icons/design-clarity.svg?raw';
+import valueUnderstandFirst from '../icons/value-understand-first.svg?raw';
+import valueUntanglingKnots from '../icons/value-untangling-knots.svg?raw';
+import valueBlendsIntoLife from '../icons/value-blends-into-life.svg?raw';
+import softPositiveResilience from '../icons/soft-positive-resilience.svg?raw';
+import softMultiPerspective from '../icons/soft-multi-perspective.svg?raw';
+import softProactiveExploration from '../icons/soft-proactive-exploration.svg?raw';
 
 const ICONS = {
   'ai-prototyping': aiPrototyping,
   'ai-ideation': aiIdeation,
   'design-clarity': designClarity,
+  'value-understand-first': valueUnderstandFirst,
+  'value-untangling-knots': valueUntanglingKnots,
+  'value-blends-into-life': valueBlendsIntoLife,
+  'soft-positive-resilience': softPositiveResilience,
+  'soft-multi-perspective': softMultiPerspective,
+  'soft-proactive-exploration': softProactiveExploration,
 };
 
 export function injectIcons() {

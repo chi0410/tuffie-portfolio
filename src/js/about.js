@@ -1,2 +1,5 @@
-// About 頁進入點 — 階段 7 補齊
-console.log('[Tuffie Portfolio] about skeleton ready');
+import { injectIcons } from './icons.js';
+import { initAboutI18n } from './about-i18n.js';
+
+injectIcons();
+initAboutI18n();
