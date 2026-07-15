@@ -86,3 +86,528 @@ nav a.active {
     font-size: 12px;
   }
 }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.hero {
+  padding: 190px 0 130px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-serif-en);
+  font-style: italic;
+  font-size: clamp(22px, 2.6vw, 30px);
+  color: var(--primary-20);
+  margin-bottom: 26px;
+}
+
+h1.display {
+  font-family: var(--font-serif-zh);
+  font-weight: 600;
+  font-size: clamp(30px, 4.6vw, 52px);
+  line-height: 1.5;
+  color: var(--ondark-text-1);
+  margin-bottom: 14px;
+}
+
+h1.display em {
+  font-style: normal;
+}
+
+h1.display em.a {
+  color: var(--ondark-link);
+}
+
+h1.display em.b {
+  color: var(--ondark-text-2);
+}
+
+h1.display .lg {
+  display: inline-block;
+  vertical-align: -0.16em;
+  margin: 0 14px;
+}
+
+.role {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: 0.02em;
+  color: var(--neutral-0);
+  margin-bottom: 40px;
+}
+
+.cta {
+  display: inline-block;
+  background: var(--glass-dark-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(250, 240, 234, 0.4);
+  color: var(--ondark-text-1);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 13px 36px;
+  border-radius: var(--radius-full);
+  transition: all var(--duration-base) var(--ease);
+}
+
+/* hover 態的漸層混色（暖陶 + 靛紫半透明）直接沿用 prototype 已定案效果；
+   一般規則禁止靛紫做透明光暈／底色，此為 CTA 互動態的既定例外，不自行更動 */
+.cta:hover {
+  background: linear-gradient(120deg, rgba(190, 110, 66, 0.5), rgba(103, 109, 175, 0.45));
+  border-color: rgba(250, 240, 234, 0.7);
+  transform: translateY(-2px);
+  color: var(--ondark-text-1);
+}
+
+.arr {
+  display: inline-block;
+  transition: transform var(--duration-base) var(--ease);
+}
+
+.cta:hover .arr {
+  transform: translateY(4px);
+}
+
+/* ==========================================================================
+   共用區塊標題
+   ========================================================================== */
+
+.sec-title {
+  font-family: var(--font-serif-en);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(30px, 3.6vw, 40px);
+  color: var(--ondark-text-1);
+  margin-bottom: 34px;
+}
+
+.group-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--primary-20);
+  text-transform: uppercase;
+  margin: 0 0 26px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.group-title::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(234, 203, 184, 0.4);
+}
+
+/* ==========================================================================
+   About Me 區塊（首頁摘要卡，非 About 頁）
+   ========================================================================== */
+
+.about {
+  padding: 90px 0;
+}
+
+.about-block {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle at 88% 20%, rgba(210, 154, 118, 0.4) 0%, rgba(210, 154, 118, 0) 45%),
+    linear-gradient(115deg, #6B3218 0%, #7E3D1C 60%, #96491F 100%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 24px;
+  padding: 64px 56px;
+  display: grid;
+  grid-template-columns: 1fr 192px;
+  gap: 60px;
+  align-items: center;
+  box-shadow: 0 20px 50px rgba(40, 16, 4, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.about-title {
+  font-family: var(--font-serif-en);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(25px, 2.8vw, 31px);
+  color: var(--secondary-60);
+  margin-bottom: 24px;
+}
+
+.about p {
+  max-width: 600px;
+  margin-bottom: 18px;
+}
+
+.about p.p1 {
+  font-size: 16px;
+  color: var(--ondark-text-1);
+  line-height: 1.9;
+}
+
+.about p.p2 {
+  font-size: 15px;
+  color: var(--ondark-text-2);
+  line-height: 1.85;
+}
+
+.more {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap var(--duration-base) var(--ease);
+}
+
+.more:hover {
+  gap: 10px;
+  color: var(--secondary-60);
+}
+
+.pframe {
+  width: 192px;
+  justify-self: center;
+  background: linear-gradient(145deg, rgba(244, 225, 213, 0.28) 0%, rgba(133, 138, 191, 0.36) 45%, rgba(133, 138, 191, 0.14) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.pframe img {
+  width: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   Works — 橫式直排卡（玻璃材質白名單項目之一）
+   ========================================================================== */
+
+.works {
+  padding: 90px 0;
+}
+
+.works-list {
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+.card {
+  background: var(--glass-dark-bg);
+  backdrop-filter: blur(var(--glass-dark-blur));
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  border: var(--glass-dark-border);
+  border-radius: var(--radius-l);
+  padding: 14px;
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+  display: grid;
+  grid-template-columns: 368px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(40, 16, 4, 0.35);
+}
+
+.card .cover {
+  border-radius: 11px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.card .cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 400ms var(--ease);
+}
+
+.card:hover .cover img {
+  transform: scale(1.03);
+}
+
+.card .body {
+  padding: 6px 14px 6px 0;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.tags {
+  margin: 0 0 14px;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ondark-text-1);
+  border: 1px solid rgba(250, 240, 234, 0.6);
+  border-radius: var(--radius-full);
+  padding: 3px 12px;
+  margin: 0 6px 6px 0;
+}
+
+.card h3 {
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: var(--ondark-text-1);
+}
+
+.carddesc {
+  font-size: 14px;
+  color: var(--ondark-text-2);
+  line-height: 1.78;
+  margin-top: 10px;
+  max-width: 560px;
+}
+
+.cardmore {
+  margin-top: auto;
+  align-self: flex-end;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ondark-link);
+  letter-spacing: 0.04em;
+  padding-top: 16px;
+  transition: color var(--duration-base) var(--ease);
+}
+
+.card:hover .cardmore {
+  color: var(--secondary-60);
+}
+
+.card:hover .cardmore .arr {
+  transform: translateX(5px);
+}
+
+/* ==========================================================================
+   My Edge — 能力卡（無容器，icon＋文字直接置於背景）與 Kind Words 引言卡
+   ========================================================================== */
+
+.edge {
+  padding: 90px 0 110px;
+}
+
+.edge-lead {
+  font-size: 16px;
+  color: var(--ondark-text-2);
+  margin: -25px 0 44px;
+}
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 64px;
+  margin-bottom: 76px;
+}
+
+.skill {
+  text-align: center;
+}
+
+.skill .icon {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 14px;
+}
+
+.skill .icon svg {
+  width: 100%;
+  height: 100%;
+  animation: iconFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.skill h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ondark-text-1);
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+}
+
+.skill p {
+  font-size: 14px;
+  color: var(--ondark-text-2);
+  text-align: left;
+}
+
+.kind-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.quote {
+  background: var(--glass-dark-bg);
+  backdrop-filter: blur(var(--glass-dark-blur));
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  border: var(--glass-dark-border);
+  border-radius: var(--radius-l);
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quote .mark {
+  font-family: var(--font-serif-en);
+  font-size: 88px;
+  line-height: 0.55;
+  color: var(--primary-80);
+  height: 38px;
+}
+
+.quote p.txt {
+  font-size: 14px;
+  color: var(--ondark-text-2);
+  line-height: 1.8;
+}
+
+.quote .who {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ondark-text-1);
+  margin-top: auto;
+}
+
+.quote .who small {
+  color: rgba(250, 240, 234, 0.6);
+  font-weight: 400;
+  margin-left: 8px;
+  font-size: 12.5px;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+footer {
+  padding: 8px 0 20px;
+}
+
+footer .wrap {
+  border-top: 1px solid var(--divider-ondark);
+  padding-top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer .cr {
+  font-family: var(--font-serif-en);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(250, 240, 234, 0.7);
+}
+
+/* ==========================================================================
+   Toast（data-stub 佔位提示；點擊行為待階段 8 串接）
+   ========================================================================== */
+
+#toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2E1B12;
+  color: var(--ondark-text-1);
+  font-size: 13px;
+  padding: 10px 22px;
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transition: all var(--duration-base) var(--ease);
+  pointer-events: none;
+  z-index: 200;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cta {
+    transition: none;
+  }
+  .skill .icon svg {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   RWD — 960px（平板）／680px（手機），斷點與規則沿用 prototype
+   ========================================================================== */
+
+@media (max-width: 960px) {
+  .skill-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+  }
+  .kind-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .about-block {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding: 48px 36px;
+  }
+  .card {
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    padding: 150px 0 90px;
+  }
+  .card {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .card .body {
+    padding: 16px 8px 8px;
+  }
+  .skill-grid,
+  .kind-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .works,
+  .about,
+  .edge {
+    padding: 60px 0;
+  }
+  h1.display .lg {
+    margin: 0 8px;
+  }
+  .skill .icon {
+    width: 120px;
+    height: 120px;
+  }
+}
