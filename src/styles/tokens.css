@@ -1,1 +1,126 @@
-/* Design Tokens — 階段 2 補齊，依 handoff/docs/design-tokens.md v2.1 轉換 */
+/* ==========================================================================
+   Design Tokens — 依 handoff/docs/design-tokens.md v2.1 轉換為 CSS 變數
+   單一事實來源，components.css／about.css 一律引用這裡的變數，不寫死色碼
+   ========================================================================== */
+:root {
+  /* ---- 1.1 Primary（磚陶紅棕） ---- */
+  --primary-10: #FAF0EA;
+  --primary-20: #F4E1D5;
+  --primary-40: #EACBB8;
+  --primary-60: #DDB297;
+  --primary-80: #D29A76;
+  --primary-100: #BE6E42; /* 按鈕底、大色塊；⚠️ 禁用於文字，對比僅約 3.4:1 */
+
+  /* ---- 1.2 Primary Mood（深陶棕） ---- */
+  --primary-text: #96491F; /* 連結、文字強調，對比約 5.8:1 AA */
+  --primary-deep-1: #7E3D1C;
+  --primary-deep-2: #67321A;
+  --primary-vivid: #C9603A;
+
+  /* ---- 1.3 Secondary（藍紫） ---- */
+  --secondary-10: #F0F0F7;
+  --secondary-20: #E1E2EF;
+  --secondary-40: #C2C5DF;
+  --secondary-60: #A4A7CF;
+  --secondary-80: #858ABF;
+  --secondary-100: #676DAF; /* ⚠️ 深暖底上禁止做透明光暈或文字，僅實色細節（線、小圖形） */
+
+  /* ---- 1.4 Secondary Mood ---- */
+  --secondary-mood-1: #B99FBF;
+  --secondary-mood-2: #7C7896; /* 🔍 design-tokens.md 標注待補，暫用推測值，待金絲桃確認 */
+  --secondary-warm-1: #D27A73;
+  --secondary-warm-2: #E1ABA1;
+
+  /* ---- 1.5 Neutral（灰階） ---- */
+  --neutral-0: #FFFFFF;
+  --neutral-10: #EBEBEB;
+  --neutral-20: #D6D6D6;
+  --neutral-30: #C2C2C2;
+  --neutral-40: #ADADAD;
+  --neutral-50: #999999; /* 及更淡的灰禁止用於內文 */
+  --neutral-60: #858585;
+  --neutral-70: #707070;
+  --neutral-80: #5C5C5C;
+  --neutral-90: #474747;
+  --neutral-95: #333333;
+  --neutral-100: #000000;
+
+  /* ---- 1.6 語意化文字與底色（白底模式，供白卡內部與淺色元件使用） ---- */
+  --text-primary: #333333;
+  --text-secondary: #5C5C5C;
+  --text-muted: #858585; /* 僅限 18px 以上或非關鍵資訊 */
+  --text-link: #96491F;
+  --bg-card: rgba(255, 255, 255, 0.94);
+  --border: #D6D6D6;
+  --divider: #EBEBEB;
+
+  /* ---- 1.7 狀態色（白底版；深底版待衍生驗證，暫不用） ---- */
+  --status-success: #5B8A5E;
+  --status-warning: #B7791F;
+  --status-error: #B94A3F;
+  --status-info: #676DAF;
+
+  /* ---- 1.8 深暖底模式（Dark Warm）— 全站唯一固定底色 ---- */
+  --bg-gradient-main: linear-gradient(200deg, #BE6E42 0%, #8A4520 40%, #5E2D14 90%);
+  --bg-glow-light: radial-gradient(circle at 85% 6%, rgba(210, 154, 118, 0.5) 0%, rgba(210, 154, 118, 0) 40%);
+  --bg-glow-shadow: radial-gradient(circle at 8% 96%, rgba(46, 27, 18, 0.55) 0%, rgba(46, 27, 18, 0) 45%);
+  --bg-deep-zone: #7E3D1C;
+
+  --ondark-text-1: #FAF0EA; /* 標題與內文主色，對比 7.2:1 */
+  --ondark-text-2: #EACBB8; /* 次要文字，對比 5.3:1；Hero 強調字例外對比僅約 2.5:1，屬金絲桃知情的美感取捨，不要「修正」 */
+  --ondark-muted: rgba(250, 240, 234, 0.65); /* 弱化說明，僅限大字 */
+  --ondark-link: #E1E2EF; /* 連結／冷色強調；靛紫文字一律用這個，不用 --secondary-100 */
+
+  /* ---- 玻璃元件（深暖版，白名單：sticky header、Works 卡） ---- */
+  --glass-dark-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.16) 25%, rgba(255, 255, 255, 0.02) 100%);
+  --glass-dark-blur: 16px;
+  --glass-dark-border: 1px solid rgba(255, 255, 255, 0.32);
+  --divider-ondark: rgba(255, 255, 255, 0.12);
+
+  /* ---- 白底玻璃材質（8. 節，備用；本站主要用深暖版） ---- */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-blur: 16px;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 4px 24px rgba(103, 50, 26, 0.06);
+  --glass-fallback: rgba(255, 255, 255, 0.92);
+
+  /* ---- 字體家族 ---- */
+  --font-sans: "Noto Sans TC", -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-serif-zh: "Noto Serif TC", "PingFang TC", serif;
+  --font-serif-en: "Cormorant Infant", "Noto Serif TC", serif;
+
+  /* ---- 間距（8px 網格） ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --content-max-width: 720px; /* 內文欄，約 65–75 字元 */
+  --page-max-width: 1120px;   /* 版心 */
+
+  /* ---- 形狀 ---- */
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-l: 12px;
+  --radius-full: 999px;
+  --border-width: 1px;
+  --shadow-s: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-m: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* ---- 動效 ---- */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/*
+斷點（Breakpoints）— CSS 變數無法帶入 media query，僅列於此供對照：
+sm: 640px ｜ md: 768px（平板） ｜ lg: 1024px（桌機） ｜ xl: 1280px
+本站切版依 prototype 實作採 680px／960px 兩個斷點（見 components.css）。
+*/

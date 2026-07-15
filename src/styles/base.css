@@ -1,2 +1,90 @@
-/* 全站 reset、底色漸層、織紋(knit)與噪點(grain) fixed 層 — 階段 2 補齊 */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ==========================================================================
+   全站基礎樣式 — reset、深暖底漸層、織紋(knit)與噪點(grain) fixed 層、字體套用
+   依 handoff/prototype/homepage-prototype.html 與 design-tokens.md 1.8 節重製
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ondark-text-1);
+  font-size: 16px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+  /* 全站唯一固定底色：暖陶暮色漸層 + 兩道對角光暈，fixed 不隨捲動 */
+  background:
+    var(--bg-glow-light),
+    var(--bg-glow-shadow),
+    var(--bg-gradient-main);
+  background-attachment: fixed, fixed, fixed;
+}
+
+a {
+  text-decoration: none;
+  color: var(--ondark-link);
+}
+
+.wrap {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* 噪點顆粒質感 — 全頁固定層，只鋪一次 */
+.grain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 毛呢針織紋 — 全頁固定層，只鋪一次 */
+.knit {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.knit path {
+  animation: crawl 18s linear infinite;
+}
+
+@keyframes crawl {
+  to {
+    stroke-dashoffset: -90;
+  }
+}
+
+/* 內容一律疊在 grain/knit 之上 */
+main,
+section,
+header,
+footer {
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .knit path {
+    animation: none;
+  }
+}

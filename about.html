@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="/src/styles/base.css">
 </head>
 <body>
-<p style="position:relative;z-index:2;padding:40px">階段 1 骨架頁面 — About 頁內容將於階段 7 補上（會先提版面方案給你選）。</p>
+<svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
+<svg class="knit" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="knitp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 0.5 H16 M0.5 0 V16" stroke="rgba(250,240,234,0.10)" stroke-width="1" stroke-dasharray="4 5"/></pattern></defs><rect width="100%" height="100%" fill="url(#knitp)"/></svg>
+<main>
+  <p class="wrap" style="padding-top:40px">階段 2 骨架頁面 — Design Tokens／全站底色已套上，About 頁內容將於階段 7 補上（會先提版面方案給你選）。</p>
+</main>
 <script type="module" src="/src/js/about.js"></script>
 </body>
 </html>
