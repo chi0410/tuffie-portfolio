@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Header — 懸浮玻璃膠囊，全站唯一固定樣式，不隨捲動變色（依 prototype 行為）
+   ========================================================================== */
+
+header {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: var(--glass-dark-bg);
+  backdrop-filter: blur(var(--glass-dark-blur));
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  border: var(--glass-dark-border);
+  box-shadow: 0 8px 28px rgba(40, 16, 4, 0.35);
+  border-radius: var(--radius-full);
+  padding: 10px 12px 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  white-space: nowrap;
+}
+
+.logo {
+  font-family: var(--font-serif-en);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ondark-text-1);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(250, 240, 234, 0.75);
+  letter-spacing: 0.03em;
+  transition: color var(--duration-base) var(--ease);
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--primary-20);
+}
+
+.lang {
+  font-size: 13px;
+  border: 1px solid rgba(250, 240, 234, 0.4);
+  border-radius: var(--radius-full);
+  padding: 6px 15px;
+  cursor: pointer;
+  background: transparent;
+  font-family: var(--font-sans);
+  color: var(--ondark-text-1);
+  transition: all var(--duration-base) var(--ease);
+}
+
+.lang:hover {
+  border-color: var(--primary-20);
+}
+
+/* 手機版：整個膠囊縮小（字級、間距），導覽項目維持全數顯示，不做漢堡收合
+   —— 2026-07 與金絲桃確認：照 prototype 行為，不做漢堡選單 */
+@media (max-width: 680px) {
+  header {
+    gap: 12px;
+    padding: 8px 10px 8px 16px;
+    top: 12px;
+    max-width: calc(100vw - 24px);
+  }
+  nav {
+    gap: 10px;
+  }
+  nav a {
+    font-size: 12px;
+  }
+  .logo {
+    font-size: 16px;
+  }
+  .lang {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
