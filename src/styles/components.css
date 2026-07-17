@@ -9,8 +9,8 @@ header {
   transform: translateX(-50%);
   z-index: 100;
   background: var(--glass-dark-bg);
-  backdrop-filter: blur(var(--glass-dark-blur));
   -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
   border: var(--glass-dark-border);
   box-shadow: 0 8px 28px rgba(40, 16, 4, 0.35);
   border-radius: var(--radius-full);
@@ -143,8 +143,8 @@ h1.display .lg {
 .cta {
   display: inline-block;
   background: var(--glass-dark-bg);
-  backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border: 1px solid rgba(250, 240, 234, 0.4);
   color: var(--ondark-text-1);
   font-size: 15px;
@@ -316,8 +316,8 @@ h1.display .lg {
   width: 192px;
   justify-self: center;
   background: linear-gradient(145deg, rgba(244, 225, 213, 0.28) 0%, rgba(133, 138, 191, 0.36) 45%, rgba(133, 138, 191, 0.14) 100%);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.42);
   border-radius: 18px;
   overflow: hidden;
@@ -346,8 +346,8 @@ h1.display .lg {
 
 .card {
   background: var(--glass-dark-bg);
-  backdrop-filter: blur(var(--glass-dark-blur));
   -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
   border: var(--glass-dark-border);
   border-radius: var(--radius-l);
   padding: 14px;
@@ -692,8 +692,8 @@ h1.display .lg {
 
 .quote {
   background: var(--glass-dark-bg);
-  backdrop-filter: blur(var(--glass-dark-blur));
   -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
   border: var(--glass-dark-border);
   border-radius: var(--radius-l);
   padding: 24px 26px;

@@ -2,8 +2,9 @@
 // 有 [data-k] 屬性的元素，內容整包用對應語言的 innerHTML 覆蓋。
 
 import aboutCopy from '../i18n/about.json';
+import { getStoredLang, setStoredLang } from './lang-store.js';
 
-let lang = 'zh';
+let lang = getStoredLang();
 
 function apply() {
   const dict = aboutCopy[lang];
@@ -21,6 +22,7 @@ export function initAboutI18n() {
   if (btn) {
     btn.addEventListener('click', () => {
       lang = lang === 'zh' ? 'en' : 'zh';
+      setStoredLang(lang);
       apply();
     });
   }
