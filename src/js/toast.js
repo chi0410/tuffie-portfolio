@@ -1,9 +1,8 @@
-// Toast 提示——處理所有 [data-stub] 元素（Resume 連結／專案卡）的點擊
+// Toast 提示——處理所有 [data-stub] 元素（目前為專案卡）的點擊
 // 依 prototype 邏輯重製：阻止預設行為（不會連到 # 或空白頁），顯示對應語言的提示文字，
 // 2.2 秒後自動收合。首頁與 About 頁共用這份邏輯，只是傳入的「目前語言文案」來源不同。
 
 const STUB_KEY_MAP = {
-  resume: 'stubResume',
   case: 'stubCase',
   about: 'stubAbout',
 };

@@ -3,7 +3,7 @@
 // 有 [data-k] 屬性的元素，內容整包用對應語言的 innerHTML 覆蓋。
 
 import homepageCopy from '../i18n/homepage.json';
-import { getStoredLang, setStoredLang } from './lang-store.js';
+import { getStoredLang, setStoredLang, resumeHrefFor } from './lang-store.js';
 
 let lang = getStoredLang();
 
@@ -12,6 +12,9 @@ function apply() {
   document.querySelectorAll('[data-k]').forEach((el) => {
     const value = dict[el.dataset.k];
     if (value !== undefined) el.innerHTML = value;
+  });
+  document.querySelectorAll('[data-resume-link]').forEach((el) => {
+    el.href = resumeHrefFor(lang);
   });
   document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
   const btn = document.getElementById('langBtn');

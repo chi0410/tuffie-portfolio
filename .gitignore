@@ -15,3 +15,6 @@ dist
 
 # Claude Code 本機設定
 .claude/settings.local.json
+
+# Playwright MCP 驗證留下的暫存截圖／快照
+.playwright-mcp/

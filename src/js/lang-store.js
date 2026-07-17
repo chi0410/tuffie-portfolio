@@ -20,3 +20,8 @@ export function setStoredLang(lang) {
     // 同上，寫入失敗就當作沒記住，不影響當次切換的顯示結果
   }
 }
+
+// Resume PDF 依語言對應——中英文各一份檔案，放在 public/assets/ 下
+export function resumeHrefFor(lang) {
+  return lang === 'en' ? '/assets/resume-en.pdf' : '/assets/resume-zh.pdf';
+}
