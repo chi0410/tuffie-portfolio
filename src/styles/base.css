@@ -39,6 +39,24 @@ a {
   padding: 0 28px;
 }
 
+/* 跳到主要內容——鍵盤／螢幕閱讀器使用者專用，平常視覺隱藏，取得焦點時才浮現 */
+.skip-link {
+  position: fixed;
+  top: -60px;
+  left: 20px;
+  z-index: 200;
+  background: var(--neutral-0);
+  color: var(--primary-text);
+  padding: 12px 20px;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  transition: top 200ms var(--ease);
+}
+
+.skip-link:focus {
+  top: 20px;
+}
+
 /* 噪點顆粒質感 — 全頁固定層，只鋪一次 */
 .grain {
   position: fixed;

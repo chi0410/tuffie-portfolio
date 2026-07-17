@@ -4,14 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — Tuffie Chang</title>
+<meta name="description" content="關於金絲桃（Tuffie Chang）——從視覺設計到產品設計的養成之路，設計原則、軟實力與工作經歷一次看。">
+<meta name="theme-color" content="#7E3D1C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About — Tuffie Chang">
+<meta property="og:description" content="關於金絲桃（Tuffie Chang）——從視覺設計到產品設計的養成之路，設計原則、軟實力與工作經歷一次看。">
+<meta property="og:image" content="/assets/photo/about-hero-photo.jpg">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/src/styles/tokens.css">
 <link rel="stylesheet" href="/src/styles/base.css">
 <link rel="stylesheet" href="/src/styles/components.css">
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要內容</a>
 <svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
 <svg class="knit" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="knitp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 0.5 H16 M0.5 0 V16" stroke="rgba(250,240,234,0.10)" stroke-width="1" stroke-dasharray="4 5"/></pattern></defs><rect width="100%" height="100%" fill="url(#knitp)"/></svg>
 
@@ -23,85 +33,91 @@
     <a href="#" data-stub="resume">Resume</a>
     <a href="/#edge">My Edge</a>
   </nav>
-  <button class="lang" id="langBtn">EN</button>
+  <button class="lang" id="langBtn" aria-label="切換網站語言">EN</button>
 </header>
 
-<main>
-  <div class="hero" id="top">
-    <div class="wrap">
-      <p class="eyebrow">3Y UIUX｜7Y Visual</p>
-      <h1 class="about-h1">Designing with Care</h1>
-      <p class="role">From Visual to Product</p>
-      <p class="about-lead" data-k="intro"></p>
-      <a class="cta" href="#" data-stub="resume">Download Resume <span class="arr">&darr;</span></a>
-    </div>
-  </div>
+<main id="main">
+  <section class="about-intro" id="top">
+    <div class="wrap about-intro-grid">
+      <div class="about-intro-photo rv">
+        <picture>
+          <source srcset="/assets/photo/about-hero-photo.webp" type="image/webp">
+          <img src="/assets/photo/about-hero-photo.jpg" alt="Tuffie Chang" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="about-intro-content rv">
+        <div class="about-tags">
+          <span class="tag">3Y UIUX</span>
+          <span class="tag">7Y Visual</span>
+        </div>
+        <h1 class="about-h1">Designing with Care</h1>
+        <p class="about-lead" data-k="intro"></p>
 
-  <section class="path" id="path">
-    <div class="wrap">
-      <p class="sec-title">My Path</p>
-      <div class="path-list">
-        <div class="path-step">
-          <span class="path-num">01</span>
-          <div>
-            <h3>Visual Craft</h3>
-            <p data-k="pathVisual"></p>
+        <p class="role">From Visual to Product</p>
+        <div class="path-list">
+          <div class="path-step">
+            <div>
+              <h3>Visual Craft</h3>
+              <p data-k="pathVisual"></p>
+            </div>
+          </div>
+          <div class="path-step">
+            <div>
+              <h3>Business Thinking</h3>
+              <p data-k="pathBusiness"></p>
+            </div>
+          </div>
+          <div class="path-step">
+            <div>
+              <h3>Product Design</h3>
+              <p data-k="pathProduct"></p>
+            </div>
           </div>
         </div>
-        <div class="path-step">
-          <span class="path-num">02</span>
-          <div>
-            <h3>Business Thinking</h3>
-            <p data-k="pathBusiness"></p>
-          </div>
-        </div>
-        <div class="path-step">
-          <span class="path-num">03</span>
-          <div>
-            <h3>Product Design</h3>
-            <p data-k="pathProduct"></p>
-          </div>
-        </div>
+
+        <a class="cta" href="#" data-stub="resume">Download Resume <span class="arr">&darr;</span></a>
       </div>
     </div>
   </section>
 
   <section class="edge" id="values">
     <div class="wrap">
-      <p class="sec-title">Design Values</p>
-      <p class="edge-lead" data-k="valuesLead"></p>
+      <p class="sec-title rv">Principles &amp; Traits</p>
+
+      <p class="group-title rv">Design Values</p>
+      <p class="edge-lead rv" data-k="valuesLead"></p>
       <div class="skill-grid">
-        <div class="skill">
+        <div class="skill rv">
           <div class="icon" data-icon="value-understand-first"></div>
           <h3>Understand First, Then Design</h3>
           <p data-k="v1"></p>
         </div>
-        <div class="skill">
+        <div class="skill rv">
           <div class="icon" data-icon="value-untangling-knots"></div>
           <h3>Untangling the Knots</h3>
           <p data-k="v2"></p>
         </div>
-        <div class="skill">
+        <div class="skill rv">
           <div class="icon" data-icon="value-blends-into-life"></div>
           <h3>Design That Blends into Life</h3>
           <p data-k="v3"></p>
         </div>
       </div>
 
-      <p class="group-title">Soft Skills</p>
-      <p class="edge-lead soft-lead" data-k="softLead"></p>
+      <p class="group-title rv">Soft Skills</p>
+      <p class="edge-lead soft-lead rv" data-k="softLead"></p>
       <div class="skill-grid skill-grid--sub">
-        <div class="skill">
+        <div class="skill rv">
           <div class="icon" data-icon="soft-positive-resilience"></div>
           <h3>Positive Resilience</h3>
           <p data-k="s1"></p>
         </div>
-        <div class="skill">
+        <div class="skill rv">
           <div class="icon" data-icon="soft-multi-perspective"></div>
           <h3>Multi-perspective Thinking</h3>
           <p data-k="s2"></p>
         </div>
-        <div class="skill">
+        <div class="skill rv">
           <div class="icon" data-icon="soft-proactive-exploration"></div>
           <h3>Proactive Exploration</h3>
           <p data-k="s3"></p>
@@ -112,12 +128,48 @@
 
   <section class="experience" id="experience">
     <div class="wrap">
-      <p class="sec-title">Experience</p>
+      <p class="sec-title rv">Experience</p>
       <ul class="exp-list">
-        <li><span class="exp-role">Product Designer</span><span class="exp-co">NUWA Robotics</span><span class="exp-date">2023.04 – Present</span></li>
-        <li><span class="exp-role">Brand Visual Designer</span><span class="exp-co">CORBAN</span><span class="exp-date">2018.04 – 2022.07</span></li>
-        <li><span class="exp-role">Visual Designer</span><span class="exp-co">Marco Laurent</span><span class="exp-date">2016.04 – 2018.04</span></li>
-        <li><span class="exp-role">Marketing Designer</span><span class="exp-co">SISDORA</span><span class="exp-date">2015.06 – 2016.04</span></li>
+        <li class="exp-item exp-item--current rv">
+          <span class="exp-dot"></span>
+          <div class="exp-body">
+            <div class="exp-title">
+              <span class="exp-role">Product Designer</span>
+              <span class="exp-co">@ NUWA Robotics</span>
+            </div>
+            <span class="exp-date">2023.04 – Present</span>
+          </div>
+        </li>
+        <li class="exp-item rv">
+          <span class="exp-dot"></span>
+          <div class="exp-body">
+            <div class="exp-title">
+              <span class="exp-role">Brand Visual Designer</span>
+              <span class="exp-co">@ CORBAN</span>
+            </div>
+            <span class="exp-date">2018.04 – 2022.07</span>
+          </div>
+        </li>
+        <li class="exp-item rv">
+          <span class="exp-dot"></span>
+          <div class="exp-body">
+            <div class="exp-title">
+              <span class="exp-role">Visual Designer</span>
+              <span class="exp-co">@ Marco Laurent</span>
+            </div>
+            <span class="exp-date">2016.04 – 2018.04</span>
+          </div>
+        </li>
+        <li class="exp-item rv">
+          <span class="exp-dot"></span>
+          <div class="exp-body">
+            <div class="exp-title">
+              <span class="exp-role">Marketing Designer</span>
+              <span class="exp-co">@ SISDORA</span>
+            </div>
+            <span class="exp-date">2015.06 – 2016.04</span>
+          </div>
+        </li>
       </ul>
     </div>
   </section>
