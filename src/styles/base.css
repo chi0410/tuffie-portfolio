@@ -28,11 +28,18 @@ body {
   background-attachment: fixed, fixed, fixed;
 }
 
-/* 手機斷點：右上角亮部光暈在窄螢幕上剛好落在 Hero 頂部，導致底色偏淺、文字對比變弱
-   只在此斷點把亮部中心推到畫面外（右上更遠處），桌機／平板的 --bg-glow-light 完全不動 */
+/* 手機斷點：窄螢幕下 Header 與 Hero 頂部（this is Tuffie／主標題）貼在偏淺的底色上，
+   文字對比不足。只在此斷點整組覆蓋 background——疊一層由上往下的深色罩、把主漸層換成
+   偏暗的版本、亮部光暈大幅降低亮度並推到畫面外，讓 Hero 從頂到底都維持足夠深。
+   桌機／平板完全不吃這段，沿用 tokens.css 原本的 --bg-gradient-main / --bg-glow-light。 */
 @media (max-width: 680px) {
   body {
-    --bg-glow-light: radial-gradient(circle at 115% -12%, rgba(210, 154, 118, 0.5) 0%, rgba(210, 154, 118, 0) 40%);
+    background:
+      linear-gradient(180deg, rgba(20, 10, 5, 0.62) 0%, rgba(20, 10, 5, 0.34) 22%, rgba(20, 10, 5, 0) 52%),
+      radial-gradient(circle at 125% -25%, rgba(210, 154, 118, 0.16) 0%, rgba(210, 154, 118, 0) 28%),
+      var(--bg-glow-shadow),
+      linear-gradient(200deg, #8A4520 0%, #6B341A 30%, #4A230F 70%, #3A1B0B 100%);
+    background-attachment: fixed, fixed, fixed, fixed;
   }
 }
 
