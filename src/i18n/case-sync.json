@@ -81,7 +81,7 @@
     "heroPhSmall": "Coming soon",
 
     "bgLabel": "Background",
-    "bgLead": "Unpacking user feedback to move the product beyond surface-level UI patches —<br class=\"cs-bp\">toward a re-examination of the sync architecture and flow",
+    "bgLead": "Digging beneath user feedback to re-examine the sync architecture and flow",
     "bgP1": "Because the feature had to support syncing, permission control, and content updates across robots, multiple tasks, and team groups — while also handling cross-device information display and task state — the real problem ran deeper than it appeared, and was hard to spot in the product's early stages.",
     "bgP2": "About two years after launch, as users and use cases grew, the hidden issues began to surface. After gathering extensive user feedback and usage scenarios, I clarified that the problem didn't stem from a single screen or feature — it came from insufficient planning of the sync architecture and operational flow early on.",
     "bgPh": "📦 Context diagram",
@@ -89,7 +89,7 @@
     "bgP3": "The underlying logic was never clearly conveyed through the interface, leaving users unable to understand the robot's current state, how tasks related to one another, or what their actions would cause. When results didn't match expectations, it read as a product malfunction — eroding users' understanding of and trust in the system.",
 
     "resLabel": "Research",
-    "resLead": "I brought together feedback from RD, customer support, and users —<br class=\"cs-bp\">finding the real UX pain points inside contradictory signals",
+    "resLead": "I brought together feedback from RD, customer support, and users — finding the real UX pain points inside contradictory signals",
     "q1": "Customers keep reporting the robot's brain is faulty — but every time we escalate it, we're told the brain is fine.",
     "q1who": "CS",
     "q2": "We spend hours debugging, and the findings still don't match what the customer describes.",
@@ -98,7 +98,7 @@
     "q3who": "Customer",
 
     "probLabel": "Problem",
-    "probLead": "I found a gap between the system logic of the sync flow<br class=\"cs-bp\">and what users expected their actions to do",
+    "probLead": "I found a gap between the system logic of the sync flow and what users expected their actions to do",
     "probT1": "Sync scope wasn't visible",
     "probD1": "Users couldn't confirm which tasks and devices a sync would affect before acting, making outcomes hard to predict.",
     "probT2": "Sync rules weren't explained",
@@ -121,7 +121,7 @@
     "stratD3": "Changed post-cancellation behaviour from \"backfill\" to \"clear\", removing unexplained interference.",
 
     "solLabel": "Solution",
-    "solLead": "Making every sync visible,<br class=\"cs-bp\">predictable, and trustworthy",
+    "solLead": "Making every sync visible, predictable, and trustworthy",
     "solPh": "🚧 Solution visuals (reserved)",
     "solPhSmall": "Flow diagrams and captions will be added later — this space is reserved",
 

@@ -49,7 +49,8 @@
 
 **導言（襯線副標）**
 - 中：從用戶回饋中拆解問題，推動產品從表層介面修補，轉向同步架構與流程的重新檢視
-- EN ✍️ 待校閱：Unpacking user feedback to move the product beyond surface-level UI patches — toward a re-examination of the sync architecture and flow
+- EN：Digging beneath user feedback to re-examine the sync architecture and flow
+- 備註：原譯過長（在版面上會斷成三行），2026-07-21 縮短定案。英文版**不套用中文的手動斷點**，由系統自然換行。
 
 **內文第一段**
 - 中：由於此功能需支援機器人與多個任務、團隊群組之間的同步、權限控管與內容更新，同時牽涉跨裝置的資訊呈現與任務狀態管理，因此實際問題比表面所見更加複雜，也不容易在產品初期被察覺。
@@ -145,7 +146,7 @@
 
 **導言**（2026-07-21 定案）
 - 中：讓每一次同步操作，都能被看見、被預期、被信任
-- EN ✍️ 待校閱：Making every sync visible, predictable, and trustworthy
+- EN：Making every sync visible, predictable, and trustworthy（**不斷行**，自然換行）
 
 **三組「畫面＋說明」**
 
