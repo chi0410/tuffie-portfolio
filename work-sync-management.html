@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨裝置同步管理體驗 — Tuffie Chang</title>
+<meta name="description" content="此專案展現我如何從表層回饋中挖掘真正的產品問題，重新梳理流程結構，並推動更符合使用者理解的體驗優化。">
+<meta name="theme-color" content="#7E3D1C">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tuffie-portfolio.vercel.app/work-sync-management.html">
+<meta property="og:title" content="跨裝置同步管理體驗 — Tuffie Chang">
+<meta property="og:description" content="此專案展現我如何從表層回饋中挖掘真正的產品問題，重新梳理流程結構，並推動更符合使用者理解的體驗優化。">
+<meta property="og:image" content="https://tuffie-portfolio.vercel.app/assets/covers/cover-1-sync-management.png">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://tuffie-portfolio.vercel.app/work-sync-management.html">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/styles/tokens.css">
+<link rel="stylesheet" href="/src/styles/base.css">
+<link rel="stylesheet" href="/src/styles/components.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
+<svg class="knit" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="knitp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 0.5 H16 M0.5 0 V16" stroke="rgba(250,240,234,0.10)" stroke-width="1" stroke-dasharray="4 5"/></pattern></defs><rect width="100%" height="100%" fill="url(#knitp)"/></svg>
+
+<header>
+  <a class="logo" href="/">Tuffie</a>
+  <nav>
+    <a href="/#works">Works</a>
+    <a href="/about.html">About</a>
+    <a href="/assets/resume-zh.pdf" target="_blank" rel="noopener" data-resume-link>Resume</a>
+    <a href="/#edge">My Edge</a>
+  </nav>
+  <button class="lang" id="langBtn" aria-label="切換網站語言">EN</button>
+</header>
+
+<main id="main">
+  <!-- 1 專案標題區 -->
+  <section class="cs-hero">
+    <div class="wrap">
+      <div class="cs-hero-grid">
+        <div class="cs-hero-text rv">
+          <h1 data-k="h1"></h1>
+          <p class="cs-sum" data-k="sum"></p>
+          <dl class="cs-meta">
+            <div><dt data-k="metaTimelineLabel"></dt><dd data-k="metaTimeline"></dd></div>
+            <div><dt data-k="metaTeamLabel"></dt><dd data-k="metaTeam"></dd></div>
+            <div><dt data-k="metaRoleLabel"></dt><dd data-k="metaRole"></dd></div>
+          </dl>
+        </div>
+        <div class="cs-hero-visual cs-ph rv">
+          <span data-k="heroPh"></span>
+          <small data-k="heroPhSmall"></small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 專案背景 -->
+  <section class="cs-sec" id="background">
+    <div class="wrap">
+      <p class="cs-label rv" data-k="bgLabel"></p>
+      <p class="cs-lead rv" data-k="bgLead"></p>
+      <p class="cs-body rv" data-k="bgP1"></p>
+      <p class="cs-body rv" data-k="bgP2"></p>
+      <div class="cs-ph cs-bg-visual rv">
+        <span data-k="bgPh"></span>
+        <small data-k="bgPhSmall"></small>
+      </div>
+      <p class="cs-body rv" data-k="bgP3"></p>
+    </div>
+  </section>
+
+  <!-- 3 整合多方觀點 -->
+  <section class="cs-sec" id="research">
+    <div class="wrap">
+      <p class="cs-label rv" data-k="resLabel"></p>
+      <p class="cs-lead rv" data-k="resLead"></p>
+      <div class="cs-quotes">
+        <div class="cs-qcard rv">
+          <div class="mark">&ldquo;</div>
+          <p data-k="q1"></p>
+          <p class="who" data-k="q1who"></p>
+        </div>
+        <div class="cs-qcard rv">
+          <div class="mark">&ldquo;</div>
+          <p data-k="q2"></p>
+          <p class="who" data-k="q2who"></p>
+        </div>
+        <div class="cs-qcard rv">
+          <div class="mark">&ldquo;</div>
+          <p data-k="q3"></p>
+          <p class="who" data-k="q3who"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 核心痛點歸納 -->
+  <section class="cs-sec" id="problem">
+    <div class="wrap">
+      <p class="cs-label rv" data-k="probLabel"></p>
+      <p class="cs-lead rv" data-k="probLead"></p>
+      <div class="cs-trio">
+        <div class="rv"><div class="num">01</div><h3 data-k="probT1"></h3><p data-k="probD1"></p></div>
+        <div class="rv"><div class="num">02</div><h3 data-k="probT2"></h3><p data-k="probD2"></p></div>
+        <div class="rv"><div class="num">03</div><h3 data-k="probT3"></h3><p data-k="probD3"></p></div>
+      </div>
+      <div class="cs-compare">
+        <div class="cs-ph rv">
+          <span data-k="compareLeftPh"></span>
+          <small data-k="compareLeftSmall"></small>
+        </div>
+        <div class="cs-ph rv">
+          <span data-k="compareRightPh"></span>
+          <small data-k="compareRightSmall"></small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 優化目標與策略 -->
+  <section class="cs-sec" id="strategy">
+    <div class="wrap">
+      <p class="cs-label rv" data-k="stratLabel"></p>
+      <p class="cs-lead rv" data-k="stratLead"></p>
+      <p class="cs-body rv" data-k="stratBody"></p>
+      <div class="cs-trio">
+        <div class="rv"><div class="num">01</div><h3 data-k="stratT1"></h3><p data-k="stratD1"></p></div>
+        <div class="rv"><div class="num">02</div><h3 data-k="stratT2"></h3><p data-k="stratD2"></p></div>
+        <div class="rv"><div class="num">03</div><h3 data-k="stratT3"></h3><p data-k="stratD3"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 優化成果 -->
+  <section class="cs-sec" id="solution">
+    <div class="wrap">
+      <p class="cs-label rv" data-k="solLabel"></p>
+      <p class="cs-lead rv" data-k="solLead"></p>
+      <div class="cs-solution-slot">
+        <div class="cs-ph rv">
+          <span data-k="solPh"></span>
+          <small data-k="solPhSmall"></small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 重點總結 -->
+  <section class="cs-sec" id="takeaways">
+    <div class="wrap">
+      <p class="cs-label rv" data-k="takeLabel"></p>
+      <p class="cs-body rv" data-k="takeP1"></p>
+      <p class="cs-body rv" data-k="takeP2"></p>
+      <div class="cs-trio">
+        <div class="rv"><div class="num">01</div><h3 data-k="takeT1"></h3><p data-k="takeD1"></p></div>
+        <div class="rv"><div class="num">02</div><h3 data-k="takeT2"></h3><p data-k="takeD2"></p></div>
+        <div class="rv"><div class="num">03</div><h3 data-k="takeT3"></h3><p data-k="takeD3"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 Next Project -->
+  <section class="cs-sec" style="padding-top:20px">
+    <div class="wrap">
+      <a class="cs-next rv" href="/#works">
+        <div>
+          <p class="lbl">Next Project</p>
+          <p class="t" data-k="nextTitle"></p>
+        </div>
+        <span class="arr">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="cr">&copy; 2026 Tuffie Chang</p>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4E1D5" stroke-width="1.6" stroke-linecap="round" opacity="0.85" role="img" aria-label="Instagram"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="#F4E1D5" stroke="none"/></svg>
+  </div>
+</footer>
+
+<script type="module" src="/src/js/work-sync-management.js"></script>
+</body>
+</html>

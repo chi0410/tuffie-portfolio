@@ -9,6 +9,7 @@ export default defineConfig({
       input: {
         main: `${root}index.html`,
         about: `${root}about.html`,
+        workSyncManagement: `${root}work-sync-management.html`,
       },
     },
   },

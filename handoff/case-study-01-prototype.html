@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨裝置同步管理體驗 — Tuffie Chang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,500;0,600;1,400;1,500;1,600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FAF0EA; --milk:#F4E1D5; --honey:#EACBB8; --lav:#E1E2EF; --lav2:#A4A7CF;
+  --sans:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;
+  --serif:"Noto Serif TC","PingFang TC",serif;
+  --serif-en:"Cormorant Infant","Noto Serif TC",serif;
+  --glass:linear-gradient(145deg,rgba(255,255,255,0.20) 0%,rgba(255,255,255,0.16) 25%,rgba(255,255,255,0.02) 100%);
+  --glass-bd:1px solid rgba(255,255,255,0.35);
+  --dur:250ms; --ease:cubic-bezier(0.4,0,0.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--cream);font-size:16px;line-height:1.8;letter-spacing:0.02em;overflow-x:hidden;
+  background:radial-gradient(circle at 85% 6%,rgba(210,154,118,0.42) 0%,rgba(210,154,118,0) 38%),radial-gradient(circle at 8% 96%,rgba(46,27,18,0.55) 0%,rgba(46,27,18,0) 45%),linear-gradient(200deg,#BE6E42 0%,#8A4520 40%,#5E2D14 90%);
+  background-attachment:fixed;}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.narrow{max-width:100%}
+a{text-decoration:none;color:var(--lav)}
+.grain,.knit{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.grain{opacity:0.16;mix-blend-mode:overlay}
+.knit path{animation:crawl 18s linear infinite}
+@keyframes crawl{to{stroke-dashoffset:-90}}
+section,header,footer{position:relative;z-index:2}
+/* Header */
+header{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:100;
+  background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.32);box-shadow:0 8px 28px rgba(40,16,4,0.35);
+  border-radius:999px;padding:10px 12px 10px 24px;display:flex;align-items:center;gap:22px;white-space:nowrap}
+.logo{font-family:var(--serif-en);font-weight:600;font-size:20px;color:var(--cream)}
+nav{display:flex;gap:18px}
+nav a{font-size:14px;font-weight:500;color:rgba(250,240,234,0.75)}
+nav a:hover{color:var(--milk)}
+.lang{font-size:13px;border:1px solid rgba(250,240,234,0.4);border-radius:999px;padding:6px 15px;background:none;color:var(--cream);font-family:var(--sans);cursor:pointer}
+/* 區塊通用 */
+.sec{padding:76px 0}
+.sec-title{font-family:var(--sans);font-weight:500;font-size:14px;letter-spacing:0.16em;color:rgba(234,203,184,0.75);margin-bottom:12px}
+.bp{display:inline}
+@media(max-width:760px){.bp{display:none}p.body{max-width:100%}}
+.lead{font-family:var(--serif);font-weight:600;font-size:clamp(20px,2.3vw,26px);line-height:1.6;color:var(--cream);margin:0 0 26px}
+p.body{font-size:16px;line-height:1.9;color:var(--honey);margin-bottom:18px;max-width:66%}
+p.body strong{color:var(--cream);font-weight:600}
+/* 1 首屏 */
+
+.hero{padding:150px 0 30px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:stretch}
+.hero-text{padding:12px 0 20px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.2vw,38px);line-height:1.5;color:var(--cream);margin-bottom:20px}
+.hero .sum{font-size:15.5px;color:var(--honey);line-height:1.9;margin-bottom:40px}
+.meta{display:flex;flex-direction:column;gap:26px}
+.meta dt{font-size:15px;font-weight:600;color:var(--milk);margin-bottom:7px;letter-spacing:0.04em}
+.meta dd{font-size:14px;color:var(--honey);line-height:1.75}
+.hero-visual{border-radius:16px;min-height:420px}
+/* 3 引言卡 */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-top:36px}
+.qcard{background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:var(--glass-bd);border-radius:16px;padding:24px 24px 22px;display:flex;flex-direction:column;gap:12px}
+.qcard .mark{font-family:var(--serif-en);font-size:60px;line-height:0.5;color:#D29A76;height:24px}
+.qcard p{font-size:15px;color:var(--honey);line-height:1.8;flex:1}
+.qcard .who{font-size:13px;font-weight:600;letter-spacing:0.1em;color:var(--milk)}
+/* 4 痛點 / 5 策略 / 7 成效 三欄 */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:120px;margin-top:40px}
+.trio .num{font-family:var(--serif-en);font-style:italic;font-size:26px;color:rgba(234,203,184,0.55);margin-bottom:8px}
+.trio h3{font-size:17px;font-weight:600;color:var(--cream);margin-bottom:10px;line-height:1.5}
+.trio p{font-size:15px;color:var(--honey);line-height:1.8}
+/* 圖素佔位 */
+.ph{border:1px dashed rgba(250,240,234,0.35);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:rgba(250,240,234,0.55);font-size:14px;text-align:center;padding:20px}
+.ph small{font-size:12px;color:rgba(250,240,234,0.4)}
+.bg-visual{min-height:360px;margin:34px 0 30px;border-radius:16px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.compare .ph{aspect-ratio:4/3}
+.solution-slot{margin-top:32px}
+.solution-slot .ph{min-height:320px}
+/* 8 Next */
+.next{margin:20px auto 0;display:block;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:var(--glass-bd);border-radius:18px;padding:30px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;transition:all var(--dur) var(--ease)}
+.next:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(40,16,4,0.35)}
+.next .lbl{font-size:12px;letter-spacing:0.22em;color:rgba(234,203,184,0.7);text-transform:uppercase;margin-bottom:8px}
+.next .t{font-family:var(--serif);font-size:clamp(17px,2vw,21px);font-weight:600;color:var(--cream);line-height:1.5}
+.next .arr{font-size:22px;color:var(--lav);transition:transform var(--dur) var(--ease);flex:none}
+.next:hover .arr{transform:translateX(6px)}
+/* footer */
+footer{padding:60px 0 40px}
+footer .wrap{border-top:1px solid rgba(255,255,255,0.12);padding-top:22px;display:flex;align-items:center;justify-content:space-between}
+footer .cr{font-family:var(--serif-en);font-style:italic;font-size:14px;color:rgba(250,240,234,0.7)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:32px}.hero-visual{min-height:260px}.trio,.quotes{grid-template-columns:1fr;gap:28px}.meta{grid-template-columns:1fr;gap:20px}.meta>div{border-left:none;padding:0}.compare{grid-template-columns:1fr}}
+@media(max-width:680px){header{gap:10px;padding:8px 10px 8px 16px;top:12px;max-width:calc(100vw - 24px)}nav{gap:9px}nav a{font-size:12px}.logo{font-size:16px}.lang{padding:5px 10px;font-size:12px}.hero{padding:140px 0 40px}.sec{padding:54px 0}}
+</style>
+</head>
+<body>
+<svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
+<svg class="knit" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="kp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 0.5 H16 M0.5 0 V16" stroke="rgba(250,240,234,0.10)" stroke-width="1" stroke-dasharray="4 5"/></pattern></defs><rect width="100%" height="100%" fill="url(#kp)"/></svg>
+
+<header>
+  <a class="logo" href="#">Tuffie</a>
+  <nav><a href="#">Works</a><a href="#">About</a><a href="#">Resume</a><a href="#">My Edge</a></nav>
+  <button class="lang">EN</button>
+</header>
+
+<!-- 1 專案標題區 -->
+<section class="hero">
+  <div class="wrap wide">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>我如何重新梳理跨裝置、跨系統的同步管理體驗</h1>
+        <p class="sum">此專案展現我如何從表層回饋中挖掘真正的產品問題，重新梳理流程結構，並推動更符合使用者理解的體驗優化。</p>
+        <dl class="meta">
+          <div><dt>專案時程</dt><dd>2024/02 – 2024/05</dd></div>
+          <div><dt>團隊組成</dt><dd>專案經理 ×1<br>產品設計師 ×1<br>軟體工程師 ×3（前端、後端、AI）</dd></div>
+          <div><dt>我的角色</dt><dd>產品設計師<br>我負責釐清問題、整合利害關係人的回饋，並重構流程與介面優化</dd></div>
+        </dl>
+      </div>
+      <div class="hero-visual ph">📦 主視覺圖<small>待補</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 專案背景 -->
+<section class="sec">
+  <div class="wrap">
+    <p class="sec-title">專案背景</p>
+    <p class="lead">從用戶回饋中拆解問題，推動產品從表層介面修補，<br class="bp">轉向同步架構與流程的重新檢視</p>
+    <p class="body">由於此功能需支援機器人與多個任務、團隊群組之間的同步、權限控管與內容更新，同時牽涉跨裝置的資訊呈現與任務狀態管理，因此實際問題比表面所見更加複雜，也不容易在產品初期被察覺。</p>
+    <p class="body">因此產品上線約兩年後，隨著使用者與應用情境逐漸增加，原先隱藏的問題才陸續浮現。我在彙整大量使用者回饋與操作情境後，進一步釐清問題並非源自單一介面或個別功能，而是前期在同步架構與操作流程上的規劃不足。</p>
+    <div class="ph bg-visual">📦 情境示意圖<small>待補</small></div>
+    <p class="body">這些底層邏輯未能透過介面清楚傳達，導致使用者無法正確理解機器人的當前狀態、任務之間的關聯，以及操作後可能產生的影響。當實際結果不符合使用者預期時，便容易被視為產品異常，進而降低使用者對系統的理解與信任。</p>
+  </div>
+</section>
+
+<!-- 3 整合多方觀點 -->
+<section class="sec">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="sec-title">整合多方觀點</p>
+      <p class="lead">我整合 RD、客服與用戶回饋，<br class="bp">從矛盾訊號中釐清真正的 UX 痛點</p>
+    </div>
+    <div class="quotes">
+      <div class="qcard"><div class="mark">&ldquo;</div><p>大量客人反應機器人大腦有異常，提交給相關部門後卻告知我們大腦正常。</p><p class="who">CS 客服</p></div>
+      <div class="qcard"><div class="mark">&ldquo;</div><p>經常花大量時間排查問題，但結果又跟客戶的說法有出入。</p><p class="who">RD 工程</p></div>
+      <div class="qcard"><div class="mark">&ldquo;</div><p>明明取消專案了，機器人怎麼還回話，讓客人接收到已過期的優惠價格。</p><p class="who">CUSTOMER 用戶</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 核心痛點 -->
+<section class="sec">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="sec-title">核心痛點歸納</p>
+      <p class="lead">我發現同步流程的系統邏輯，<br class="bp">與用戶對操作結果的預期存在落差</p>
+    </div>
+    <div class="trio">
+      <div><div class="num">01</div><h3>同步範圍缺乏可見性</h3><p>使用者無法在操作前確認同步會影響哪些任務與裝置，難以預測操作後的結果。</p></div>
+      <div><div class="num">02</div><h3>同步規則缺乏明確說明</h3><p>系統未清楚說明同步條件與狀態變化，增加操作結果的不確定性，也降低使用者的操作信心。</p></div>
+      <div><div class="num">03</div><h3>取消同步後狀態不一致</h3><p>前端操作與後端資料狀態未能一致更新，導致使用者誤以為同步失敗或機器人發生故障。</p></div>
+    </div>
+    <div class="compare">
+      <div class="ph">📦 預期操作流程<small>流程對照圖（待補）</small></div>
+      <div class="ph">📦 實際操作體驗<small>流程對照圖（待補）</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 優化目標與策略 -->
+<section class="sec">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="sec-title">優化目標與策略</p>
+      <p class="lead">對齊系統邏輯與用戶預期，建立可信任的同步體驗</p>
+      <p class="body">我重新梳理產品流程與同步規則，釐清裝置、任務與團隊群組之間的系統關係，並對齊系統行為、用戶預期與介面回饋，讓操作結果清楚可預期，重建用戶對產品的信任。</p>
+    </div>
+    <div class="trio">
+      <div><div class="num">01</div><h3>優化操作流程</h3><p>重構流程對齊 User 的操作預期，並視覺化同步狀態。</p></div>
+      <div><div class="num">02</div><h3>整合跨端資訊</h3><p>整合不同裝置中的同步資訊呈現與任務狀態。</p></div>
+      <div><div class="num">03</div><h3>定義後端規則</h3><p>將同步取消後的規則從「遞補」改為「淨空」，避免不明干擾。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 優化成果 -->
+<section class="sec">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="sec-title">優化成果</p>
+      <p class="lead">讓每一次同步操作，<br class="bp">都能被看見、被預期、被信任</p>
+    </div>
+    <div class="solution-slot">
+      <div class="ph">🚧 優化成果版位（保留）<small>金絲桃另製流程圖後補上圖素與說明，此處僅預留空間</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 重點總結 -->
+<section class="sec">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="sec-title">重點總結</p>
+      <p class="body">此次產品優化的核心能力，是將<strong>看不見的系統行為轉化為用戶能理解、能預期的回饋</strong>。</p>
+      <p class="body">我建立起以系統視角進行 UX 規劃的方法，透過用戶回饋逐步釐清問題，並在跨裝置、多專案與機器人端的複雜情境中，將零散的操作痛點回推到規則層，解決真正的系統狀態與流程問題，進一步提升系統穩定性與用戶信任。</p>
+    </div>
+    <div class="trio">
+      <div><div class="num">01</div><h3>建立用戶操作預期</h3><p>讓操作行為與預期一致，建立用戶信心，讓規則被看見。</p></div>
+      <div><div class="num">02</div><h3>穩定後端系統</h3><p>對齊使用者的操作預期，並重新定義後端對資料的處理方式。</p></div>
+      <div><div class="num">03</div><h3>降低內部耗能</h3><p>減少人工排查問題的時間，同時降低反覆的溝通成本。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 Next Project -->
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <a class="next" href="#">
+      <div><p class="lbl">Next Project</p><p class="t">不僅重構官網，而是完成企業轉型下的品牌敘事翻新</p></div>
+      <span class="arr">&rarr;</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="cr">&copy; 2026 Tuffie Chang</p>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4E1D5" stroke-width="1.6" stroke-linecap="round" opacity="0.85"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="#F4E1D5" stroke="none"/></svg>
+  </div>
+</footer>
+</body>
+</html>
