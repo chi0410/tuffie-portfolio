@@ -1020,11 +1020,10 @@ footer .cr {
   height: 24px;
 }
 
-.cs-qcard p {
+.cs-qcard .txt {
   font-size: 15px;
   color: var(--ondark-text-2);
   line-height: 1.8;
-  flex: 1;
 }
 
 .cs-qcard .who {
@@ -1032,6 +1031,8 @@ footer .cr {
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--primary-20);
+  margin-top: auto;
+  padding-top: 6px;
 }
 
 /* 4 痛點 / 5 策略 / 7 成效 三欄 */
@@ -1113,7 +1114,7 @@ footer .cr {
 .cs-next {
   margin: 20px auto 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
   background: var(--glass-dark-bg);
@@ -1148,6 +1149,7 @@ footer .cr {
 
 .cs-next .arr {
   font-size: 22px;
+  line-height: 1.5;
   color: var(--ondark-link);
   transition: transform var(--duration-base) var(--ease);
   flex: none;

@@ -62,8 +62,8 @@ p.body strong{color:var(--cream);font-weight:600}
 .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-top:36px}
 .qcard{background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:var(--glass-bd);border-radius:16px;padding:24px 24px 22px;display:flex;flex-direction:column;gap:12px}
 .qcard .mark{font-family:var(--serif-en);font-size:60px;line-height:0.5;color:#D29A76;height:24px}
-.qcard p{font-size:15px;color:var(--honey);line-height:1.8;flex:1}
-.qcard .who{font-size:13px;font-weight:600;letter-spacing:0.1em;color:var(--milk)}
+.qcard p.txt{font-size:15px;color:var(--honey);line-height:1.8}
+.qcard .who{font-size:13px;font-weight:600;letter-spacing:0.1em;color:var(--milk);margin-top:auto;padding-top:6px}
 /* 4 痛點 / 5 策略 / 7 成效 三欄 */
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:120px;margin-top:40px}
 .trio .num{font-family:var(--serif-en);font-style:italic;font-size:26px;color:rgba(234,203,184,0.55);margin-bottom:8px}
@@ -78,11 +78,11 @@ p.body strong{color:var(--cream);font-weight:600}
 .solution-slot{margin-top:32px}
 .solution-slot .ph{min-height:320px}
 /* 8 Next */
-.next{margin:20px auto 0;display:block;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:var(--glass-bd);border-radius:18px;padding:30px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;transition:all var(--dur) var(--ease)}
+.next{margin:20px auto 0;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:var(--glass-bd);border-radius:18px;padding:30px 34px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;transition:all var(--dur) var(--ease)}
 .next:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(40,16,4,0.35)}
 .next .lbl{font-size:12px;letter-spacing:0.22em;color:rgba(234,203,184,0.7);text-transform:uppercase;margin-bottom:8px}
 .next .t{font-family:var(--serif);font-size:clamp(17px,2vw,21px);font-weight:600;color:var(--cream);line-height:1.5}
-.next .arr{font-size:22px;color:var(--lav);transition:transform var(--dur) var(--ease);flex:none}
+.next .arr{font-size:22px;line-height:1.5;color:var(--lav);transition:transform var(--dur) var(--ease);flex:none}
 .next:hover .arr{transform:translateX(6px)}
 /* footer */
 footer{padding:60px 0 40px}
@@ -140,9 +140,9 @@ footer .cr{font-family:var(--serif-en);font-style:italic;font-size:14px;color:rg
       <p class="lead">我整合 RD、客服與用戶回饋，<br class="bp">從矛盾訊號中釐清真正的 UX 痛點</p>
     </div>
     <div class="quotes">
-      <div class="qcard"><div class="mark">&ldquo;</div><p>大量客人反應機器人大腦有異常，提交給相關部門後卻告知我們大腦正常。</p><p class="who">CS 客服</p></div>
-      <div class="qcard"><div class="mark">&ldquo;</div><p>經常花大量時間排查問題，但結果又跟客戶的說法有出入。</p><p class="who">RD 工程</p></div>
-      <div class="qcard"><div class="mark">&ldquo;</div><p>明明取消專案了，機器人怎麼還回話，讓客人接收到已過期的優惠價格。</p><p class="who">CUSTOMER 用戶</p></div>
+      <div class="qcard"><div class="mark">&ldquo;</div><p class="txt">大量客人反應機器人大腦有異常，提交給相關部門後卻告知我們大腦正常。</p><p class="who">CS 客服</p></div>
+      <div class="qcard"><div class="mark">&ldquo;</div><p class="txt">經常花大量時間排查問題，但結果又跟客戶的說法有出入。</p><p class="who">RD 工程</p></div>
+      <div class="qcard"><div class="mark">&ldquo;</div><p class="txt">明明取消專案了，機器人怎麼還回話，讓客人接收到已過期的優惠價格。</p><p class="who">CUSTOMER 用戶</p></div>
     </div>
   </div>
 </section>

@@ -111,11 +111,11 @@
     "compareRightSmall": "Comparison diagram (coming soon)",
 
     "stratLabel": "Strategy",
-    "stratLead": "Aligning system logic with user expectations to build a sync experience people can trust",
+    "stratLead": "Aligning system logic with user expectations to build trust",
     "stratBody": "I restructured the product flow and sync rules, clarified how devices, tasks, and team groups relate to one another, and aligned system behaviour, user expectations, and interface feedback — making outcomes predictable and rebuilding trust in the product.",
     "stratT1": "Rebuilt the flow",
     "stratD1": "Restructured the flow around users' expectations and made sync status visible.",
-    "stratT2": "Unified cross-device information",
+    "stratT2": "Unified cross-device data",
     "stratD2": "Consolidated how sync information and task status appear across devices.",
     "stratT3": "Redefined the backend rule",
     "stratD3": "Changed post-cancellation behaviour from \"backfill\" to \"clear\", removing unexplained interference.",

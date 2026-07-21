@@ -121,7 +121,7 @@
 
 **導言**
 - 中：對齊系統邏輯與用戶預期，建立可信任的同步體驗
-- EN ✍️ 待校閱：Aligning system logic with user expectations to build a sync experience people can trust
+- EN：Aligning system logic with user expectations to build trust（2026-07-21 縮短）
 
 **策略敘述**
 - 中：我重新梳理產品流程與同步規則，釐清裝置、任務與團隊群組之間的系統關係，並對齊系統行為、用戶預期與介面回饋，讓操作結果清楚可預期，重建用戶對產品的信任。
@@ -132,7 +132,7 @@
 | # | 中文標題 | 中文說明 | English ✍️ 待校閱 |
 |---|---|---|---|
 | 1 | 優化操作流程 | 重構流程對齊 User 的操作預期，並視覺化同步狀態。 | **Rebuilt the flow** — Restructured the flow around users' expectations and made sync status visible. |
-| 2 | 整合跨端資訊 | 整合不同裝置中的同步資訊呈現與任務狀態。 | **Unified cross-device information** — Consolidated how sync information and task status appear across devices. |
+| 2 | 整合跨端資訊 | 整合不同裝置中的同步資訊呈現與任務狀態。 | **Unified cross-device data** — Consolidated how sync information and task status appear across devices.（標題 2026-07-21 縮短） |
 | 3 | 定義後端規則 | 將同步取消後的規則從「遞補」改為「淨空」，避免不明干擾。 | **Redefined the backend rule** — Changed post-cancellation behaviour from "backfill" to "clear", removing unexplained interference. |
 
 > ⚠️ 原稿「整合在不同裝置中的同步資訊**顯**呈現與任務狀態」疑為多一字，已修正為「呈現」。
