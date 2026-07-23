@@ -1159,6 +1159,107 @@ footer .cr {
   transform: translateX(6px);
 }
 
+/* 專案二：三欄以 icon 佔位取代序號 */
+.cs-trio--icon .cs-trio-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  border: 1px dashed rgba(250, 240, 234, 0.35);
+  border-radius: var(--radius-m);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(250, 240, 234, 0.5);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.4;
+  padding: 6px;
+}
+
+/* 專案二：大型圖表佔位（文氏圖／六格圖／四象限圖） */
+.cs-diagram {
+  min-height: 400px;
+  margin-top: 40px;
+  border-radius: var(--radius-l);
+}
+
+/* 專案二：Key Outcomes 條列 */
+.cs-bullets {
+  list-style: none;
+  max-width: 66%;
+  margin: 28px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cs-bullets li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 16px;
+  color: var(--ondark-text-2);
+  line-height: 1.8;
+}
+
+.cs-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 13px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ondark-link);
+}
+
+/* 專案二：Key Outcomes 數據卡 */
+.cs-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 44px;
+}
+
+.cs-metric {
+  background: var(--glass-dark-bg);
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
+  border: var(--glass-dark-border);
+  border-radius: 18px;
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-metric .val {
+  font-family: var(--font-serif-en);
+  font-weight: 600;
+  font-size: clamp(38px, 5vw, 52px);
+  line-height: 1;
+  color: var(--ondark-text-1);
+}
+
+.cs-metric .mlabel {
+  font-size: 15px;
+  color: var(--ondark-text-2);
+  line-height: 1.6;
+}
+
+.cs-metric .mnote {
+  font-size: 13px;
+  color: rgba(234, 203, 184, 0.7);
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+.cs-metric-source {
+  margin-top: 20px;
+  font-size: 13px;
+  color: rgba(250, 240, 234, 0.5);
+  line-height: 1.6;
+}
+
 @media (max-width: 900px) {
   .cs-hero-grid {
     grid-template-columns: 1fr;
@@ -1175,6 +1276,10 @@ footer .cr {
   .cs-compare {
     grid-template-columns: 1fr;
   }
+  .cs-metrics {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1182,6 +1287,9 @@ footer .cr {
     display: none;
   }
   .cs-body {
+    max-width: 100%;
+  }
+  .cs-bullets {
     max-width: 100%;
   }
 }

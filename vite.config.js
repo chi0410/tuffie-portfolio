@@ -10,6 +10,7 @@ export default defineConfig({
         main: `${root}index.html`,
         about: `${root}about.html`,
         workSyncManagement: `${root}work-sync-management.html`,
+        workBrandNarrative: `${root}work-brand-narrative.html`,
       },
     },
   },
