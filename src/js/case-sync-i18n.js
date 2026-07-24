@@ -15,6 +15,19 @@ function apply() {
     const value = dict[el.dataset.k] ?? home[el.dataset.k];
     if (value !== undefined) el.innerHTML = value;
   });
+  // 圖片：語言切換時換圖。src 給 <img>，srcset 給 <picture><source>，alt 給替代文字
+  document.querySelectorAll('[data-src-k]').forEach((el) => {
+    const value = dict[el.dataset.srcK] ?? home[el.dataset.srcK];
+    if (value !== undefined) el.src = value;
+  });
+  document.querySelectorAll('[data-srcset-k]').forEach((el) => {
+    const value = dict[el.dataset.srcsetK] ?? home[el.dataset.srcsetK];
+    if (value !== undefined) el.srcset = value;
+  });
+  document.querySelectorAll('[data-alt-k]').forEach((el) => {
+    const value = dict[el.dataset.altK] ?? home[el.dataset.altK];
+    if (value !== undefined) el.alt = value;
+  });
   document.querySelectorAll('[data-resume-link]').forEach((el) => {
     el.href = resumeHrefFor(lang);
   });

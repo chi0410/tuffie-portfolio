@@ -1085,21 +1085,24 @@ footer .cr {
   color: rgba(250, 240, 234, 0.4);
 }
 
-.cs-bg-visual {
-  min-height: 360px;
-  margin: 34px 0 30px;
+/* 置入圖：容器對齊 1120px（.wrap），圖片滿版自適應、圓角用 token */
+.cs-figure {
+  margin: 0;
+}
+
+.cs-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
   border-radius: var(--radius-l);
 }
 
-.cs-compare {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 40px;
+.cs-figure--bg {
+  margin: 34px 0 30px;
 }
 
-.cs-compare .cs-ph {
-  aspect-ratio: 4 / 3;
+.cs-figure--flow {
+  margin-top: 40px;
 }
 
 .cs-solution-slot {
@@ -1244,9 +1247,6 @@ footer .cr {
   .cs-quotes {
     grid-template-columns: 1fr;
     gap: 28px;
-  }
-  .cs-compare {
-    grid-template-columns: 1fr;
   }
   .cs-metrics {
     grid-template-columns: 1fr;

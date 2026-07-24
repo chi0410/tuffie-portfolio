@@ -67,10 +67,12 @@
       <p class="cs-lead rv" data-k="bgLead"></p>
       <p class="cs-body rv" data-k="bgP1"></p>
       <p class="cs-body rv" data-k="bgP2"></p>
-      <div class="cs-ph cs-bg-visual rv">
-        <span data-k="bgPh"></span>
-        <small data-k="bgPhSmall"></small>
-      </div>
+      <figure class="cs-figure cs-figure--bg rv">
+        <picture>
+          <source media="(max-width: 760px)" data-srcset-k="bgScenarioRwd" srcset="/assets/case-diagrams/case01-scenario-rwd-tw.svg">
+          <img data-src-k="bgScenarioWeb" data-alt-k="bgScenarioAlt" src="/assets/case-diagrams/case01-scenario-web-tw.svg" alt="" loading="lazy">
+        </picture>
+      </figure>
       <p class="cs-body rv" data-k="bgP3"></p>
     </div>
   </section>
@@ -110,16 +112,9 @@
         <div class="rv"><div class="num">02</div><h3 data-k="probT2"></h3><p data-k="probD2"></p></div>
         <div class="rv"><div class="num">03</div><h3 data-k="probT3"></h3><p data-k="probD3"></p></div>
       </div>
-      <div class="cs-compare">
-        <div class="cs-ph rv">
-          <span data-k="compareLeftPh"></span>
-          <small data-k="compareLeftSmall"></small>
-        </div>
-        <div class="cs-ph rv">
-          <span data-k="compareRightPh"></span>
-          <small data-k="compareRightSmall"></small>
-        </div>
-      </div>
+      <figure class="cs-figure cs-figure--flow rv">
+        <img data-src-k="flowImg" data-alt-k="flowAlt" src="/assets/case-diagrams/case01-flow-comparison-tw.svg" alt="" loading="lazy">
+      </figure>
     </div>
   </section>
 

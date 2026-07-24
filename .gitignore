@@ -18,3 +18,7 @@ dist
 
 # Playwright MCP 驗證留下的暫存截圖／快照
 .playwright-mcp/
+
+# 驗證用的截圖（只忽略根目錄，不影響 assets 內的正式圖素）
+/*.png
+/*.jpeg
