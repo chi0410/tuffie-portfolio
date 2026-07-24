@@ -196,13 +196,29 @@ display 62 → 40｜heading-1 32 → 26｜heading-2 28 → 22（降級後改用 
 
 | Token | 值 |
 |---|---|
-| radius-s | 4px（標籤、小元件） |
-| radius-m | 8px（按鈕、輸入框） |
-| radius-l | 12px（卡片） |
-| radius-full | 999px（膠囊） |
+| radius-s | 4px｜⚠️ 目前全站未使用（原標「標籤、小元件」，但標籤實際用 radius-full） |
+| radius-m | 8px｜專案二「拆解需求」的 icon 佔位框（原標「按鈕、輸入框」，但站上按鈕實際是膠囊 radius-full） |
+| radius-l | 12px｜首頁專案卡、推薦引言卡、內頁引言卡、內頁 Hero 視覺框、內頁圖表/佔位框、About 形象照圖 |
+| radius-full | 999px｜標籤、語言切換鈕、toast、skip-link（膠囊） |
 | border-width | 1px（一般）／0.5px（細分隔，Retina） |
 | shadow-s | 0 1px 3px rgba(0,0,0,0.06) |
 | shadow-m | 0 8px 24px rgba(0,0,0,0.08)（卡片 hover） |
+
+> **圓角段落校正紀錄（2026-07-24）**：掃描全站 CSS 後，將上表 radius token 的用途描述改為實際使用對象，並補記未 token 化的硬寫值。此次僅更新文件、未改動 CSS。設計稿曾標卡片 16px，實作實際為 12px（`radius-l`），文件以實作為準；設計稿與實作的落差另案處理。
+
+**未 token 化的硬寫圓角值**（實作中直接寫死、未對應任何 token）：
+
+| 值 | 使用對象 |
+|---|---|
+| 11px | 首頁專案卡縮圖 `.card .cover` |
+| 18px | 首頁 Hero 形象照框 `.pframe`、Key Outcomes 數據卡 `.cs-metric` |
+| 24px | About 內容區塊 `.about-block` |
+| 50% | 圓點（歷程時間軸 `.exp-dot`、Key Outcomes 條列圓點） |
+
+**同類元件出現多種圓角值**（依交辦如實列出，暫不收斂 token，待設計端決定是否統一）：
+
+- **卡片**：首頁專案卡／推薦引言卡／內頁引言卡 = 12px，但 Key Outcomes 數據卡 = 18px
+- **圖片／形象照容器**：卡片縮圖 11px、內頁 Hero 視覺框 12px、About 形象照圖 12px、首頁 Hero 形象照框 18px
 
 ---
 

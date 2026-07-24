@@ -2,14 +2,17 @@
 // 有 [data-k] 屬性的元素，內容整包用對應語言的 innerHTML 覆蓋。
 
 import caseSyncCopy from '../i18n/case-sync.json';
+import homepageCopy from '../i18n/homepage.json';
 import { getStoredLang, setStoredLang, resumeHrefFor } from './lang-store.js';
 
 let lang = getStoredLang();
 
 function apply() {
   const dict = caseSyncCopy[lang];
+  // Next Project 卡片沿用首頁專案卡資料（SSOT：homepage.json），本頁字典找不到的 key 回退到首頁字典
+  const home = homepageCopy[lang];
   document.querySelectorAll('[data-k]').forEach((el) => {
-    const value = dict[el.dataset.k];
+    const value = dict[el.dataset.k] ?? home[el.dataset.k];
     if (value !== undefined) el.innerHTML = value;
   });
   document.querySelectorAll('[data-resume-link]').forEach((el) => {

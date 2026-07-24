@@ -65,9 +65,7 @@
     "m3Label": "有效諮詢轉換率",
     "m3Val": "↑ 45%",
     "m3Note": "表單、E-mail、Line OA",
-    "metricSource": "數據由業務與行銷團隊追蹤提供",
-
-    "nextTitle": "在技術限制下，重新定義機器人的多語言互動體驗"
+    "metricSource": "數據由業務與行銷團隊追蹤提供"
   },
   "en": {
     "h1": "More than a website revamp — renewing the brand narrative through a company's transformation",
@@ -135,8 +133,6 @@
     "m3Label": "Qualified enquiry conversion",
     "m3Val": "↑ 45%",
     "m3Note": "Form, E-mail, Line OA",
-    "metricSource": "Figures tracked and provided by the business and marketing teams",
-
-    "nextTitle": "Redefining a robot's multilingual interaction experience within technical constraints"
+    "metricSource": "Figures tracked and provided by the business and marketing teams"
   }
 }

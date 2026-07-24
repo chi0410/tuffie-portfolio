@@ -64,9 +64,7 @@
     "takeT2": "穩定後端系統",
     "takeD2": "對齊使用者的操作預期，並重新定義後端對資料的處理方式。",
     "takeT3": "降低內部耗能",
-    "takeD3": "減少人工排查問題的時間，同時降低反覆的溝通成本。",
-
-    "nextTitle": "不僅重構官網，而是完成企業轉型下的品牌敘事翻新"
+    "takeD3": "減少人工排查問題的時間，同時降低反覆的溝通成本。"
   },
   "en": {
     "h1": "How I rethought sync management across devices and systems",
@@ -133,8 +131,6 @@
     "takeT2": "Stabilised the backend",
     "takeD2": "Aligned with user expectations and redefined how the backend handles data.",
     "takeT3": "Reduced internal cost",
-    "takeD3": "Less time spent manually debugging, and fewer repeated rounds of communication.",
-
-    "nextTitle": "More than a website revamp — renewing the brand narrative through a company's transformation"
+    "takeD3": "Less time spent manually debugging, and fewer repeated rounds of communication."
   }
 }

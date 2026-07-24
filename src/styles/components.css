@@ -1110,53 +1110,25 @@ footer .cr {
   min-height: 320px;
 }
 
-/* 8 Next Project */
-.cs-next {
-  margin: 20px auto 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  background: var(--glass-dark-bg);
-  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
-  backdrop-filter: blur(var(--glass-dark-blur));
-  border: var(--glass-dark-border);
-  border-radius: 18px;
-  padding: 30px 34px;
-  transition: all var(--duration-base) var(--ease);
+/* Next Project：水平分隔線 + 獨立小標 + 沿用首頁專案卡（.card） */
+.cs-next-sec {
+  /* 前一區塊底部留白 76px + 此 44px = 分隔線與前一區塊視覺總距離 120px（沿用三欄間距規則） */
+  padding-top: 44px;
 }
 
-.cs-next:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(40, 16, 4, 0.35);
+.cs-divider {
+  border: 0;
+  border-top: 1px solid var(--divider-ondark);
+  margin: 0;
 }
 
-.cs-next .lbl {
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  color: rgba(234, 203, 184, 0.7);
+.cs-next-label {
+  /* 分隔線 → 小標 32px；小標 → 卡片 24px */
+  margin: 32px 0 24px;
+  font-size: 14px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.cs-next .t {
-  font-family: var(--font-serif-zh);
-  font-size: clamp(17px, 2vw, 21px);
-  font-weight: 600;
-  color: var(--ondark-text-1);
-  line-height: 1.5;
-}
-
-.cs-next .arr {
-  font-size: 22px;
-  line-height: 1.5;
-  color: var(--ondark-link);
-  transition: transform var(--duration-base) var(--ease);
-  flex: none;
-}
-
-.cs-next:hover .arr {
-  transform: translateX(6px);
+  color: rgba(234, 203, 184, 0.7);
 }
 
 /* 專案二：三欄以 icon 佔位取代序號 */
