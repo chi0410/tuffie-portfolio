@@ -12,6 +12,9 @@ import valueBlendsIntoLife from '../icons/value-blends-into-life.svg?raw';
 import softPositiveResilience from '../icons/soft-positive-resilience.svg?raw';
 import softMultiPerspective from '../icons/soft-multi-perspective.svg?raw';
 import softProactiveExploration from '../icons/soft-proactive-exploration.svg?raw';
+import strategyFlow from '../icons/strategy-flow.svg?raw';
+import strategyIntegrate from '../icons/strategy-integrate.svg?raw';
+import strategyBackend from '../icons/strategy-backend.svg?raw';
 
 const ICONS = {
   'ai-prototyping': aiPrototyping,
@@ -23,6 +26,9 @@ const ICONS = {
   'soft-positive-resilience': softPositiveResilience,
   'soft-multi-perspective': softMultiPerspective,
   'soft-proactive-exploration': softProactiveExploration,
+  'strategy-flow': strategyFlow,
+  'strategy-integrate': strategyIntegrate,
+  'strategy-backend': strategyBackend,
 };
 
 export function injectIcons() {

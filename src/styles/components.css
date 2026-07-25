@@ -783,7 +783,8 @@ footer .cr {
   .cta {
     transition: none;
   }
-  .skill .icon svg {
+  .skill .icon svg,
+  .cs-trio--strat .cs-strat-icon svg {
     animation: none;
   }
 }
@@ -1049,6 +1050,20 @@ footer .cr {
   font-size: 26px;
   color: rgba(234, 203, 184, 0.55);
   margin-bottom: 8px;
+}
+
+/* 專案一 §5：策略三欄以 icon 取代序號；沿用站上功能性 icon 尺寸與 iconFloat 呼吸動態。
+   icon 非正方形，以 height 定尺寸、width:auto 保留原比例，避免變形 */
+.cs-trio--strat .cs-strat-icon {
+  height: 112.5px;
+  margin-bottom: 14px;
+}
+
+.cs-trio--strat .cs-strat-icon svg {
+  height: 100%;
+  width: auto;
+  display: block;
+  animation: iconFloat 3.2s ease-in-out infinite;
 }
 
 .cs-trio h3 {
