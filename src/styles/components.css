@@ -1055,7 +1055,7 @@ footer .cr {
 /* 專案一 §5：策略三欄以 icon 取代序號；沿用站上功能性 icon 尺寸與 iconFloat 呼吸動態。
    icon 非正方形，以 height 定尺寸、width:auto 保留原比例，避免變形 */
 .cs-trio--strat .cs-strat-icon {
-  height: 112.5px;
+  height: 123.75px; /* 素材更新後放大 10%（112.5 → 123.75） */
   margin-bottom: 14px;
 }
 
@@ -1106,14 +1106,30 @@ footer .cr {
   margin: 0;
   background: rgba(30, 14, 6, 0.34);
   border-radius: var(--radius-l);
-  padding: 32px;
+  padding: 20px; /* 依交辦選項 3：縮小內距換放大空間（原 32px） */
+  display: flex; /* 讓圖在卡片內水平垂直置中，修正偏一邊／歪斜 */
+  justify-content: center;
+  align-items: center;
 }
 
+/* 縮放套在 <picture>（flex 置中的對象），<img> 填滿 picture，避免圖靠邊 */
+.cs-figure picture {
+  display: block;
+}
 .cs-figure img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: var(--radius-l);
+}
+
+/* 四張圖 web／rwd 分開設縮放（皆以卡片中心為基準置中）。
+   web 版寬度：情境縮小、流程放到卡片可容納的最大 */
+.cs-figure--bg picture {
+  width: 78%; /* 情境示意圖 web：縮小約 20% */
+}
+.cs-figure--flow picture {
+  width: 100%; /* 流程對照圖 web：放到卡片滿版（受 1120px 版心限制，約 +3%） */
 }
 
 .cs-figure--bg {
@@ -1284,7 +1300,13 @@ footer .cr {
     max-width: 100%;
   }
   .cs-figure {
-    padding: 18px;
+    padding: 12px; /* rwd 也縮小內距換放大空間（原 18px） */
+  }
+  .cs-figure--bg picture {
+    width: 100%; /* 情境示意圖 rwd：放到卡片滿版（受手機寬度限制） */
+  }
+  .cs-figure--flow picture {
+    width: 96%; /* 流程對照圖 rwd：略小於情境，維持相對大小關係 */
   }
 }
 
