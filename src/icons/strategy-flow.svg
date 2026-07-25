@@ -112,7 +112,7 @@
 </clipPath><linearGradient id="paint0_linear_2507_3205" x1="12.1548" y1="29.0367" x2="20.5476" y2="9.57085" gradientUnits="userSpaceOnUse">
 <stop offset="0.0749297" stop-color="#C2C5DF" stop-opacity="0.4"/>
 <stop offset="0.315388" stop-color="#C2C5DF"/>
-<stop offset="0.690045" stop-color="#B4B7D7"/>
+<stop offset="0.690045" stop-color="#666883"/>
 <stop offset="1" stop-color="#858ABF"/>
 </linearGradient>
 <linearGradient id="paint1_linear_2507_3205" x1="75.8447" y1="37.6328" x2="67.4519" y2="57.0986" gradientUnits="userSpaceOnUse">
