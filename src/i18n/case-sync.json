@@ -15,8 +15,8 @@
     "bgLead": "從用戶回饋中拆解問題，推動產品從表層介面修補，<br class=\"cs-bp\">轉向同步架構與流程的重新檢視",
     "bgP1": "由於此功能需支援機器人與多個任務、團隊群組之間的同步、權限控管與內容更新，同時牽涉跨裝置的資訊呈現與任務狀態管理，因此實際問題比表面所見更加複雜，也不容易在產品初期被察覺。",
     "bgP2": "因此產品上線約兩年後，隨著使用者與應用情境逐漸增加，原先隱藏的問題才陸續浮現。我在彙整大量使用者回饋與操作情境後，進一步釐清問題並非源自單一介面或個別功能，而是前期在同步架構與操作流程上的規劃不足。",
-    "bgScenarioWeb": "/assets/case-diagrams/case01-scenario-web-tw.svg",
-    "bgScenarioRwd": "/assets/case-diagrams/case01-scenario-rwd-tw.svg",
+    "bgScenarioWeb": "/assets/case-diagrams/scenario-web-tw.png",
+    "bgScenarioRwd": "/assets/case-diagrams/scenario-rwd-tw.png",
     "bgScenarioAlt": "情境示意圖：機器人需與多個任務、團隊群組進行同步、權限控管與內容更新，並跨裝置呈現任務狀態",
     "bgP3": "這些底層邏輯未能透過介面清楚傳達，導致使用者無法正確理解機器人的當前狀態、任務之間的關聯，以及操作後可能產生的影響。當實際結果不符合使用者預期時，便容易被視為產品異常，進而降低使用者對系統的理解與信任。",
 
@@ -37,7 +37,8 @@
     "probD2": "系統未清楚說明同步條件與狀態變化，增加操作結果的不確定性，也降低使用者的操作信心。",
     "probT3": "取消同步後狀態不一致",
     "probD3": "前端操作與後端資料狀態未能一致更新，導致使用者誤以為同步失敗或機器人發生故障。",
-    "flowImg": "/assets/case-diagrams/case01-flow-comparison-tw.svg",
+    "flowWeb": "/assets/case-diagrams/flow-comparison-web-tw.png",
+    "flowRwd": "/assets/case-diagrams/flow-comparison-rwd-tw.png",
     "flowAlt": "流程對照圖：使用者預期的操作流程，與實際操作體驗之間的落差對照",
 
     "stratLabel": "優化目標與策略",
@@ -81,8 +82,8 @@
     "bgLead": "Digging beneath user feedback to re-examine the sync architecture and flow",
     "bgP1": "Because the feature had to support syncing, permission control, and content updates across robots, multiple tasks, and team groups — while also handling cross-device information display and task state — the real problem ran deeper than it appeared, and was hard to spot in the product's early stages.",
     "bgP2": "About two years after launch, as users and use cases grew, the hidden issues began to surface. After gathering extensive user feedback and usage scenarios, I clarified that the problem didn't stem from a single screen or feature — it came from insufficient planning of the sync architecture and operational flow early on.",
-    "bgScenarioWeb": "/assets/case-diagrams/case01-scenario-web-en.svg",
-    "bgScenarioRwd": "/assets/case-diagrams/case01-scenario-rwd-en.svg",
+    "bgScenarioWeb": "/assets/case-diagrams/scenario-web-en.png",
+    "bgScenarioRwd": "/assets/case-diagrams/scenario-rwd-en.png",
     "bgScenarioAlt": "Context diagram: the robot must sync, manage permissions, and update content across multiple tasks and team groups, while surfacing task state across devices",
     "bgP3": "The underlying logic was never clearly conveyed through the interface, leaving users unable to understand the robot's current state, how tasks related to one another, or what their actions would cause. When results didn't match expectations, it read as a product malfunction — eroding users' understanding of and trust in the system.",
 
@@ -103,7 +104,8 @@
     "probD2": "The system never spelled out sync conditions or state changes, adding uncertainty and lowering users' confidence.",
     "probT3": "State drifted after cancelling",
     "probD3": "Frontend actions and backend data didn't update in step, so users assumed the sync had failed or the robot was broken.",
-    "flowImg": "/assets/case-diagrams/case01-flow-comparison-en.svg",
+    "flowWeb": "/assets/case-diagrams/flow-comparison-web-en.png",
+    "flowRwd": "/assets/case-diagrams/flow-comparison-rwd-en.png",
     "flowAlt": "Comparison diagram contrasting the flow users expected with the experience they actually got",
 
     "stratLabel": "Strategy",

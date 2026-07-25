@@ -1085,9 +1085,13 @@ footer .cr {
   color: rgba(250, 240, 234, 0.4);
 }
 
-/* 置入圖：容器對齊 1120px（.wrap），圖片滿版自適應、圓角用 token */
+/* 置入圖：容器對齊 1120px（.wrap），圖片滿版自適應、圓角用 token
+   B 方案底色卡：比頁面背景暗的實色，讓圖與背景分層 */
 .cs-figure {
   margin: 0;
+  background: rgba(30, 14, 6, 0.34);
+  border-radius: var(--radius-l);
+  padding: 32px;
 }
 
 .cs-figure img {
@@ -1263,6 +1267,9 @@ footer .cr {
   }
   .cs-bullets {
     max-width: 100%;
+  }
+  .cs-figure {
+    padding: 18px;
   }
 }
 
