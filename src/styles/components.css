@@ -1144,8 +1144,88 @@ footer .cr {
   margin-top: 32px;
 }
 
-.cs-solution-slot .cs-ph {
-  min-height: 320px;
+/* 優化成果：點擊切換的前/後對照圖。底圖固定撐開高度，前/後兩層 absolute 疊在底圖右上，
+   定位全用百分比（相對底圖顯示尺寸），縮放與換裝置都不跑位。
+   right 60/706=8.5%；width 478/1597=29.9%；top 330÷底圖高（中 2310 / 英 2406，用 html[lang] 切換） */
+.solution-toggle {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 706px;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sol-base {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-l);
+}
+
+.sol-overlay {
+  position: absolute;
+  top: 14.29%;
+  right: 8.5%;
+  width: 29.9%;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+html[lang="en"] .sol-overlay {
+  top: 13.72%;
+}
+
+.sol-after {
+  opacity: 0;
+}
+
+.solution-toggle.is-after .sol-before {
+  opacity: 0;
+}
+
+.solution-toggle.is-after .sol-after {
+  opacity: 1;
+}
+
+/* tooltip / 操作提示：狀態導向文案。桌機 hover 浮現；手機（無 hover）常駐 */
+.sol-tip {
+  position: absolute;
+  top: 3.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(30, 14, 6, 0.72);
+  color: var(--ondark-text-1);
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(250, 240, 234, 0.18);
+}
+
+@media (hover: hover) {
+  .sol-tip {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .solution-toggle:hover .sol-tip,
+  .solution-toggle:focus-visible .sol-tip {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sol-overlay,
+  .sol-tip {
+    transition: none;
+  }
 }
 
 /* Next Project：水平分隔線 + 獨立小標 + 沿用首頁專案卡（.card） */

@@ -6,6 +6,20 @@ import homepageCopy from '../i18n/homepage.json';
 import { getStoredLang, setStoredLang, resumeHrefFor } from './lang-store.js';
 
 let lang = getStoredLang();
+let solutionAfter = false; // 優化成果：false=顯示優化前、true=顯示優化後
+
+// tooltip 與 aria-label 同時取決於「目前狀態」與「語言」，無法只靠 data-k（那是靜態），故獨立更新
+function updateSolutionState() {
+  const toggle = document.getElementById('solutionToggle');
+  if (!toggle) return;
+  const dict = caseSyncCopy[lang];
+  const tip = toggle.querySelector('.sol-tip');
+  // 顯示優化前時，提示「點擊查看優化後」；反之亦然
+  const tipKey = solutionAfter ? 'solTipToBefore' : 'solTipToAfter';
+  const ariaKey = solutionAfter ? 'solAriaAfter' : 'solAriaBefore';
+  if (tip && dict[tipKey] !== undefined) tip.textContent = dict[tipKey];
+  if (dict[ariaKey] !== undefined) toggle.setAttribute('aria-label', dict[ariaKey]);
+}
 
 function apply() {
   const dict = caseSyncCopy[lang];
@@ -39,6 +53,19 @@ function apply() {
   document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
   const btn = document.getElementById('langBtn');
   if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中';
+  // 狀態導向文案：放在 data-* 迴圈之後覆蓋，才能依當前 toggle 狀態顯示正確提示
+  updateSolutionState();
+}
+
+// 優化成果：點擊在「優化前 / 優化後」間切換。<button> 原生支援 Enter/Space 鍵盤操作
+function initSolutionToggle() {
+  const toggle = document.getElementById('solutionToggle');
+  if (!toggle) return;
+  toggle.addEventListener('click', () => {
+    solutionAfter = !solutionAfter;
+    toggle.classList.toggle('is-after', solutionAfter);
+    updateSolutionState();
+  });
 }
 
 export function initCaseSyncI18n() {
@@ -50,5 +77,6 @@ export function initCaseSyncI18n() {
       apply();
     });
   }
+  initSolutionToggle();
   apply();
 }

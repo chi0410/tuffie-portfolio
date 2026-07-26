@@ -140,11 +140,13 @@
     <div class="wrap">
       <p class="cs-label rv" data-k="solLabel"></p>
       <p class="cs-lead rv" data-k="solLead"></p>
-      <div class="cs-solution-slot">
-        <div class="cs-ph rv">
-          <span data-k="solPh"></span>
-          <small data-k="solPhSmall"></small>
-        </div>
+      <div class="cs-solution-slot rv">
+        <button type="button" class="solution-toggle" id="solutionToggle" data-aria-k="solAriaBefore">
+          <img class="sol-base" data-src-k="solBase" data-alt-k="solBaseAlt" src="/assets/case-diagrams/solution-base-tw.png" alt="" loading="lazy">
+          <img class="sol-overlay sol-before" data-src-k="solBefore" data-alt-k="solBeforeAlt" src="/assets/case-diagrams/solution-before-tw.png" alt="" loading="lazy">
+          <img class="sol-overlay sol-after" data-src-k="solAfter" data-alt-k="solAfterAlt" src="/assets/case-diagrams/solution-after-tw.png" alt="" loading="lazy">
+          <span class="sol-tip" data-k="solTipToAfter" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
   </section>
