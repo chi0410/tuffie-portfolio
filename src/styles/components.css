@@ -1144,58 +1144,70 @@ footer .cr {
   margin-top: 32px;
 }
 
-/* 優化成果：點擊切換的前/後對照圖。底圖固定撐開高度，前/後兩層 absolute 疊在底圖右上，
-   定位全用百分比（相對底圖顯示尺寸），縮放與換裝置都不跑位。
-   right 60/706=8.5%；width 478/1597=29.9%；top 330÷底圖高（中 2310 / 英 2406，用 html[lang] 切換） */
+/* 優化成果：點擊切換的前/後對照圖。素材為切片工具做的一體圖，底圖直接滿版（width:100%），
+   刻意「不套任何圖框 / border / padding」——上一版歪掉就是因為多了框，怎麼置中都對不準。
+   只有「上層切換圖」那塊是互動元件（.sol-switch button），絕對定位疊在底圖右上，
+   點擊與 tooltip 都只綁這一塊。定位全用百分比（相對底圖顯示尺寸），縮放換裝置都不跑位。
+   right 70/799=8.76%；width 540/1598=33.79%；top 370÷底圖高（中 2613 / 英 2722，用 html[lang] 切換） */
 .solution-toggle {
   position: relative;
-  display: block;
   width: 100%;
-  max-width: 706px;
-  margin: 0 auto;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .sol-base {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-l);
+}
+
+/* 互動區塊：只有這塊可點、可 hover 出 tooltip */
+.sol-switch {
+  position: absolute;
+  top: 14.16%;
+  right: 8.76%;
+  width: 33.79%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  line-height: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html[lang="en"] .sol-switch {
+  top: 13.59%;
 }
 
 .sol-overlay {
-  position: absolute;
-  top: 14.29%;
-  right: 8.5%;
-  width: 29.9%;
+  width: 100%;
   height: auto;
   transition: opacity 0.3s ease;
 }
 
-html[lang="en"] .sol-overlay {
-  top: 13.72%;
+/* before 佔正常流撐開 button 高度；after 疊在上面淡入淡出 */
+.sol-before {
+  display: block;
 }
 
 .sol-after {
+  position: absolute;
+  inset: 0;
   opacity: 0;
 }
 
-.solution-toggle.is-after .sol-before {
+.sol-switch.is-after .sol-before {
   opacity: 0;
 }
 
-.solution-toggle.is-after .sol-after {
+.sol-switch.is-after .sol-after {
   opacity: 1;
 }
 
-/* tooltip / 操作提示：狀態導向文案。桌機 hover 浮現；手機（無 hover）常駐 */
+/* tooltip：狀態導向文案，浮在上層切換圖正上方。桌機 hover/focus 才現；手機常駐 */
 .sol-tip {
   position: absolute;
-  top: 3.2%;
+  bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   padding: 7px 14px;
@@ -1215,8 +1227,8 @@ html[lang="en"] .sol-overlay {
     opacity: 0;
     transition: opacity 0.2s ease;
   }
-  .solution-toggle:hover .sol-tip,
-  .solution-toggle:focus-visible .sol-tip {
+  .sol-switch:hover .sol-tip,
+  .sol-switch:focus-visible .sol-tip {
     opacity: 1;
   }
 }
