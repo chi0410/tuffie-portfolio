@@ -15,6 +15,11 @@ function apply() {
     const value = dict[el.dataset.k] ?? home[el.dataset.k];
     if (value !== undefined) el.innerHTML = value;
   });
+  // alt 替代文字：隨語言切換（比照 case-sync-i18n.js）
+  document.querySelectorAll('[data-alt-k]').forEach((el) => {
+    const value = dict[el.dataset.altK] ?? home[el.dataset.altK];
+    if (value !== undefined) el.alt = value;
+  });
   document.querySelectorAll('[data-resume-link]').forEach((el) => {
     el.href = resumeHrefFor(lang);
   });

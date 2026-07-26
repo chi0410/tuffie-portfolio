@@ -10,6 +10,7 @@
     "metaRole": "產品設計師<br>負責：整合跨部門需求，將研究洞察收斂為官網優化方向，並完成資訊架構規劃與內容設計優化。",
     "heroPh": "📦 主視覺圖",
     "heroPhSmall": "待補",
+    "heroAlt": "品牌敘事翻新專案主視覺：呈現重新梳理後的官網資訊架構與品牌溝通策略",
 
     "bgLabel": "專案背景",
     "bgP1": "我就職的 NUWA Robotics，是一間整合軟硬體的機器人產品公司。過去應用多聚焦於家庭陪伴與教育場景；隨著機器人應用普及，公司也將發展重心延伸至更多商務場域。",
@@ -78,6 +79,7 @@
     "metaRole": "Product Designer<br>Integrating cross-team needs, distilling research insights into the site's optimisation direction, and delivering the information architecture and content design.",
     "heroPh": "📦 Hero visual",
     "heroPhSmall": "Coming soon",
+    "heroAlt": "Hero visual for the brand narrative project: the restructured site information architecture and brand communication strategy",
 
     "bgLabel": "Background",
     "bgP1": "NUWA Robotics, where I work, is a robotics product company integrating hardware and software. Its applications once centred on home companionship and education; as robotics adoption grew, the company extended its focus into a wider range of business contexts.",

@@ -989,8 +989,20 @@ footer .cr {
 }
 
 .cs-hero-visual {
+  position: relative;
   border-radius: var(--radius-l);
   min-height: 420px;
+}
+
+/* 主視覺為直式圖（1038×1414）：絕對定位脫離流不撐高，object-fit:contain 完整不裁切，
+   高度撐滿右欄（= 左側文字區塊高度）、寬度自適應並水平置中 */
+.cs-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 /* 3 引言卡 */
@@ -1063,7 +1075,18 @@ footer .cr {
   height: 100%;
   width: auto;
   display: block;
+  margin-left: auto; /* icon 於各欄水平置中，比照首頁 .skill .icon margin auto */
+  margin-right: auto;
   animation: iconFloat 3.2s ease-in-out infinite;
+}
+
+/* §5 策略三欄比照首頁 My Edge 排版：icon 與標題置中、內文靠左（沿用 .skill / .skill p 寫法） */
+.cs-trio--strat > div {
+  text-align: center;
+}
+
+.cs-trio--strat > div p {
+  text-align: left;
 }
 
 .cs-trio h3 {
@@ -1154,11 +1177,11 @@ footer .cr {
   width: 100%;
 }
 
-/* web 版整組縮小 15% 並水平置中；上層圖百分比定位不受影響（相對容器等比跟縮）。
+/* web 版整組縮小 20% 並水平置中；上層圖百分比定位不受影響（相對容器等比跟縮）。
    手機（≤760px）維持滿版，不套此規則 */
 @media (min-width: 761px) {
   .solution-toggle {
-    max-width: 85%;
+    max-width: 80%;
     margin-left: auto;
     margin-right: auto;
   }

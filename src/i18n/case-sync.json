@@ -10,6 +10,7 @@
     "metaRole": "產品設計師<br>負責釐清問題、整合利害關係人回饋，並重構流程與介面優化",
     "heroPh": "📦 主視覺圖",
     "heroPhSmall": "待補",
+    "heroAlt": "跨裝置同步管理專案主視覺：呈現機器人跨裝置、跨任務的同步狀態管理介面",
 
     "bgLabel": "專案背景",
     "bgLead": "從用戶回饋中拆解問題，推動產品從表層介面修補，<br class=\"cs-bp\">轉向同步架構與流程的重新檢視",
@@ -65,7 +66,7 @@
     "solAriaAfter": "優化前後對照圖，目前顯示「優化後」，點擊切換回優化前",
 
     "takeLabel": "重點總結",
-    "takeP1": "此次產品優化的核心能力，是將<strong>看不見的系統行為轉化為用戶能理解、能預期的回饋</strong>。",
+    "takeP1": "看不見的系統行為轉化為用戶能理解、能預期的回饋",
     "takeP2": "我建立起以系統視角進行 UX 規劃的方法，透過用戶回饋逐步釐清問題，並在跨裝置、多專案與機器人端的複雜情境中，將零散的操作痛點回推到規則層，解決真正的系統狀態與流程問題，進一步提升系統穩定性與用戶信任。",
     "takeT1": "建立用戶操作預期",
     "takeD1": "讓操作行為與預期一致，建立用戶信心，讓規則被看見。",
@@ -85,6 +86,7 @@
     "metaRole": "Product Designer<br>Defining the problem, synthesising stakeholder feedback, and restructuring the flow and interface",
     "heroPh": "📦 Hero visual",
     "heroPhSmall": "Coming soon",
+    "heroAlt": "Hero visual for the cross-device sync management project: the interface managing a robot's sync state across devices and tasks",
 
     "bgLabel": "Background",
     "bgLead": "Digging beneath user feedback to re-examine the sync architecture and flow",
@@ -140,7 +142,7 @@
     "solAriaAfter": "Before/after comparison, currently showing the after state; tap to switch back to before",
 
     "takeLabel": "Takeaways",
-    "takeP1": "The core capability behind this optimisation was turning <strong>invisible system behaviour into feedback users can understand and anticipate</strong>.",
+    "takeP1": "Turning invisible system behaviour into feedback users can understand and anticipate",
     "takeP2": "I built a way of approaching UX from a systems perspective — using user feedback to clarify the problem step by step, and tracing scattered pain points back to the rule layer across a complex landscape of devices, projects, and robot endpoints — resolving the underlying state and flow issues, and strengthening both system stability and user trust.",
     "takeT1": "Set clear expectations",
     "takeD1": "Actions now match outcomes, building confidence and making the rules visible.",
