@@ -1154,6 +1154,16 @@ footer .cr {
   width: 100%;
 }
 
+/* web 版整組縮小 10% 並水平置中；上層圖百分比定位不受影響（相對容器等比跟縮）。
+   手機（≤760px）維持滿版，不套此規則 */
+@media (min-width: 761px) {
+  .solution-toggle {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .sol-base {
   display: block;
   width: 100%;
