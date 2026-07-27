@@ -1161,6 +1161,9 @@ footer .cr {
 
 .cs-figure--flow {
   margin-top: 40px;
+  /* web：卡片 padding 縮到 0，讓已滿版的流程圖再放大貼齊卡片框（約 +4%），維持置中不溢出。
+     rwd 的 padding 由下方 @media (max-width:760px) .cs-figure 覆蓋回 12px */
+  padding: 0;
 }
 
 .cs-solution-slot {
@@ -1285,13 +1288,10 @@ html[lang="en"] .sol-switch {
   margin: 0;
 }
 
-.cs-next-label {
-  /* 分隔線 → 小標 32px；小標 → 卡片 24px */
+/* Next Project 標題沿用首頁 My Edge 的 .sec-title（襯線斜體大標）；
+   此 class 只負責間距節奏：分隔線 → 標題 32px、標題 → 卡片 24px（覆蓋 .sec-title 的 margin） */
+.cs-next-title {
   margin: 32px 0 24px;
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(234, 203, 184, 0.7);
 }
 
 /* 專案二：三欄以 icon 佔位取代序號 */
@@ -1431,7 +1431,7 @@ html[lang="en"] .sol-switch {
     width: 100%; /* 情境示意圖 rwd：放到卡片滿版（受手機寬度限制） */
   }
   .cs-figure--flow picture {
-    width: 96%; /* 流程對照圖 rwd：略小於情境，維持相對大小關係 */
+    width: 101%; /* 流程對照圖 rwd：放大約 5%（96→101%），仍在 12px padding 內、不溢出卡片框 */
   }
 }
 
