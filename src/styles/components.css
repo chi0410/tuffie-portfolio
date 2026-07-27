@@ -1427,9 +1427,12 @@ html[lang="en"] .sol-switch {
   .cs-figure {
     padding: 12px; /* rwd 也縮小內距換放大空間（原 18px） */
   }
+  .cs-figure--bg {
+    padding: 2px; /* 情境示意圖 rwd：比照 web 縮 padding 換空間，把圖放到貼齊卡片框
+                     （卡片框 319px，留 2px 安全邊；+10% 會到 324.5px 溢出，故取此最大值） */
+  }
   .cs-figure--bg picture {
-    width: 105%; /* 情境示意圖 rwd：放大 5%（100→105%，撐入 12px padding 空間），仍不溢出卡片框 */
-    flex-shrink: 0; /* 撐開 flex 置中容器，避免預設 flex-shrink 把 105% 縮回 100% */
+    width: 100%; /* 貼齊縮小後的內容框，實際渲染約 315px ≒ 原圖 +6.8%（貼框最大值） */
   }
   .cs-figure--flow picture {
     width: 101%; /* 流程對照圖 rwd：放大約 5%（96→101%），仍在 12px padding 內、不溢出卡片框 */
