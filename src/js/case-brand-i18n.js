@@ -25,6 +25,11 @@ function apply() {
     const value = dict[el.dataset.altK] ?? home[el.dataset.altK];
     if (value !== undefined) el.alt = value;
   });
+  // aria-label：給 inline SVG icon 用（不能用 data-k，否則 innerHTML 會蓋掉注入的 SVG）
+  document.querySelectorAll('[data-aria-k]').forEach((el) => {
+    const value = dict[el.dataset.ariaK] ?? home[el.dataset.ariaK];
+    if (value !== undefined) el.setAttribute('aria-label', value);
+  });
   document.querySelectorAll('[data-resume-link]').forEach((el) => {
     el.href = resumeHrefFor(lang);
   });

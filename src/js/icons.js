@@ -15,6 +15,9 @@ import softProactiveExploration from '../icons/soft-proactive-exploration.svg?ra
 import strategyFlow from '../icons/strategy-flow.svg?raw';
 import strategyIntegrate from '../icons/strategy-integrate.svg?raw';
 import strategyBackend from '../icons/strategy-backend.svg?raw';
+import breakdownAlignGoals from '../icons/breakdown-align-goals.svg?raw';
+import breakdownReduceCost from '../icons/breakdown-reduce-cost.svg?raw';
+import breakdownDecisionPath from '../icons/breakdown-decision-path.svg?raw';
 
 const ICONS = {
   'ai-prototyping': aiPrototyping,
@@ -29,6 +32,9 @@ const ICONS = {
   'strategy-flow': strategyFlow,
   'strategy-integrate': strategyIntegrate,
   'strategy-backend': strategyBackend,
+  'breakdown-align-goals': breakdownAlignGoals,
+  'breakdown-reduce-cost': breakdownReduceCost,
+  'breakdown-decision-path': breakdownDecisionPath,
 };
 
 export function injectIcons() {
