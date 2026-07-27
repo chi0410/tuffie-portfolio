@@ -1310,18 +1310,18 @@ html[lang="en"] .sol-switch {
   margin-top: 40px;
   margin-bottom: 0;
 }
-/* case02 專屬：拆解需求 icon 比首頁 My Edge 小 10%（金絲桃指定，首頁不動）。
-   桌面 150→135px；手機沿用同比例 120→108px。
+/* case02 專屬：拆解需求 icon 比首頁 My Edge 小（金絲桃指定，首頁不動）。
+   取原尺寸的 81%：桌面 150→121.5px；手機沿用同比例 120→97.2px。
    ⚠️ 兩條 #needs 規則與 @media 全站 .skill .icon（max-width:680）等權重，
    靠「本區塊在原 680 斷點之後」的源碼順序讓手機版覆蓋成功，不可搬到 680 區塊之前。 */
 #needs .skill .icon {
-  width: 135px;
-  height: 135px;
+  width: 121.5px;
+  height: 121.5px;
 }
 @media (max-width: 680px) {
   #needs .skill .icon {
-    width: 108px;
-    height: 108px;
+    width: 97.2px;
+    height: 97.2px;
   }
 }
 
