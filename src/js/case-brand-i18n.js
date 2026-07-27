@@ -15,6 +15,11 @@ function apply() {
     const value = dict[el.dataset.k] ?? home[el.dataset.k];
     if (value !== undefined) el.innerHTML = value;
   });
+  // 圖片 src：隨語言切換（比照 case-sync-i18n.js，收斂目標圖中英換圖走這套）
+  document.querySelectorAll('[data-src-k]').forEach((el) => {
+    const value = dict[el.dataset.srcK] ?? home[el.dataset.srcK];
+    if (value !== undefined) el.src = value;
+  });
   // alt 替代文字：隨語言切換（比照 case-sync-i18n.js）
   document.querySelectorAll('[data-alt-k]').forEach((el) => {
     const value = dict[el.dataset.altK] ?? home[el.dataset.altK];

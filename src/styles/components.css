@@ -1159,6 +1159,15 @@ footer .cr {
   margin: 34px 0 30px;
 }
 
+/* 收斂目標圖（case02 §規劃理解路徑）：近方形文氏圖，單一版本隨語言換 src。
+   沿用 .cs-figure 卡片＋flex 置中；web 取中等尺寸避免版面過重，rwd 貼齊卡片框 */
+.cs-figure--convergence {
+  margin: 34px 0 4px;
+}
+.cs-figure--convergence img {
+  width: 72%; /* web：文氏圖為主角但近方形，取 72% 平衡份量，置中不溢出 */
+}
+
 .cs-figure--flow {
   margin-top: 40px;
   /* web：卡片 padding 縮到 0，讓已滿版的流程圖再放大貼齊卡片框（約 +4%），維持置中不溢出。
@@ -1436,6 +1445,9 @@ html[lang="en"] .sol-switch {
   }
   .cs-figure--flow picture {
     width: 101%; /* 流程對照圖 rwd：放大約 5%（96→101%），仍在 12px padding 內、不溢出卡片框 */
+  }
+  .cs-figure--convergence img {
+    width: 100%; /* 收斂目標圖 rwd：貼齊卡片內容框（手機空間有限，放到最大） */
   }
 }
 

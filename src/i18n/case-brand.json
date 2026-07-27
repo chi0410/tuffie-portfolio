@@ -47,6 +47,8 @@
     "s6P2": "因此，我以客戶瀏覽歷程為基礎，重新整理資訊閱讀節奏，先建立產品與服務認知，再逐步延伸至各項能力與導入脈絡，幫助客戶建立對 NUWA RaaS Suite 的心智模型與應用想像。",
     "raasPh": "📦 RaaS 四象限圖",
     "raasPhSmall": "中心為 NUWA RaaS Suite（待補）",
+    "convergenceGoalSrc": "/assets/case-diagrams/case02-convergence-goal-tw.svg",
+    "convergenceGoalAlt": "收斂目標三圈文氏圖：以產品服務認知、能力理解、導入脈絡三個圈層交會，中心收斂為對 NUWA RaaS Suite 的整體理解",
 
     "s7Label": "優化成果拆解",
     "s7Body": "以下我會依照客戶瀏覽與評估的流程，逐段說明在優化中實際執行的設計策略與內容調整，及這些調整如何幫助客戶理解資訊並建立導入服務的判斷",
@@ -116,6 +118,8 @@
     "s6P2": "So I reorganised the reading rhythm around the customer's browsing journey — first establishing awareness of the products and services, then extending into individual capabilities and adoption context — helping customers build a mental model of NUWA RaaS Suite and imagine how it applies to them.",
     "raasPh": "📦 RaaS quadrant diagram",
     "raasPhSmall": "Centred on NUWA RaaS Suite (coming soon)",
+    "convergenceGoalSrc": "/assets/case-diagrams/case02-convergence-goal-en.svg",
+    "convergenceGoalAlt": "Convergence-goal Venn diagram: three overlapping circles — product and service awareness, capability understanding, and adoption context — converging at the centre into an overall understanding of NUWA RaaS Suite",
 
     "s7Label": "Optimisation Breakdown",
     "s7Body": "Below, following the customer's browsing and evaluation journey, I walk through the design strategies and content changes made during the optimisation — and how each helped customers understand the information and judge whether to adopt the service.",
