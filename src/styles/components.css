@@ -1165,7 +1165,7 @@ footer .cr {
   margin: 34px 0 4px;
 }
 .cs-figure--convergence img {
-  width: 72%; /* web：文氏圖為主角但近方形，取 72% 平衡份量，置中不溢出 */
+  width: 64.8%; /* web：原 72% 再縮 10%（72×0.9），置中不溢出；rwd 維持 100% */
 }
 
 .cs-figure--flow {
