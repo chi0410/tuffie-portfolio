@@ -1428,7 +1428,8 @@ html[lang="en"] .sol-switch {
     padding: 12px; /* rwd 也縮小內距換放大空間（原 18px） */
   }
   .cs-figure--bg picture {
-    width: 100%; /* 情境示意圖 rwd：放到卡片滿版（受手機寬度限制） */
+    width: 105%; /* 情境示意圖 rwd：放大 5%（100→105%，撐入 12px padding 空間），仍不溢出卡片框 */
+    flex-shrink: 0; /* 撐開 flex 置中容器，避免預設 flex-shrink 把 105% 縮回 100% */
   }
   .cs-figure--flow picture {
     width: 101%; /* 流程對照圖 rwd：放大約 5%（96→101%），仍在 12px padding 內、不溢出卡片框 */
