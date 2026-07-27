@@ -1165,7 +1165,7 @@ footer .cr {
   margin: 34px 0 4px;
 }
 .cs-figure--convergence img {
-  width: 61.56%; /* web：64.8% 再縮 5%（64.8×0.95），置中不溢出；rwd 維持 100% */
+  width: 58.48%; /* web：61.56% 再縮 5%（61.56×0.95），置中不溢出；rwd 維持 100% */
 }
 
 .cs-figure--flow {
