@@ -784,8 +784,7 @@ footer .cr {
     transition: none;
   }
   .skill .icon svg,
-  .cs-trio--strat .cs-strat-icon svg,
-  .cs-trio--icon .cs-trio-icon svg {
+  .cs-trio--strat .cs-strat-icon svg {
     animation: none;
   }
 }
@@ -1304,19 +1303,12 @@ html[lang="en"] .sol-switch {
   margin: 32px 0 24px;
 }
 
-/* 專案二 §4 拆解需求：三欄以功能性 inline SVG icon 取代序號。
-   依交辦排版：整組水平置中，但每組「內部」icon 與文字皆靠左——
-   icon 落在文字區塊左上、對齊文字左緣（與 case01 .cs-trio--strat 的 icon 置中不同）。
-   icon 以 height 定尺寸、width:auto 保留原比例；無 margin auto 故靠左。 */
-.cs-trio--icon .cs-trio-icon {
-  height: 96px;
-  margin-bottom: 14px;
-}
-.cs-trio--icon .cs-trio-icon svg {
-  height: 100%;
-  width: auto;
-  display: block; /* 無 margin auto → icon 靠欄位左緣、對齊文字左緣 */
-  animation: iconFloat 3.2s ease-in-out infinite;
+/* 專案二 §4 拆解需求：直接沿用首頁 My Edge 的 .skill / .skill-grid 排版
+   （icon 置中、標題置中、內文靠左；web 三欄、rwd 單欄），兩邊永遠一致。
+   此處僅補區塊在本頁的上下間距，不另寫排版。 */
+#needs .skill-grid {
+  margin-top: 40px;
+  margin-bottom: 0;
 }
 
 /* 專案二：大型圖表佔位（文氏圖／六格圖／四象限圖） */
