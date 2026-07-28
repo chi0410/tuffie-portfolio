@@ -1467,6 +1467,105 @@ html[lang="en"] .sol-switch {
   .ct-grid { grid-template-columns: 1fr; }
 }
 
+/* ==========================================================================
+   專案二 §6 規劃理解路徑：RaaS 四象限圖（四角 icon + 中心 RaaS Suite）
+   視覺照 handoff prototype（raas-quadrant-final），全對齊 design-tokens。
+   四角以「圓心」對稱排列，不加連結線。無動效，故 prefers-reduced-motion 天然無影響。
+   ========================================================================== */
+.raas-quad {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 40px auto 0;
+  aspect-ratio: 1 / 0.78;
+}
+.raas-node {
+  position: absolute;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+/* 圓形玻璃底（glass-dark 那組）、白系細邊框 */
+.raas-cicon {
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  background: var(--glass-dark-bg);
+  border: var(--glass-dark-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+/* 真圖自帶漸層填色：只控制尺寸，不覆蓋 stroke/fill（避免破壞原配色） */
+.raas-cicon svg { width: 61px; height: 61px; display: block; }
+.raas-t { font-size: 16px; font-weight: 600; margin-bottom: 3px; color: var(--ondark-text-1); }
+.raas-s { font-size: 12px; line-height: 1.5; color: var(--ondark-muted); }
+
+/* 四角圓心對稱定位（上下圓心到中心等距） */
+.raas-tl { top: 0; left: 8%; }
+.raas-tr { top: 0; right: 8%; }
+.raas-bl { bottom: -34px; left: 8%; }
+.raas-br { bottom: -34px; right: 8%; }
+
+/* 中心：圓形玻璃底 + RaaS Suite icon，文字壓在上方 */
+.raas-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 168px;
+  height: 168px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.raas-suite-icon {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--glass-dark-bg);
+  border: var(--glass-dark-border);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.raas-suite-icon svg { width: 80px; height: 80px; display: block; }
+.raas-ctext {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-family: var(--font-serif-en);
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+  color: var(--ondark-text-1);
+  text-shadow: 0 1px 8px rgba(103, 50, 26, 0.6);
+}
+
+/* rwd：<620px 窄版排列（比照 prototype） */
+@media (max-width: 620px) {
+  .raas-quad { max-width: 400px; aspect-ratio: 1 / 1.15; }
+  .raas-node { width: 150px; }
+  .raas-cicon { width: 96px; height: 96px; }
+  .raas-cicon svg { width: 48px; height: 48px; }
+  .raas-center { width: 136px; height: 136px; }
+  .raas-ctext { font-size: 20px; }
+  .raas-tl { top: 0; left: 2%; }
+  .raas-tr { top: 0; right: 2%; }
+  .raas-bl { bottom: -28px; left: 2%; }
+  .raas-br { bottom: -28px; right: 2%; }
+}
+
 /* 專案二：Key Outcomes 條列 */
 .cs-bullets {
   list-style: none;

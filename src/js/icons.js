@@ -18,6 +18,11 @@ import strategyBackend from '../icons/strategy-backend.svg?raw';
 import breakdownAlignGoals from '../icons/breakdown-align-goals.svg?raw';
 import breakdownReduceCost from '../icons/breakdown-reduce-cost.svg?raw';
 import breakdownDecisionPath from '../icons/breakdown-decision-path.svg?raw';
+import raasBrain from '../icons/raas-brain.svg?raw';
+import raasRms from '../icons/raas-rms.svg?raw';
+import raasRobot from '../icons/raas-robot.svg?raw';
+import raasFlow from '../icons/raas-flow.svg?raw';
+import raasSuite from '../icons/raas-suite.svg?raw';
 
 const ICONS = {
   'ai-prototyping': aiPrototyping,
@@ -35,6 +40,11 @@ const ICONS = {
   'breakdown-align-goals': breakdownAlignGoals,
   'breakdown-reduce-cost': breakdownReduceCost,
   'breakdown-decision-path': breakdownDecisionPath,
+  'raas-brain': raasBrain,
+  'raas-rms': raasRms,
+  'raas-robot': raasRobot,
+  'raas-flow': raasFlow,
+  'raas-suite': raasSuite,
 };
 
 export function injectIcons() {
