@@ -1500,17 +1500,21 @@ html[lang="en"] .sol-switch {
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
+  overflow: hidden; /* 放大後的 icon 若貼邊，乾淨切齊圓框 */
 }
-/* 真圖自帶漸層填色：只控制尺寸，不覆蓋 stroke/fill（避免破壞原配色） */
-.raas-cicon svg { width: 61px; height: 61px; display: block; }
+/* 真圖自帶漸層填色：只控制尺寸，不覆蓋 stroke/fill（避免破壞原配色）。
+   圖形放大 2 倍（61→122）讓 icon 在圓框裡更飽滿；圓框尺寸不變。 */
+.raas-cicon svg { width: 122px; height: 122px; display: block; }
 .raas-t { font-size: 16px; font-weight: 600; margin-bottom: 3px; color: var(--ondark-text-1); }
 .raas-s { font-size: 12px; line-height: 1.5; color: var(--ondark-muted); }
 
-/* 四角圓心對稱定位（上下圓心到中心等距） */
-.raas-tl { top: 0; left: 8%; }
-.raas-tr { top: 0; right: 8%; }
-.raas-bl { bottom: -34px; left: 8%; }
-.raas-br { bottom: -34px; right: 8%; }
+/* 四角圓心對稱定位。依交辦：垂直方向圓心到中心距離縮 1/3（×2/3）、水平方向加寬 1/3（×4/3），
+   維持左右鏡像對稱——四角彼此上下靠近、左右拉開。
+   （原 top:0/bottom:-34px/8% → 上下往中心收、左右往外推） */
+.raas-tl { top: 71px; left: -1.3%; }
+.raas-tr { top: 71px; right: -1.3%; }
+.raas-bl { bottom: 39px; left: -1.3%; }
+.raas-br { bottom: 39px; right: -1.3%; }
 
 /* 中心：圓形玻璃底 + RaaS Suite icon，文字壓在上方 */
 .raas-center {
@@ -1536,14 +1540,16 @@ html[lang="en"] .sol-switch {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* 放大後的 icon 超出圓形處乾淨切齊圓框 */
 }
-.raas-suite-icon svg { width: 80px; height: 80px; display: block; }
+/* 中心 icon 放大 2 倍（80→160）；圓框不變、超出處由 overflow 裁圓 */
+.raas-suite-icon svg { width: 160px; height: 160px; display: block; }
 .raas-ctext {
   position: relative;
   z-index: 2;
   text-align: center;
   font-family: var(--font-serif-en);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 600;
   font-style: italic;
   line-height: 1.18;
@@ -1557,9 +1563,10 @@ html[lang="en"] .sol-switch {
   .raas-quad { max-width: 400px; aspect-ratio: 1 / 1.15; }
   .raas-node { width: 150px; }
   .raas-cicon { width: 96px; height: 96px; }
-  .raas-cicon svg { width: 48px; height: 48px; }
+  .raas-cicon svg { width: 96px; height: 96px; } /* 窄版 icon 同步放大 2 倍（48→96） */
   .raas-center { width: 136px; height: 136px; }
-  .raas-ctext { font-size: 20px; }
+  .raas-suite-icon svg { width: 130px; height: 130px; } /* 窄版中心 icon 依小圓框比例縮放 */
+  .raas-ctext { font-size: 24px; }
   .raas-tl { top: 0; left: 2%; }
   .raas-tr { top: 0; right: 2%; }
   .raas-bl { bottom: -28px; left: 2%; }
