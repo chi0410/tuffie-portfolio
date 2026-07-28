@@ -1403,9 +1403,12 @@ html[lang="en"] .sol-switch {
 }
 
 /* 採購人員 + 思考氣泡 */
+/* margin-top 負值：整個採購人員區塊（舉手的人＋往上飄的氣泡）當一個整體往上移，
+   讓最大那顆氣泡頂進正上方那格、交疊約 2/3；emoji 仍留在六格下方。
+   無祖先 overflow 裁切，靠 persona z-index:3 疊在六格之上。交疊量金絲桃上版後可再微調此值。 */
 .ct-persona-zone {
   position: relative;
-  margin-top: 40px;
+  margin-top: -31px;
   display: flex;
   justify-content: center;
 }
