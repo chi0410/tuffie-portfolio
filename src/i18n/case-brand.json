@@ -47,7 +47,8 @@
     "s5a5": "用導入服務的視角說明商務應用",
     "s5q6": "為什麼我該選你們？",
     "s5a6": "提供讓客戶相信的產品證據",
-    "s5Persona": "採購人員",
+    "s5Persona": "採購決策者",
+    "s5PersonaDesc": "為企業尋找、評估新方案的採購決策者。從營運、服務痛點中，挖掘導入的商務價值。",
 
     "s6Label": "規劃理解路徑",
     "s6Lead": "我面臨的是該如何簡化大量分散的關鍵訊息",
@@ -126,7 +127,8 @@
     "s5a5": "Explain business use through a service lens",
     "s5q6": "Why should I choose you?",
     "s5a6": "Provide product proof clients can trust",
-    "s5Persona": "Procurement",
+    "s5Persona": "Procurement Decision-Maker",
+    "s5PersonaDesc": "A procurement decision-maker who seeks and evaluates new solutions — uncovering business value from operational and service pain points.",
 
     "s6Label": "Comprehension Path",
     "s6Lead": "The challenge was how to simplify a large volume of scattered, critical information",

@@ -1449,6 +1449,15 @@ html[lang="en"] .sol-switch {
   letter-spacing: 0.04em;
   margin-top: 8px;
 }
+/* 採購決策者描述：比標籤小、淡一階；置中、限制寬度讓兩句好斷行 */
+.ct-desc {
+  max-width: 340px;
+  margin: 6px auto 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ondark-text-2);
+  text-align: center;
+}
 
 /* rwd：≤860px 兩欄、≤540px 單欄（比照 prototype） */
 @media (max-width: 860px) {
