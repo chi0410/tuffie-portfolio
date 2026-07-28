@@ -780,7 +780,8 @@ footer .cr {
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .cta {
+  .cta,
+  .ct-cell {
     transition: none;
   }
   .skill .icon svg,
@@ -1330,6 +1331,128 @@ html[lang="en"] .sol-switch {
   min-height: 400px;
   margin-top: 40px;
   border-radius: var(--radius-l);
+}
+
+/* ==========================================================================
+   專案二 §5 定義溝通任務：六格「客戶提問＋回應策略」對話框 + 採購人員思考氣泡
+   視覺照 handoff prototype（comm-tasks-final-quote7），全對齊 design-tokens。
+   ========================================================================== */
+.comm-tasks {
+  margin-top: 40px;
+}
+.ct-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+/* 玻璃卡（glass-dark 那組）、圓角 18px、白系細邊框 */
+.ct-cell {
+  position: relative;
+  background: var(--glass-dark-bg);
+  border: var(--glass-dark-border);
+  border-radius: 18px;
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
+  padding: 32px 22px 22px;
+  cursor: default; /* 純展示卡，不暗示可點 */
+  transition: box-shadow var(--ease) 300ms;
+}
+/* hover：中性暖白內光暈（金絲桃指定，避開 token 禁止的靛紫透明光暈）＋極淡暖色陰影；
+   不位移、游標維持 default */
+.ct-cell:hover {
+  box-shadow: inset 0 0 34px rgba(250, 240, 234, 0.14), 0 6px 20px rgba(103, 50, 26, 0.14);
+}
+
+/* 左上襯線大引號（Cormorant Infant，只用於大字級） */
+.ct-quote {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  font-family: var(--font-serif-en);
+  font-size: 42px;
+  line-height: 1;
+  color: rgba(250, 240, 234, 0.72);
+}
+.ct-q {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+  color: var(--ondark-text-1);
+}
+/* 回應：前導一條短粗直線標記 */
+.ct-a {
+  position: relative;
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--ondark-text-2);
+  padding-left: 12px;
+}
+.ct-a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 3px;
+  height: 1.15em;
+  background: rgba(250, 240, 234, 0.5);
+  border-radius: 2px;
+}
+
+/* 採購人員 + 思考氣泡 */
+.ct-persona-zone {
+  position: relative;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+.ct-persona {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+/* 氣泡容器整體靠左，對到 emoji 舉手（畫面左側）的位置。
+   ⚠️ 交疊位置（靠左對到手＋最上顆疊進上方某格 2/3）先照 prototype，金絲桃上版後微調 */
+.ct-think {
+  position: relative;
+  width: 200px;
+  height: 96px;
+  margin-bottom: -8px;
+}
+.ct-tb {
+  position: absolute;
+  background: var(--glass-dark-bg);
+  border: var(--glass-dark-border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+/* 三顆 squircle 空心氣泡：大小不一、各自旋轉、往上飄且弧線繞回 */
+.ct-tb1 { width: 16px; height: 14px; border-radius: 6px;  left: 44px; bottom: 2px;  transform: rotate(-8deg); }
+.ct-tb2 { width: 26px; height: 22px; border-radius: 9px;  left: 24px; bottom: 26px; transform: rotate(6deg); }
+.ct-tb3 { width: 40px; height: 34px; border-radius: 13px; left: 36px; bottom: 54px; transform: rotate(-5deg); }
+
+.ct-emoji {
+  font-size: 60px;
+  line-height: 1;
+}
+.ct-plabel {
+  font-size: 16px;
+  color: var(--ondark-text-1);
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+}
+
+/* rwd：≤860px 兩欄、≤540px 單欄（比照 prototype） */
+@media (max-width: 860px) {
+  .ct-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .ct-grid { grid-template-columns: 1fr; }
 }
 
 /* 專案二：Key Outcomes 條列 */
