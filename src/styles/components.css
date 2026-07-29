@@ -785,7 +785,8 @@ footer .cr {
     transition: none;
   }
   .skill .icon svg,
-  .cs-trio--strat .cs-strat-icon svg {
+  .cs-trio--strat .cs-strat-icon svg,
+  .raas-cicon svg {
     animation: none;
   }
 }
@@ -1337,8 +1338,12 @@ html[lang="en"] .sol-switch {
    專案二 §5 定義溝通任務：六格「客戶提問＋回應策略」對話框 + 採購人員思考氣泡
    視覺照 handoff prototype（comm-tasks-final-quote7），全對齊 design-tokens。
    ========================================================================== */
-.comm-tasks {
+/* §3 收斂圖（.cs-figure）／§5 六格／§6 RaaS 三塊配圖統一的 B 底色卡 */
+.diagram-tint {
   margin-top: 40px;
+  background: rgba(30, 14, 6, 0.34);
+  border-radius: var(--radius-l);
+  padding: 20px;
 }
 .ct-grid {
   display: grid;
@@ -1476,7 +1481,7 @@ html[lang="en"] .sol-switch {
   position: relative;
   width: 100%;
   max-width: 700px;
-  margin: 40px auto 0;
+  margin: 0 auto; /* 上方間距由外層 .diagram-tint 提供 */
   aspect-ratio: 1 / 0.78;
 }
 .raas-node {
@@ -1503,8 +1508,14 @@ html[lang="en"] .sol-switch {
   overflow: hidden; /* 放大後的 icon 若貼邊，乾淨切齊圓框 */
 }
 /* 真圖自帶漸層填色：只控制尺寸，不覆蓋 stroke/fill（避免破壞原配色）。
-   圖形放大 2 倍（61→122）讓 icon 在圓框裡更飽滿；圓框尺寸不變。 */
-.raas-cicon svg { width: 122px; height: 122px; display: block; }
+   圖形放大 2 倍（61→122）讓 icon 在圓框裡更飽滿；圓框尺寸不變。
+   四角 icon 套全站共用的 iconFloat 呼吸動畫（中心那顆維持靜止）。 */
+.raas-cicon svg {
+  width: 122px;
+  height: 122px;
+  display: block;
+  animation: iconFloat 3.2s ease-in-out infinite;
+}
 .raas-t { font-size: 16px; font-weight: 600; margin-bottom: 3px; color: var(--ondark-text-1); }
 .raas-s { font-size: 12px; line-height: 1.5; color: var(--ondark-muted); }
 
@@ -1554,7 +1565,7 @@ html[lang="en"] .sol-switch {
   font-style: italic;
   line-height: 1.18;
   letter-spacing: 0.01em;
-  color: var(--ondark-text-1);
+  color: var(--primary-text); /* #96491F 咖啡強調色（AA）；禁用 #676DAF 藍紫當文字 */
   text-shadow: 0 1px 8px rgba(103, 50, 26, 0.6);
 }
 
