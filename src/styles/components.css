@@ -1553,8 +1553,9 @@ html[lang="en"] .sol-switch {
   justify-content: center;
   overflow: hidden; /* 放大後的 icon 超出圓形處乾淨切齊圓框 */
 }
-/* 中心 icon 放大 2 倍（80→160）；圓框不變、超出處由 overflow 裁圓 */
-.raas-suite-icon svg { width: 160px; height: 160px; display: block; }
+/* 中心 icon 放大 2 倍（80→160）；圓框不變、超出處由 overflow 裁圓。
+   opacity 降到 0.3 退成很淡的裝飾底層，把對比空間讓給前方文字。 */
+.raas-suite-icon svg { width: 160px; height: 160px; display: block; opacity: 0.3; }
 .raas-ctext {
   position: relative;
   z-index: 2;
@@ -1565,8 +1566,8 @@ html[lang="en"] .sol-switch {
   font-style: italic;
   line-height: 1.18;
   letter-spacing: 0.01em;
-  color: var(--primary-text); /* #96491F 咖啡強調色（AA）；禁用 #676DAF 藍紫當文字 */
-  text-shadow: 0 1px 8px rgba(103, 50, 26, 0.6);
+  color: var(--ondark-link); /* #E1E2EF 冷色強調（白名單允許的靛紫系文字）；禁用 #676DAF */
+  text-shadow: 0 1px 8px rgba(103, 50, 26, 0.6); /* 暖色暗影：替淡字加底、壓在地球上更清楚 */
 }
 
 /* rwd：<620px 窄版排列（比照 prototype） */
