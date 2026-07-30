@@ -1585,6 +1585,86 @@ html[lang="en"] .sol-switch {
   .raas-br { bottom: -28px; right: 2%; }
 }
 
+/* ==========================================================================
+   專案二 §7 優化成果版位：垂直流程圖（圖片/影片 + JS 畫直角連接線 + B 底色卡）
+   視覺照 handoff prototype（case02-flow-final），全對齊 design-tokens。
+   外層 .diagram-tint 提供 B 底色卡（與收斂圖/六格/RaaS 一致）。本次先做 web。
+   ========================================================================== */
+.flow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  --flow-img-w: 260px;   /* 單張圖寬 */
+  --flow-img-gap: 48px;  /* 並排間距 */
+}
+/* 連接線層：絕對疊在流程上，JS 依各節點實際位置畫直角折線 */
+.flow-wires {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+.flow-wire { fill: none; stroke: rgba(250, 240, 234, 0.42); stroke-width: 1.6; }
+.flow-arrow { fill: rgba(250, 240, 234, 0.42); } /* 實心箭頭：只用於連到圖片的線 */
+
+.flow-layer { position: relative; z-index: 2; width: 100%; display: flex; justify-content: center; }
+.flow-layer--col { flex-direction: column; align-items: center; }
+.flow-emoji { font-size: 54px; line-height: 1; margin-bottom: 14px; }
+
+/* 標籤：玻璃膠囊（glass-dark、radius-full） */
+.flow-tag {
+  background: var(--glass-dark-bg);
+  border: var(--glass-dark-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-full);
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ondark-text-1);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.flow-imgrow { display: flex; justify-content: center; gap: var(--flow-img-gap); }
+.flow-img {
+  width: var(--flow-img-w);
+  height: auto;
+  display: block;
+  border-radius: var(--radius-l);
+}
+.flow-img--wide { width: calc(var(--flow-img-w) * 2 + var(--flow-img-gap)); } /* f、j = 兩張並排總寬 */
+.flow-img-wrap { position: relative; width: var(--flow-img-w); }
+.flow-img-wrap .flow-img { width: 100%; }
+
+/* d 右圖疊兩隻自動播放無聲影片。位置＝Figma 距離換算成底圖(583×860)百分比。
+   ⚠️ 影片顯示尺寸設計端未提供，寬度暫定 40%，位置為換算值——金絲桃上版後給底圖尺寸再校準。 */
+.flow-vid {
+  position: absolute;
+  width: 40%;
+  aspect-ratio: 722 / 422;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.flow-vid--upper { top: 31.2%; right: 15.35%; }  /* tw：268.5/860、89.5/583 */
+.flow-vid--down  { top: 62.15%; right: 15.35%; } /* tw：534.5/860 */
+html[lang="en"] .flow-vid--upper { top: 33.95%; right: 15.27%; } /* en：292/860、89/583 */
+html[lang="en"] .flow-vid--down  { top: 63.26%; right: 15.27%; } /* en：544/860 */
+
+.flow-gap-l { height: 56px; }
+.flow-gap-m { height: 44px; }
+
+/* i 標籤對齊 h 右圖中心：往右偏移 (單圖寬 + 間距)/2 */
+.flow-align-right { width: 100%; display: flex; justify-content: center; }
+.flow-align-inner {
+  transform: translateX(calc((var(--flow-img-w) + var(--flow-img-gap)) / 2));
+  width: var(--flow-img-w);
+  display: flex;
+  justify-content: center;
+}
+
 /* 專案二：Key Outcomes 條列 */
 .cs-bullets {
   list-style: none;
