@@ -1231,12 +1231,13 @@ footer .cr {
   opacity: 1;
 }
 
-/* tooltip：狀態導向文案，浮在上層切換圖正上方。桌機 hover/focus 才現；手機常駐 */
+/* tooltip：狀態導向文案，定位在圖上「齊頂向下 280px、齊右 45px」（Figma 設計稿距離）。
+   換算成相對底圖的百分比、縮放不跑位（設計稿為 native/2：寬 799、高 中 2613 / 英 2722）：
+   top = 280/2613 = 10.72%（中）；right = 45/799 = 5.63%。桌機 hover/focus 才現；手機常駐 */
 .sol-tip {
   position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
+  top: 10.72%;
+  right: 5.63%;
   padding: 7px 14px;
   border-radius: 999px;
   background: rgba(30, 14, 6, 0.72);
@@ -1247,6 +1248,10 @@ footer .cr {
   pointer-events: none;
   backdrop-filter: blur(4px);
   border: 1px solid rgba(250, 240, 234, 0.18);
+}
+/* 英文版底圖較高（native 5444，設計稿 2722）：top = 280/2722 = 10.29% */
+html[lang="en"] .sol-tip {
+  top: 10.29%;
 }
 
 @media (hover: hover) {
