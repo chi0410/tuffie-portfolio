@@ -1627,15 +1627,18 @@ html[lang="en"] .sol-tip {
    ⚠️ 影片顯示尺寸設計端未提供，寬度暫定 40%，位置為換算值——金絲桃上版後給底圖尺寸再校準。 */
 .flow-vid {
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* 水平置中對齊底圖中線（PNG 左右留白 43px 對稱，圖中線=內容中線）*/
   width: 40%;
   aspect-ratio: 722 / 422;
   border-radius: 4px;
   object-fit: cover;
 }
-.flow-vid--upper { top: 31.2%; right: 15.35%; }  /* tw：268.5/860、89.5/583 */
-.flow-vid--down  { top: 62.15%; right: 15.35%; } /* tw：534.5/860 */
-html[lang="en"] .flow-vid--upper { top: 33.95%; right: 15.27%; } /* en：292/860、89/583 */
-html[lang="en"] .flow-vid--down  { top: 63.26%; right: 15.27%; } /* en：544/860 */
+/* top：在原值上再往下 30px。底圖 PNG native 高 1719（含 43px 留白那圈），30/1719 ≈ 1.75%，% 相對整張 PNG */
+.flow-vid--upper { top: 32.95%; }  /* tw：31.2 + 1.75 */
+.flow-vid--down  { top: 63.9%; }   /* tw：62.15 + 1.75 */
+html[lang="en"] .flow-vid--upper { top: 35.7%; }  /* en：33.95 + 1.75 */
+html[lang="en"] .flow-vid--down  { top: 65.01%; } /* en：63.26 + 1.75 */
 
 .flow-gap-l { height: 56px; }
 .flow-gap-m { height: 44px; }
