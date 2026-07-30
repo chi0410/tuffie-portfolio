@@ -4,11 +4,16 @@
 
 const R = 10; // 轉角圓弧半徑
 
+// PNG 圖檔四邊有約 43px（native）透明留白（Figma 匯出的陰影出血區）。
+// 量測顯示尺寸後把「圖片節點」的上下端點內縮，讓線段/箭頭貼齊可見內容、不留空隙；標籤節點無留白不內縮。
+const IMG_PAD = 43;
 function box(flow, node) {
   const el = flow.querySelector(`[data-node="${node}"]`);
   const f = flow.getBoundingClientRect();
   const r = el.getBoundingClientRect();
-  return { cx: r.left - f.left + r.width / 2, top: r.top - f.top, bottom: r.bottom - f.top };
+  const img = el.tagName === 'IMG' ? el : el.querySelector('img');
+  const inset = img && img.naturalWidth ? IMG_PAD * (r.width / img.naturalWidth) : 0;
+  return { cx: r.left - f.left + r.width / 2, top: r.top - f.top + inset, bottom: r.bottom - f.top - inset };
 }
 
 // 直角折線：從 (x1,y1) 垂下到中線、水平位移、再垂下到 (x2,y2)，轉角用二次貝茲做圓弧
