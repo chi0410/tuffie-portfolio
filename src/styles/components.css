@@ -1181,38 +1181,13 @@ footer .cr {
   margin-top: 32px;
 }
 
-/* 優化成果：點擊切換的前/後對照圖。素材為切片工具做的一體圖，底圖直接滿版（width:100%），
-   刻意「不套任何圖框 / border / padding」——上一版歪掉就是因為多了框，怎麼置中都對不準。
-   只有「上層切換圖」那塊是互動元件（.sol-switch button），絕對定位疊在底圖右上，
-   點擊與 tooltip 都只綁這一塊。定位全用百分比（相對底圖顯示尺寸），縮放換裝置都不跑位。
-   right 70/799=8.76%；width 540/1598=33.79%；top 370÷底圖高（中 2613 / 英 2722，用 html[lang] 切換） */
+/* 優化成果：點擊切換的前/後對照圖。改為「before / after 兩張同尺寸整圖完全重疊」，
+   整個 .solution-toggle 就是可點的 button，點擊切換整張、淡入淡出。
+   不再有 base 底圖層，也不再需要上層絕對定位/百分比座標。 */
 .solution-toggle {
   position: relative;
-  width: 100%;
-}
-
-/* web 版整組縮小 20% 並水平置中；上層圖百分比定位不受影響（相對容器等比跟縮）。
-   手機（≤760px）維持滿版，不套此規則 */
-@media (min-width: 761px) {
-  .solution-toggle {
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-.sol-base {
   display: block;
   width: 100%;
-  height: auto;
-}
-
-/* 互動區塊：只有這塊可點、可 hover 出 tooltip */
-.sol-switch {
-  position: absolute;
-  top: 14.16%;
-  right: 8.76%;
-  width: 33.79%;
   margin: 0;
   padding: 0;
   border: 0;
@@ -1222,17 +1197,22 @@ footer .cr {
   -webkit-tap-highlight-color: transparent;
 }
 
-html[lang="en"] .sol-switch {
-  top: 13.59%;
+/* web 版整組縮小 20% 並水平置中；手機（≤760px）維持滿版，不套此規則 */
+@media (min-width: 761px) {
+  .solution-toggle {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
-.sol-overlay {
+.sol-img {
   width: 100%;
   height: auto;
   transition: opacity 0.3s ease;
 }
 
-/* before 佔正常流撐開 button 高度；after 疊在上面淡入淡出 */
+/* before 佔正常流、撐開 button 高度；after 同尺寸完全重疊在上面淡入淡出 */
 .sol-before {
   display: block;
 }
@@ -1243,11 +1223,11 @@ html[lang="en"] .sol-switch {
   opacity: 0;
 }
 
-.sol-switch.is-after .sol-before {
+.solution-toggle.is-after .sol-before {
   opacity: 0;
 }
 
-.sol-switch.is-after .sol-after {
+.solution-toggle.is-after .sol-after {
   opacity: 1;
 }
 
@@ -1274,14 +1254,14 @@ html[lang="en"] .sol-switch {
     opacity: 0;
     transition: opacity 0.2s ease;
   }
-  .sol-switch:hover .sol-tip,
-  .sol-switch:focus-visible .sol-tip {
+  .solution-toggle:hover .sol-tip,
+  .solution-toggle:focus-visible .sol-tip {
     opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sol-overlay,
+  .sol-img,
   .sol-tip {
     transition: none;
   }
