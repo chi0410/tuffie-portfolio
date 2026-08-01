@@ -6,19 +6,20 @@ import homepageCopy from '../i18n/homepage.json';
 import { getStoredLang, setStoredLang, resumeHrefFor } from './lang-store.js';
 
 let lang = getStoredLang();
-let solutionAfter = false; // 優化成果：false=顯示優化前、true=顯示優化後
 
-// tooltip 與 aria-label 同時取決於「目前狀態」與「語言」，無法只靠 data-k（那是靜態），故獨立更新
-function updateSolutionState() {
-  const toggle = document.getElementById('solutionToggle');
-  if (!toggle) return;
+// 優化成果四區塊：區塊 1、3 可點擊切換。tooltip／aria 同時取決於「目前狀態」與「語言」，
+// 故獨立更新；每個 toggle 用 data 屬性帶自己的 i18n key（區塊 1、3 文案不同）。
+function updateToggle(btn) {
   const dict = caseSyncCopy[lang];
-  const tip = toggle.querySelector('.sol-tip');
-  // 顯示優化前時，提示「點擊查看優化後」；反之亦然
-  const tipKey = solutionAfter ? 'solTipToBefore' : 'solTipToAfter';
-  const ariaKey = solutionAfter ? 'solAriaAfter' : 'solAriaBefore';
+  const after = btn.classList.contains('is-after');
+  const tip = btn.querySelector('.sol-tip');
+  const tipKey = after ? btn.dataset.tipAfter : btn.dataset.tipBefore;
+  const ariaKey = after ? btn.dataset.ariaAfter : btn.dataset.ariaBefore;
   if (tip && dict[tipKey] !== undefined) tip.textContent = dict[tipKey];
-  if (dict[ariaKey] !== undefined) toggle.setAttribute('aria-label', dict[ariaKey]);
+  if (ariaKey && dict[ariaKey] !== undefined) btn.setAttribute('aria-label', dict[ariaKey]);
+}
+function updateSolutionStates() {
+  document.querySelectorAll('[data-sol-toggle]').forEach(updateToggle);
 }
 
 function apply() {
@@ -53,18 +54,17 @@ function apply() {
   document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
   const btn = document.getElementById('langBtn');
   if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中';
-  // 狀態導向文案：放在 data-* 迴圈之後覆蓋，才能依當前 toggle 狀態顯示正確提示
-  updateSolutionState();
+  // 狀態導向文案：放在 data-* 迴圈之後覆蓋，才能依當前各 toggle 狀態顯示正確提示
+  updateSolutionStates();
 }
 
-// 優化成果：點擊在「優化前 / 優化後」間切換。<button> 原生支援 Enter/Space 鍵盤操作
-function initSolutionToggle() {
-  const toggle = document.getElementById('solutionToggle');
-  if (!toggle) return;
-  toggle.addEventListener('click', () => {
-    solutionAfter = !solutionAfter;
-    toggle.classList.toggle('is-after', solutionAfter);
-    updateSolutionState();
+// 優化成果區塊 1、3：點擊切換 before/after（硬切）。<button> 原生支援 Enter/Space 鍵盤操作
+function initSolutionToggles() {
+  document.querySelectorAll('[data-sol-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('is-after');
+      updateToggle(btn);
+    });
   });
 }
 
@@ -77,6 +77,6 @@ export function initCaseSyncI18n() {
       apply();
     });
   }
-  initSolutionToggle();
+  initSolutionToggles();
   apply();
 }

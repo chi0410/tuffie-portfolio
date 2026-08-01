@@ -1181,9 +1181,20 @@ footer .cr {
   margin-top: 32px;
 }
 
-/* 優化成果：點擊切換的前/後對照圖。改為「before / after 兩張同尺寸整圖完全重疊」，
-   整個 .solution-toggle 就是可點的 button，點擊切換整張、淡入淡出。
-   不再有 base 底圖層，也不再需要上層絕對定位/百分比座標。 */
+/* 優化成果：四區塊由上往下垂直排列。區塊 1、3 可點擊硬切 before/after（.solution-toggle button），
+   區塊 2、4 固定單張（.sol-block-static）。整組桌機縮 80% 置中、手機滿版。 */
+.sol-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media (min-width: 761px) {
+  .sol-blocks {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 .solution-toggle {
   position: relative;
   display: block;
@@ -1196,15 +1207,7 @@ footer .cr {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-
-/* web 版整組縮小 20% 並水平置中；手機（≤760px）維持滿版，不套此規則 */
-@media (min-width: 761px) {
-  .solution-toggle {
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
+.sol-block-static { width: 100%; }
 
 .sol-img {
   width: 100%;
