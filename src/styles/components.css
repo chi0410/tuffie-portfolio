@@ -1629,7 +1629,7 @@ html[lang="en"] .sol-tip {
   position: absolute;
   left: 50%;
   transform: translateX(-50%); /* 水平置中對齊底圖中線（PNG 左右留白 43px 對稱，圖中線=內容中線）*/
-  width: 40%;
+  width: 60%; /* 放大 1.5 倍（40% × 1.5）；aspect-ratio 固定，高度同步放大 */
   aspect-ratio: 722 / 422;
   border-radius: 4px;
   object-fit: cover;
