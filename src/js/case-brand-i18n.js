@@ -20,6 +20,11 @@ function apply() {
     const value = dict[el.dataset.srcK] ?? home[el.dataset.srcK];
     if (value !== undefined) el.src = value;
   });
+  // srcset：給 <picture><source> 用（流程圖 f/j 的 rwd 版隨語言換圖）
+  document.querySelectorAll('[data-srcset-k]').forEach((el) => {
+    const value = dict[el.dataset.srcsetK] ?? home[el.dataset.srcsetK];
+    if (value !== undefined) el.srcset = value;
+  });
   // alt 替代文字：隨語言切換（比照 case-sync-i18n.js）
   document.querySelectorAll('[data-alt-k]').forEach((el) => {
     const value = dict[el.dataset.altK] ?? home[el.dataset.altK];

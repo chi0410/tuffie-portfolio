@@ -1612,7 +1612,9 @@ html[lang="en"] .sol-tip {
   white-space: nowrap;
 }
 
-.flow-imgrow { display: flex; justify-content: center; gap: var(--flow-img-gap); }
+/* 桌機：before/after 兩張並排。≤768 改單張點擊切換（見檔案下方 rwd media query） */
+.flow-pair { display: flex; justify-content: center; gap: var(--flow-img-gap); }
+.flow-pair-tip { display: none; } /* 切換提示只在 ≤768 顯示 */
 .flow-img {
   width: var(--flow-img-w);
   height: auto;
@@ -1650,6 +1652,56 @@ html[lang="en"] .flow-vid--down  { top: 65.01%; } /* en：63.26 + 1.75 */
   width: var(--flow-img-w);
   display: flex;
   justify-content: center;
+}
+
+/* ---- 流程圖 rwd（≤768px）：b/d/h 單張點擊切換、連線走直線（JS）、f/j 換 rwd 版 ---- */
+@media (max-width: 768px) {
+  .flow { --flow-rwd-w: min(300px, 100%); }
+
+  /* b/d/h：單張、點擊切換 before/after，硬切（display 直接換、無過場）*/
+  .flow-pair {
+    display: block;
+    position: relative;
+    width: var(--flow-rwd-w);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .flow-pair .flow-img { width: 100%; }
+  .flow-pair-before { display: block; }
+  .flow-pair-after { display: none; }
+  .flow-pair.is-after .flow-pair-before { display: none; }
+  .flow-pair.is-after .flow-pair-after { display: block; }
+  .flow-img-wrap.flow-pair-after { width: 100%; } /* d 的 after 圖：影片在裡面，切到 after 才連同顯示 */
+  .flow-pair:focus-visible {
+    outline: 2px solid var(--ondark-link);
+    outline-offset: 3px;
+    border-radius: var(--radius-l);
+  }
+
+  /* 切換提示：右上角、圖外側上方，不壓圖 */
+  .flow-pair-tip {
+    display: block;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    right: 0;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    background: rgba(30, 14, 6, 0.72);
+    border: 1px solid rgba(250, 240, 234, 0.18);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    color: var(--ondark-text-1);
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* f/j：單張 rwd 版（picture source 已換圖），寬度收成單欄 */
+  .flow-img--wide { width: var(--flow-rwd-w); }
+
+  /* i 標籤置中（桌機靠右對齊在單欄不需要）*/
+  .flow-align-inner { transform: none; width: auto; }
 }
 
 /* 專案二：Key Outcomes 條列 */

@@ -188,10 +188,11 @@
             </div>
             <div class="flow-gap-l"></div>
 
-            <!-- b：兩張圖並排 -->
-            <div class="flow-layer"><div class="flow-imgrow">
-              <img class="flow-img" data-node="bL" data-src-k="flowBLeft" src="/assets/case-diagrams/case02-b-before-left-tw.png" alt="" loading="lazy">
-              <img class="flow-img" data-node="bR" data-src-k="flowBRight" src="/assets/case-diagrams/case02-b-after-right-tw.png" alt="" loading="lazy">
+            <!-- b：桌機兩張並排；≤768 單張點擊切換 before/after -->
+            <div class="flow-layer"><div class="flow-pair" data-node="bPair" data-pair="b">
+              <img class="flow-img flow-pair-before" data-node="bL" data-src-k="flowBLeft" src="/assets/case-diagrams/case02-b-before-left-tw.png" alt="" loading="lazy">
+              <img class="flow-img flow-pair-after" data-node="bR" data-src-k="flowBRight" src="/assets/case-diagrams/case02-b-after-right-tw.png" alt="" loading="lazy">
+              <span class="flow-pair-tip" aria-hidden="true"></span>
             </div></div>
             <div class="flow-gap-m"></div>
 
@@ -199,29 +200,34 @@
             <div class="flow-layer"><div class="flow-tag" data-node="tagC" data-k="flowTagC"></div></div>
             <div class="flow-gap-l"></div>
 
-            <!-- d：兩張圖並排，右圖疊兩隻影片 -->
-            <div class="flow-layer"><div class="flow-imgrow">
-              <img class="flow-img" data-node="dL" data-src-k="flowDLeft" src="/assets/case-diagrams/case02-d-before-left-tw.png" alt="" loading="lazy">
-              <div class="flow-img-wrap" data-node="dR">
+            <!-- d：桌機兩張並排（右圖疊影片）；≤768 單張點擊切換，切到 after 才顯示影片 -->
+            <div class="flow-layer"><div class="flow-pair" data-node="dPair" data-pair="d">
+              <img class="flow-img flow-pair-before" data-node="dL" data-src-k="flowDLeft" src="/assets/case-diagrams/case02-d-before-left-tw.png" alt="" loading="lazy">
+              <div class="flow-img-wrap flow-pair-after" data-node="dR">
                 <img class="flow-img" data-src-k="flowDRight" src="/assets/case-diagrams/case02-d-after-right-tw.png" alt="" loading="lazy">
                 <video class="flow-vid flow-vid--upper" data-src-k="flowVidUpper" src="/assets/case-diagrams/case02-d-after-right-video-upper-tw.mp4" autoplay loop muted playsinline aria-hidden="true"></video>
                 <video class="flow-vid flow-vid--down" data-src-k="flowVidDown" src="/assets/case-diagrams/case02-d-after-right-video-down-tw.mp4" autoplay loop muted playsinline aria-hidden="true"></video>
               </div>
+              <span class="flow-pair-tip" aria-hidden="true"></span>
             </div></div>
             <div class="flow-gap-l"></div>
 
-            <!-- f：單張寬版置中 -->
-            <div class="flow-layer"><img class="flow-img flow-img--wide" data-node="f" data-src-k="flowF" src="/assets/case-diagrams/case02-f-web-tw.png" alt="" loading="lazy"></div>
+            <!-- f：單張寬版置中；≤768 換 rwd 版（picture source 只載入對應版本）-->
+            <div class="flow-layer"><picture>
+              <source media="(max-width: 768px)" data-srcset-k="flowFRwd" srcset="/assets/case-diagrams/case02-f-rwd-tw.png">
+              <img class="flow-img flow-img--wide" data-node="f" data-src-k="flowF" src="/assets/case-diagrams/case02-f-web-tw.png" alt="" loading="lazy">
+            </picture></div>
             <div class="flow-gap-m"></div>
 
             <!-- g：標籤G -->
             <div class="flow-layer"><div class="flow-tag" data-node="tagG" data-k="flowTagG"></div></div>
             <div class="flow-gap-l"></div>
 
-            <!-- h：兩張圖並排 -->
-            <div class="flow-layer"><div class="flow-imgrow">
-              <img class="flow-img" data-node="hL" data-src-k="flowHLeft" src="/assets/case-diagrams/case02-h-before-left-tw.png" alt="" loading="lazy">
-              <img class="flow-img" data-node="hR" data-src-k="flowHRight" src="/assets/case-diagrams/case02-h-after-right-tw.png" alt="" loading="lazy">
+            <!-- h：桌機兩張並排；≤768 單張點擊切換 before/after -->
+            <div class="flow-layer"><div class="flow-pair" data-node="hPair" data-pair="h">
+              <img class="flow-img flow-pair-before" data-node="hL" data-src-k="flowHLeft" src="/assets/case-diagrams/case02-h-before-left-tw.png" alt="" loading="lazy">
+              <img class="flow-img flow-pair-after" data-node="hR" data-src-k="flowHRight" src="/assets/case-diagrams/case02-h-after-right-tw.png" alt="" loading="lazy">
+              <span class="flow-pair-tip" aria-hidden="true"></span>
             </div></div>
             <div class="flow-gap-m"></div>
 
@@ -231,8 +237,11 @@
             </div></div></div>
             <div class="flow-gap-l"></div>
 
-            <!-- j：單張寬版置中 -->
-            <div class="flow-layer"><img class="flow-img flow-img--wide" data-node="j" data-src-k="flowJ" src="/assets/case-diagrams/case02-j-web-tw.png" alt="" loading="lazy"></div>
+            <!-- j：單張寬版置中；≤768 換 rwd 版 -->
+            <div class="flow-layer"><picture>
+              <source media="(max-width: 768px)" data-srcset-k="flowJRwd" srcset="/assets/case-diagrams/case02-j-rwd-tw.png">
+              <img class="flow-img flow-img--wide" data-node="j" data-src-k="flowJ" src="/assets/case-diagrams/case02-j-web-tw.png" alt="" loading="lazy">
+            </picture></div>
           </div>
         </div>
       </div>
