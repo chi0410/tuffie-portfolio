@@ -1172,9 +1172,8 @@ footer .cr {
 
 .cs-figure--flow {
   margin-top: 40px;
-  /* web：卡片 padding 縮到 0，讓已滿版的流程圖再放大貼齊卡片框（約 +4%），維持置中不溢出。
-     rwd 的 padding 由下方 @media (max-width:760px) .cs-figure 覆蓋回 12px */
-  padding: 0;
+  /* web：核心痛點歸納圖左右各加 5px 內距（上下 0）；rwd 由下方 @media(max-width:760px) .cs-figure 覆蓋回 12px，不受影響 */
+  padding: 0 5px;
 }
 
 .cs-solution-slot {
@@ -1582,7 +1581,9 @@ html[lang="en"] .sol-tip {
   display: flex;
   flex-direction: column;
   align-items: center;
-  --flow-img-w: 260px;   /* 單張圖寬 */
+  /* 單張圖寬：web 放大 2 倍上限 520px（260→520），但用 min() 收斂成「不超過卡片可容納的一半」，
+     窄桌機自動縮、並排不溢出卡片。連線 JS 依實際位置自動重對位、d 影片 % 定位自動等比放大。 */
+  --flow-img-w: min(520px, (100% - var(--flow-img-gap)) / 2);
   --flow-img-gap: 48px;  /* 並排間距 */
 }
 /* 連接線層：絕對疊在流程上，JS 依各節點實際位置畫直角折線 */
@@ -1615,8 +1616,9 @@ html[lang="en"] .sol-tip {
   white-space: nowrap;
 }
 
-/* 桌機：before/after 兩張並排。≤768 改單張點擊切換（見檔案下方 rwd media query） */
-.flow-pair { display: flex; justify-content: center; gap: var(--flow-img-gap); }
+/* 桌機：before/after 兩張並排。≤768 改單張點擊切換（見檔案下方 rwd media query）。
+   width:100% 讓 --flow-img-w 的 (100%-gap)/2 以「卡片寬」為基準換算、並排剛好塞滿不溢出 */
+.flow-pair { display: flex; justify-content: center; gap: var(--flow-img-gap); width: 100%; }
 .flow-pair-tip { display: none; } /* 切換提示只在 ≤768 顯示 */
 .flow-img {
   width: var(--flow-img-w);
@@ -1648,18 +1650,15 @@ html[lang="en"] .flow-vid--down  { top: 65.01%; } /* en：63.26 + 1.75 */
 .flow-gap-l { height: 56px; }
 .flow-gap-m { height: 44px; }
 
-/* i 標籤對齊 h 右圖中心：往右偏移 (單圖寬 + 間距)/2 */
-.flow-align-right { width: 100%; display: flex; justify-content: center; }
-.flow-align-inner {
-  transform: translateX(calc((var(--flow-img-w) + var(--flow-img-gap)) / 2));
-  width: var(--flow-img-w);
-  display: flex;
-  justify-content: center;
-}
+/* i 標籤對齊 h 右圖中心：用與並排圖相同的兩欄結構，標籤置於右欄中央——
+   隨圖寬響應式自動對位，不靠 transform（避免 min() 的 % 在 transform 內解讀不同而跑位） */
+.flow-align-right { width: 100%; display: flex; gap: var(--flow-img-gap); }
+.flow-align-spacer { flex: 1 1 0; min-width: 0; }
+.flow-align-tagcol { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; }
 
 /* ---- 流程圖 rwd（≤768px）：b/d/h 單張點擊切換、連線走直線（JS）、f/j 換 rwd 版 ---- */
 @media (max-width: 768px) {
-  .flow { --flow-rwd-w: min(300px, 100%); }
+  .flow { --flow-rwd-w: min(450px, 100%); } /* rwd 放大 1.5 倍（300→450），窄螢幕仍以 100% 收斂 */
 
   /* b/d/h：單張、點擊切換 before/after，硬切（display 直接換、無過場）*/
   .flow-pair {
@@ -1703,8 +1702,9 @@ html[lang="en"] .flow-vid--down  { top: 65.01%; } /* en：63.26 + 1.75 */
   /* f/j：單張 rwd 版（picture source 已換圖），寬度收成單欄 */
   .flow-img--wide { width: var(--flow-rwd-w); }
 
-  /* i 標籤置中（桌機靠右對齊在單欄不需要）*/
-  .flow-align-inner { transform: none; width: auto; }
+  /* i 標籤置中（桌機靠右對齊在單欄不需要）：隱藏左欄 spacer、標籤欄置中 */
+  .flow-align-right { display: block; }
+  .flow-align-spacer { display: none; }
 }
 
 /* 專案二：Key Outcomes 條列 */

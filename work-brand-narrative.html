@@ -231,10 +231,11 @@
             </div></div>
             <div class="flow-gap-m"></div>
 
-            <!-- i：標籤I，對齊 h 右圖中心 -->
-            <div class="flow-layer"><div class="flow-align-right"><div class="flow-align-inner">
-              <div class="flow-tag" data-node="tagI" data-k="flowTagI"></div>
-            </div></div></div>
+            <!-- i：標籤I，對齊 h 右圖中心（用與並排圖相同的兩欄結構，標籤置右欄中央）-->
+            <div class="flow-layer"><div class="flow-align-right">
+              <div class="flow-align-spacer" aria-hidden="true"></div>
+              <div class="flow-align-tagcol"><div class="flow-tag" data-node="tagI" data-k="flowTagI"></div></div>
+            </div></div>
             <div class="flow-gap-l"></div>
 
             <!-- j：單張寬版置中；≤768 換 rwd 版 -->
