@@ -940,7 +940,9 @@ footer .cr {
 
 /* 1 專案標題區 */
 .cs-hero {
-  padding: 150px 0 30px;
+  /* 下內距歸零：分隔線下方的留白改由 .cs-hero + .cs-sec 的 padding-top 提供，
+     與分隔線上方的 margin-top 對稱（見 .cs-hero-divider） */
+  padding: 150px 0 0;
 }
 
 /* web：左欄「標題＋摘要」與「專案資訊」上下堆疊、右欄主視覺跨兩列（外觀同原本）。
@@ -963,8 +965,13 @@ footer .cr {
 }
 
 /* 主視覺區與專案背景區之間的分隔線（web＋rwd 都有） */
-.cs-hero-divider {
-  margin-top: 34px;
+/* 分隔線上下留白對稱：上方 = 此 margin-top、下方 = 下一個 .cs-sec 的 padding-top（兩者同值）。
+   用雙 class 提高權重，避免被檔案後方的 .cs-divider{margin:0} 覆蓋 */
+.cs-divider.cs-hero-divider {
+  margin-top: 60px;
+}
+.cs-hero + .cs-sec {
+  padding-top: 60px;
 }
 
 .cs-hero-text h1 {
@@ -1909,9 +1916,16 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 
 @media (max-width: 680px) {
   .cs-hero {
-    padding: 140px 0 40px;
+    padding: 140px 0 0; /* 下內距歸零，分隔線下方留白改由下一段 .cs-sec padding-top 提供 */
   }
   .cs-sec {
     padding: 54px 0;
+  }
+  /* rwd 同樣對稱：上下各 44px */
+  .cs-divider.cs-hero-divider {
+    margin-top: 44px;
+  }
+  .cs-hero + .cs-sec {
+    padding-top: 44px;
   }
 }
