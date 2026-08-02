@@ -1264,8 +1264,8 @@ html[lang="en"] .sol-tip {
 /* rwd（≤760，觸控）：tooltip 常駐；各區塊位置微調——base-1 往下 60px、base-3 往下 30px */
 @media (max-width: 760px) {
   .sol-tip { opacity: 1; }
-  [data-block="1"] .sol-tip { transform: translateY(60px); }
-  [data-block="3"] .sol-tip { transform: translateY(30px); }
+  [data-block="1"] .sol-tip { transform: translateY(80px); } /* 60 + 再往下 20px */
+  [data-block="3"] .sol-tip { transform: translateY(20px); } /* 30 - 再往上 10px */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1452,11 +1452,13 @@ html[lang="en"] .sol-tip {
 }
 
 /* rwd：≤860px 兩欄、≤540px 單欄（比照 prototype） */
+/* rwd 六格一律兩個一排（2 欄 × 3 列）；web 維持三欄 */
 @media (max-width: 860px) {
-  .ct-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 540px) {
-  .ct-grid { grid-template-columns: 1fr; }
+  .ct-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .ct-cell { padding: 26px 14px 16px; }
+  .ct-quote { top: 8px; left: 12px; font-size: 34px; }
+  .ct-q { font-size: 14px; }
+  .ct-a { font-size: 12px; }
 }
 
 /* ==========================================================================
@@ -1559,7 +1561,7 @@ html[lang="en"] .sol-tip {
 
 /* rwd：<620px 窄版排列（比照 prototype） */
 @media (max-width: 620px) {
-  .raas-quad { max-width: 400px; aspect-ratio: 1 / 1.82; } /* 拉高畫布把上下兩排垂直間距 ×2（原 1/1.15，兩排 gap 202→約 404）*/
+  .raas-quad { max-width: 400px; aspect-ratio: 1 / 1.44; } /* 拉高畫布把上下兩排垂直間距 ×1.5（原始 1/1.15 的 gap 202→約 303）*/
   .raas-node { width: 150px; }
   .raas-cicon { width: 96px; height: 96px; }
   .raas-cicon svg { width: 96px; height: 96px; } /* 窄版 icon 同步放大 2 倍（48→96） */
@@ -1681,12 +1683,12 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
     border-radius: var(--radius-l);
   }
 
-  /* 切換提示：右上角、圖外側上方，不壓圖 */
+  /* 切換提示：改置於圖檔內的右上方（壓在圖上、利用圖放大後的留白空間） */
   .flow-pair-tip {
     display: block;
     position: absolute;
-    bottom: calc(100% + 6px);
-    right: 0;
+    top: 3%;
+    right: 6%;
     padding: 5px 12px;
     border-radius: var(--radius-full);
     background: rgba(30, 14, 6, 0.72);
@@ -1738,11 +1740,20 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 }
 
 /* 專案二：Key Outcomes 數據卡 */
+/* Key Outcomes 版型：web 左文右卡（卡片直列）；rwd 由下方 media query 改成文字在上、三卡橫排 */
+.cs-outcomes-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 8px;
+}
+.cs-outcomes-text > .cs-lead:first-child { margin-top: 0; }
+
 .cs-metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 44px;
+  grid-template-columns: 1fr; /* web：三張卡上下直列 */
+  gap: 18px;
 }
 
 .cs-metric {
@@ -1798,9 +1809,26 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .cs-metrics {
+  /* rwd：文字在上、三張數據卡橫向並排 */
+  .cs-outcomes-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 28px;
+  }
+  .cs-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .cs-metric {
+    padding: 18px 12px;
+  }
+  .cs-metric .val {
+    font-size: clamp(24px, 6vw, 34px);
+  }
+  .cs-metric .mlabel {
+    font-size: 12px;
+  }
+  .cs-metric .mnote {
+    font-size: 11px;
   }
 }
 
