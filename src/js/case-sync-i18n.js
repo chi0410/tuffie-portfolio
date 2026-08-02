@@ -95,7 +95,11 @@ function initTooltipFollow() {
       if (web()) hide();
     });
 
-    // 捲動進場：只在第一次進入視窗時觸發，顯示於 CSS 預設位置（右上），2 秒後淡出
+    // 捲動進場：只在第一次進入視窗時觸發，顯示於 CSS 預設位置（右上），2 秒後淡出。
+    // ⚠️ 觀察對象是 tooltip 自己，不是整個圖區塊——圖很高（可達 1100px+），
+    //    綁在圖上時 intersectionRatio 常達不到門檻（實測只到 0.31），
+    //    且圖 35% 可見時圖頂（tooltip 所在處）往往已捲出畫面。觀察 tooltip 本身可確保
+    //    「觸發」與「真的看得到」同步，且與圖高無關。
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -107,8 +111,8 @@ function initTooltipFollow() {
           clearTimeout(idle);
           idle = setTimeout(hide, 2000);
         });
-      }, { threshold: 0.35 });
-      io.observe(btn);
+      }, { threshold: 1 }); // tooltip 很小，完整進入視窗才顯示
+      io.observe(tip);
     }
   });
   // 切到 rwd 時清掉 web 留下的 inline 樣式，讓 CSS 常駐/定位接手
