@@ -101,7 +101,9 @@
     "m3Label": "有效諮詢轉換率",
     "m3Val": "↑ 45%",
     "m3Note": "表單、E-mail、Line OA",
-    "metricSource": "數據由業務與行銷團隊追蹤提供"
+    "m4Val": "Scalable",
+    "m4Label": "支援產品、方案與案例持續延伸",
+    "metricSource": "成果依業務、行銷追蹤數據與專案執行結果彙整"
   },
   "en": {
     "h1": "More than a website revamp — renewing the brand narrative through a company's transformation",
@@ -205,6 +207,8 @@
     "m3Label": "Qualified enquiry conversion",
     "m3Val": "↑ 45%",
     "m3Note": "Form, E-mail, Line OA",
-    "metricSource": "Figures tracked and provided by the business and marketing teams"
+    "m4Val": "Scalable",
+    "m4Label": "Supports ongoing extension of products, offerings, and cases",
+    "metricSource": "Outcomes compiled from business and marketing tracking data and project delivery results"
   }
 }

@@ -943,15 +943,28 @@ footer .cr {
   padding: 150px 0 30px;
 }
 
+/* web：左欄「標題＋摘要」與「專案資訊」上下堆疊、右欄主視覺跨兩列（外觀同原本）。
+   rwd（≤900）改為：標題＋摘要一整塊在上，下方左資訊右主視覺（見下方 media query） */
 .cs-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: 56px;
+  grid-template-areas:
+    "text visual"
+    "meta visual";
+  gap: 0 56px;
   align-items: stretch;
 }
+.cs-hero-text { grid-area: text; }
+.cs-hero-grid > .cs-meta { grid-area: meta; }
+.cs-hero-visual { grid-area: visual; }
 
 .cs-hero-text {
   padding: 12px 0 20px;
+}
+
+/* 主視覺區與專案背景區之間的分隔線（web＋rwd 都有） */
+.cs-hero-divider {
+  margin-top: 34px;
 }
 
 .cs-hero-text h1 {
@@ -1056,6 +1069,17 @@ footer .cr {
   grid-template-columns: repeat(3, 1fr);
   gap: 120px;
   margin-top: 40px;
+}
+
+/* 重點總結三亮點：套上卡片容器（沿用 Key Outcomes .cs-metric 那套玻璃卡視覺），文字架構不變 */
+.cs-trio--card { gap: 20px; }
+.cs-trio--card > div {
+  background: var(--glass-dark-bg);
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
+  border: var(--glass-dark-border);
+  border-radius: 18px;
+  padding: 30px 28px;
 }
 
 .cs-trio .num {
@@ -1570,8 +1594,8 @@ html[lang="en"] .sol-tip {
   .raas-ctext { font-size: 24px; }
   .raas-tl { top: 0; left: 2%; }
   .raas-tr { top: 0; right: 2%; }
-  .raas-bl { bottom: -28px; left: 2%; }
-  .raas-br { bottom: -28px; right: 2%; }
+  .raas-bl { bottom: -8px; left: 2%; }  /* 下排兩角再往上 20px（-28 → -8）*/
+  .raas-br { bottom: -8px; right: 2%; }
 }
 
 /* ==========================================================================
@@ -1689,6 +1713,8 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
     position: absolute;
     top: 3%;
     right: 6%;
+    /* 各圖再疊加微調（translate 疊在 3%/6% 基準上）：b 左 10；d 下 5、左 10；h 下 4、左 10 */
+    transform: translate(-10px, 0);
     padding: 5px 12px;
     border-radius: var(--radius-full);
     background: rgba(30, 14, 6, 0.72);
@@ -1701,6 +1727,9 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
     white-space: nowrap;
     pointer-events: none;
   }
+
+  [data-pair="d"] .flow-pair-tip { transform: translate(-10px, 5px); }
+  [data-pair="h"] .flow-pair-tip { transform: translate(-10px, 4px); }
 
   /* f/j：單張 rwd 版（picture source 已換圖），寬度收成單欄 */
   .flow-img--wide { width: var(--flow-rwd-w); }
@@ -1752,8 +1781,16 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 
 .cs-metrics {
   display: grid;
-  grid-template-columns: 1fr; /* web：三張卡上下直列 */
-  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* web／rwd 皆 2×2（四張卡兩個一排）*/
+  gap: 14px;
+}
+/* 說明小字跟著卡片這一區（web 在右欄卡片下方） */
+.cs-outcomes-cards .cs-metric-source {
+  margin-top: 14px;
+}
+/* 第四張卡的值是文字（Scalable）而非數據，字級收斂以免破版 */
+.cs-metric .val--word {
+  font-size: clamp(24px, 2.4vw, 32px);
 }
 
 .cs-metric {
@@ -1797,9 +1834,16 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 }
 
 @media (max-width: 900px) {
+  /* rwd：標題＋摘要一整塊在上；下方左「專案時程/團隊/角色」、右主視覺 */
   .cs-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "text text"
+      "meta visual";
+    gap: 24px 20px;
+  }
+  .cs-hero-text {
+    padding-bottom: 0;
   }
   .cs-hero-visual {
     min-height: 260px;
@@ -1809,20 +1853,23 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  /* rwd：文字在上、三張數據卡橫向並排 */
+  /* rwd：文字在上、四張卡 2×2（兩個一排） */
   .cs-outcomes-grid {
     grid-template-columns: 1fr;
     gap: 28px;
   }
   .cs-metrics {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .cs-metric {
-    padding: 18px 12px;
+    padding: 18px 14px;
   }
   .cs-metric .val {
     font-size: clamp(24px, 6vw, 34px);
+  }
+  .cs-metric .val--word {
+    font-size: clamp(18px, 4.6vw, 26px);
   }
   .cs-metric .mlabel {
     font-size: 12px;
