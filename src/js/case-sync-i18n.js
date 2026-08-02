@@ -80,11 +80,23 @@ function initTooltipFollow() {
     if (!tip) return;
     let idle;
     const hide = () => { tip.style.opacity = '0'; };
+    // 觸發帶：有設 data-hot-top / data-hot-bottom 時，只有滑鼠落在
+    // 「圖頂往下 hotTop ～ 圖底往上 hotBottom」這條帶子內才顯示；帶外移入不顯示。
+    const hotTop = Number(btn.dataset.hotTop || 0);
+    const hotBottom = Number(btn.dataset.hotBottom || 0);
+    const inHotBand = (offsetY, height) =>
+      (!hotTop && !hotBottom) || (offsetY >= hotTop && offsetY <= height - hotBottom);
     btn.addEventListener('mousemove', (e) => {
       if (!web()) return;
       const r = btn.getBoundingClientRect();
+      const y = e.clientY - r.top;
+      if (!inHotBand(y, r.height)) { // 帶外：不顯示，並收掉已顯示的（例如捲動進場那次）
+        clearTimeout(idle);
+        hide();
+        return;
+      }
       tip.style.left = `${e.clientX - r.left + 14}px`;
-      tip.style.top = `${e.clientY - r.top + 14}px`;
+      tip.style.top = `${y + 14}px`;
       tip.style.right = 'auto';
       tip.style.opacity = '1';
       clearTimeout(idle);
