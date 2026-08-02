@@ -68,6 +68,35 @@ function initSolutionToggles() {
   });
 }
 
+// web 版 tooltip：滑鼠移到可切換區塊上 → tooltip 跟隨鼠標並漸顯；停滯 2 秒漸消；再移動再漸顯；移出消失。
+// rwd（≤760，觸控）不套用——tooltip 由 CSS 常駐定位。
+function initTooltipFollow() {
+  const web = () => window.matchMedia('(min-width: 761px)').matches;
+  document.querySelectorAll('[data-sol-toggle]').forEach((btn) => {
+    const tip = btn.querySelector('.sol-tip');
+    if (!tip) return;
+    let idle;
+    btn.addEventListener('mousemove', (e) => {
+      if (!web()) return;
+      const r = btn.getBoundingClientRect();
+      tip.style.left = `${e.clientX - r.left + 14}px`;
+      tip.style.top = `${e.clientY - r.top + 14}px`;
+      tip.style.right = 'auto';
+      tip.style.opacity = '1';
+      clearTimeout(idle);
+      idle = setTimeout(() => { tip.style.opacity = '0'; }, 2000); // 停滯 2 秒漸消
+    });
+    btn.addEventListener('mouseleave', () => {
+      clearTimeout(idle);
+      if (web()) tip.style.opacity = '0';
+    });
+  });
+  // 切到 rwd 時清掉 web 留下的 inline 樣式，讓 CSS 常駐/定位接手
+  window.addEventListener('resize', () => {
+    if (!web()) document.querySelectorAll('[data-sol-toggle] .sol-tip').forEach((t) => { t.style.cssText = ''; });
+  });
+}
+
 export function initCaseSyncI18n() {
   const btn = document.getElementById('langBtn');
   if (btn) {
@@ -78,5 +107,6 @@ export function initCaseSyncI18n() {
     });
   }
   initSolutionToggles();
+  initTooltipFollow();
   apply();
 }

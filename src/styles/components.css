@@ -1172,8 +1172,8 @@ footer .cr {
 
 .cs-figure--flow {
   margin-top: 40px;
-  /* web：核心痛點歸納圖左右各加 5px 內距（上下 0）；rwd 由下方 @media(max-width:760px) .cs-figure 覆蓋回 12px，不受影響 */
-  padding: 0 5px;
+  /* web：核心痛點歸納圖左右各加 1.5% 內距（上下 0，取代原 5px）；rwd 由下方 @media(max-width:760px) .cs-figure 覆蓋回 12px，不受影響 */
+  padding: 0 1.5%;
 }
 
 .cs-solution-slot {
@@ -1238,7 +1238,7 @@ footer .cr {
    top = 280/2613 = 10.72%（中）；right = 45/799 = 5.63%。桌機 hover/focus 才現；手機常駐 */
 .sol-tip {
   position: absolute;
-  top: 10.72%;
+  top: 10.72%;   /* 預設位置：web 鍵盤 focus / rwd 常駐用；web 滑鼠移動時由 JS 改成跟隨鼠標 */
   right: 5.63%;
   padding: 7px 14px;
   border-radius: 999px;
@@ -1247,24 +1247,25 @@ footer .cr {
   font-size: 13px;
   line-height: 1;
   white-space: nowrap;
-  pointer-events: none;
+  pointer-events: none; /* 不擋 button 的 mousemove，跟隨才順 */
   backdrop-filter: blur(4px);
   border: 1px solid rgba(250, 240, 234, 0.18);
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
-/* 英文版底圖較高（native 5444，設計稿 2722）：top = 280/2722 = 10.29% */
 html[lang="en"] .sol-tip {
   top: 10.29%;
 }
-
-@media (hover: hover) {
-  .sol-tip {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .solution-toggle:hover .sol-tip,
-  .solution-toggle:focus-visible .sol-tip {
-    opacity: 1;
-  }
+/* web（hover 裝置）：滑鼠移到圖上→JS 讓 tooltip 跟隨鼠標並漸顯、停 2 秒漸消、再動再顯、移出消失；
+   鍵盤 focus 則顯示於預設右上位置 */
+@media (min-width: 761px) {
+  .solution-toggle:focus-visible .sol-tip { opacity: 1; }
+}
+/* rwd（≤760，觸控）：tooltip 常駐；各區塊位置微調——base-1 往下 60px、base-3 往下 30px */
+@media (max-width: 760px) {
+  .sol-tip { opacity: 1; }
+  [data-block="1"] .sol-tip { transform: translateY(60px); }
+  [data-block="3"] .sol-tip { transform: translateY(30px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1558,7 +1559,7 @@ html[lang="en"] .sol-tip {
 
 /* rwd：<620px 窄版排列（比照 prototype） */
 @media (max-width: 620px) {
-  .raas-quad { max-width: 400px; aspect-ratio: 1 / 1.15; }
+  .raas-quad { max-width: 400px; aspect-ratio: 1 / 1.82; } /* 拉高畫布把上下兩排垂直間距 ×2（原 1/1.15，兩排 gap 202→約 404）*/
   .raas-node { width: 150px; }
   .raas-cicon { width: 96px; height: 96px; }
   .raas-cicon svg { width: 96px; height: 96px; } /* 窄版 icon 同步放大 2 倍（48→96） */
@@ -1643,9 +1644,9 @@ html[lang="en"] .sol-tip {
 }
 /* top：在原值上再往下 30px。底圖 PNG native 高 1719（含 43px 留白那圈），30/1719 ≈ 1.75%，% 相對整張 PNG */
 .flow-vid--upper { top: 32.95%; }  /* tw：31.2 + 1.75 */
-.flow-vid--down  { top: 63.9%; }   /* tw：62.15 + 1.75 */
+.flow-vid--down  { top: 64.48%; }  /* tw：63.9 + 再往下 10px（10/1719≈0.58%）；upper 不動 */
 html[lang="en"] .flow-vid--upper { top: 35.7%; }  /* en：33.95 + 1.75 */
-html[lang="en"] .flow-vid--down  { top: 65.01%; } /* en：63.26 + 1.75 */
+html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%）*/
 
 .flow-gap-l { height: 56px; }
 .flow-gap-m { height: 44px; }
