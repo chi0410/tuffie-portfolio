@@ -118,7 +118,11 @@ function initTooltipFollow() {
           if (!entry.isIntersecting) return;
           io.disconnect(); // 只顯示一次，之後交還給滑鼠邏輯
           if (!web()) return;
-          // 不設 left/top，維持 CSS 的預設右上定位；reduced-motion 時 CSS 已關 transition（直接顯示/隱藏）
+          // 水平維持 CSS 的預設右上定位；垂直若該區塊有觸發帶，則對齊帶起點下方 20px，
+          // 讓「捲動顯示」與「滑鼠可觸發」的位置一致（無觸發帶者維持 CSS 預設）
+          tip.style.left = '';
+          tip.style.right = '';
+          tip.style.top = hotTop ? `${hotTop + 20}px` : '';
           tip.style.opacity = '1';
           clearTimeout(idle);
           idle = setTimeout(hide, 2000);
