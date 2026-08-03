@@ -3,11 +3,9 @@ import { injectIcons } from './icons.js';
 import { initI18n, currentLangCopy } from './i18n.js';
 import { initToast } from './toast.js';
 import { initReveal } from './reveal.js';
-import { initBottomBar } from './bottom-bar.js';
 
 initHeaderScrollSpy();
 injectIcons();
 initI18n();
 initToast(currentLangCopy);
 initReveal();
-initBottomBar();

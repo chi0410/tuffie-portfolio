@@ -1944,10 +1944,15 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 @media (max-width: 768px) {
   header {
     top: auto;
-    /* 固定停在「footer 上方」的高度：距視窗底 = footer 高度 + 16px 間距。
-       下方那塊空間平常空著（透出背景），捲到底時 footer 剛好補進去，bar 全程不動、無跳位。
-       --footer-h 由 bottom-bar.js 量測後寫入（fallback 65px）。 */
-    bottom: calc(var(--footer-h, 65px) + 16px);
+    bottom: 16px; /* 單純貼視窗底；rwd 不顯示 footer，故不需預留 footer 高度、也不必閃避 */
+  }
+  /* rwd 不顯示 footer（含 IG icon）；web 照常顯示 */
+  footer {
+    display: none;
+  }
+  /* 底部留白：避免最後的內容被固定貼底的 bar 蓋住 */
+  body {
+    padding-bottom: 24px;
   }
 }
 
