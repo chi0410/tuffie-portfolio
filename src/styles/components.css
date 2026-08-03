@@ -92,7 +92,7 @@ nav a.active {
    ========================================================================== */
 
 .hero {
-  padding: 190px 0 130px;
+  padding: 285px 0 130px; /* 上方留白 +50%（190 × 1.5）；rwd 由後方 media query 覆蓋 */
   text-align: center;
 }
 
@@ -1944,21 +1944,7 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 @media (max-width: 768px) {
   header {
     top: auto;
-    bottom: 16px;
-    transition: transform var(--duration-base) var(--ease), opacity var(--duration-base) var(--ease);
-  }
-  /* 捲到最底、footer 進入視窗時讓位（滑出畫面），避免遮住 footer；
-     不靠加大底部留白，footer 高度與頁面結構維持原樣（見 src/js/bottom-bar.js） */
-  header.is-tucked {
-    transform: translate(-50%, calc(100% + 24px));
-    opacity: 0;
-    pointer-events: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  header {
-    transition: none;
+    bottom: 16px; /* 預設貼視窗底；捲到 footer 進畫面時由 bottom-bar.js 即時上推、停在 footer 上緣，始終顯示 */
   }
 }
 
