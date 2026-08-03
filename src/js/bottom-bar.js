@@ -1,34 +1,16 @@
-// rwd（≤768）header 固定貼在視窗底部，且「永遠顯示」。
-// 捲到最底 footer 進入畫面時，bar 不隱藏，改停在 footer 上緣繼續顯示（不與 footer 重疊）。
-// 作法：bottom 取「預設 16px」與「footer 上緣往上 16px」的較大值——footer 還沒進畫面時等於 16px，
-// 進畫面後隨捲動被往上推，視覺上就是頂在 footer 上方。桌機（>768）清掉 inline 樣式交還 CSS。
-
-const GAP = 16; // bar 與視窗底部／footer 上緣的距離
+// rwd（≤768）header 固定貼底時，永遠停在「footer 上方」的高度：
+// 距離視窗底部 = footer 高度 + 間距。下方那塊空間平常空著（透出背景），
+// 捲到最底時 footer 剛好補進去，bar 完全不動——沒有捲動監聽，也就沒有跳位。
+// 這裡只負責把 footer 實際高度寫進 CSS 變數，定位交給 CSS（見 components.css 的 header）。
 
 export function initBottomBar() {
-  const header = document.querySelector('header');
   const footer = document.querySelector('footer');
-  if (!header || !footer) return;
-  const isRwd = () => window.matchMedia('(max-width: 768px)').matches;
-  let ticking = false;
-
-  const update = () => {
-    ticking = false;
-    if (!isRwd()) {
-      header.style.bottom = '';
-      return;
-    }
-    const footerTop = footer.getBoundingClientRect().top;
-    // footer 未進畫面：footerTop >= innerHeight → 算出來 <= GAP，取 GAP（貼視窗底）
-    header.style.bottom = `${Math.max(GAP, window.innerHeight - footerTop + GAP)}px`;
+  if (!footer) return;
+  const setFooterHeight = () => {
+    document.documentElement.style.setProperty('--footer-h', `${footer.offsetHeight}px`);
   };
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(update);
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
+  setFooterHeight();
+  window.addEventListener('resize', setFooterHeight);
+  // 字體載入後 footer 高度可能微調，載入完成再量一次
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(setFooterHeight);
 }

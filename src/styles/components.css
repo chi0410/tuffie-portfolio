@@ -1944,7 +1944,10 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
 @media (max-width: 768px) {
   header {
     top: auto;
-    bottom: 16px; /* 預設貼視窗底；捲到 footer 進畫面時由 bottom-bar.js 即時上推、停在 footer 上緣，始終顯示 */
+    /* 固定停在「footer 上方」的高度：距視窗底 = footer 高度 + 16px 間距。
+       下方那塊空間平常空著（透出背景），捲到底時 footer 剛好補進去，bar 全程不動、無跳位。
+       --footer-h 由 bottom-bar.js 量測後寫入（fallback 65px）。 */
+    bottom: calc(var(--footer-h, 65px) + 16px);
   }
 }
 
@@ -1969,18 +1972,22 @@ main > .cs-next-sec:last-child {
 
 /* 3. rwd 各頁「置頂空白」縮為原本的 1/3（header 已移到底部，不需再為頂部 bar 預留空間） */
 @media (max-width: 768px) {
-  .hero,
   .about-intro {
     padding-top: 63px; /* 190 ÷ 3 */
+  }
+  .hero {
+    padding-top: 95px; /* 63 × 1.5：首頁 hero rwd 上留白 +50%（web 不變） */
   }
   .cs-hero {
     padding-top: 50px; /* 150 ÷ 3 */
   }
 }
 @media (max-width: 680px) {
-  .hero,
   .about-intro {
     padding-top: 50px; /* 150 ÷ 3 */
+  }
+  .hero {
+    padding-top: 75px; /* 50 × 1.5：首頁 hero rwd 上留白 +50% */
   }
   .cs-hero {
     padding-top: 47px; /* 140 ÷ 3 */
