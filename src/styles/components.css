@@ -1934,3 +1934,39 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
     padding-top: 44px;
   }
 }
+
+/* ==========================================================================
+   rwd 底部固定 bar + 每頁最後 section 與 footer 的間距
+   ========================================================================== */
+
+/* 1. rwd（≤768）header 整條移到底部固定；web（>768）維持頂部。
+      置於檔尾，權重相同時以源碼順序覆蓋前面 @media(max-width:680) 的 top 設定。 */
+@media (max-width: 768px) {
+  header {
+    top: auto;
+    bottom: 16px;
+  }
+  /* 頁面底部預留 bar 高度的空間：捲到最底時 bar 停在 footer 下方的留白上，不遮 footer */
+  body {
+    padding-bottom: 84px;
+  }
+}
+
+/* 2. 每頁最後一個 section 離 footer 的距離 +50%（web＋rwd 都加，也替底部 bar 讓出空間）。
+      選擇器權重高於各自的基礎規則，故不受檔案順序影響；rwd 值置於後方 media query 內覆蓋。 */
+main > .edge:last-child,
+main > .experience:last-child {
+  padding-bottom: 165px; /* 110 × 1.5 */
+}
+main > .cs-next-sec:last-child {
+  padding-bottom: 114px; /* 76 × 1.5 */
+}
+@media (max-width: 680px) {
+  main > .edge:last-child,
+  main > .experience:last-child {
+    padding-bottom: 90px; /* 60 × 1.5 */
+  }
+  main > .cs-next-sec:last-child {
+    padding-bottom: 81px; /* 54 × 1.5 */
+  }
+}
