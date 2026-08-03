@@ -439,7 +439,12 @@ h1.display .lg {
 }
 
 /* 停用狀態卡片（例如 Coming soon）：hover 效果（上浮、陰影）維持不變，卡片視覺仍是「活的」，
-   僅內頁尚未完成，故不綁定任何點擊導頁行為（見 index.html 移除 data-stub） */
+   僅內頁尚未完成，故不綁定任何點擊導頁行為（見 index.html 移除 data-stub）。
+   游標維持一般箭頭（覆蓋 .card 的 pointer），不暗示可點擊 */
+.card--disabled {
+  cursor: default;
+}
+
 .card--disabled .cardmore {
   color: rgba(225, 226, 239, 0.4);
   transition: none;
