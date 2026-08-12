@@ -82,22 +82,23 @@
     <div class="wrap">
       <p class="cs-label rv" data-k="resLabel"></p>
       <p class="cs-lead rv" data-k="resLead"></p>
-      <div class="cs-quotes">
-        <div class="cs-qcard rv">
-          <div class="mark">&ldquo;</div>
-          <p class="txt" data-k="q1"></p>
-          <p class="who" data-k="q1who"></p>
-        </div>
-        <div class="cs-qcard rv">
-          <div class="mark">&ldquo;</div>
-          <p class="txt" data-k="q2"></p>
-          <p class="who" data-k="q2who"></p>
-        </div>
-        <div class="cs-qcard rv">
-          <div class="mark">&ldquo;</div>
-          <p class="txt" data-k="q3"></p>
-          <p class="who" data-k="q3who"></p>
-        </div>
+      <p class="cs-body rv" data-k="resBody"></p>
+      <!-- 六宮格矩陣：3 欄角色 × 2 列維度；第一列 B 底色卡（表層）、第二列玻璃卡（深入） -->
+      <div class="pm-grid rv">
+        <div class="pm-corner" aria-hidden="true"></div>
+        <div class="pm-colhead"><span class="pm-ico" aria-hidden="true">🙋</span><span class="pm-rname" data-k="pmRole1"></span></div>
+        <div class="pm-colhead"><span class="pm-ico" aria-hidden="true">🎧</span><span class="pm-rname" data-k="pmRole2"></span></div>
+        <div class="pm-colhead"><span class="pm-ico" aria-hidden="true">⚙️</span><span class="pm-rname" data-k="pmRole3"></span></div>
+
+        <div class="pm-rowhead" data-k="pmDim1"></div>
+        <div class="pm-cell" data-k="pmD1R1"></div>
+        <div class="pm-cell" data-k="pmD1R2"></div>
+        <div class="pm-cell" data-k="pmD1R3"></div>
+
+        <div class="pm-rowhead" data-k="pmDim2"></div>
+        <div class="pm-cell pm-cell--deep" data-k="pmD2R1"></div>
+        <div class="pm-cell pm-cell--deep" data-k="pmD2R2"></div>
+        <div class="pm-cell pm-cell--deep" data-k="pmD2R3"></div>
       </div>
     </div>
   </section>
@@ -107,6 +108,7 @@
     <div class="wrap">
       <p class="cs-label rv" data-k="probLabel"></p>
       <p class="cs-lead rv" data-k="probLead"></p>
+      <p class="cs-body rv" data-k="probBody"></p>
       <div class="cs-trio">
         <div class="rv"><div class="num">01</div><h3 data-k="probT1"></h3><p data-k="probD1"></p></div>
         <div class="rv"><div class="num">02</div><h3 data-k="probT2"></h3><p data-k="probD2"></p></div>
@@ -118,6 +120,16 @@
           <img data-src-k="flowWeb" data-alt-k="flowAlt" src="/assets/case-diagrams/flow-comparison-web-tw.png" alt="" loading="lazy">
         </picture>
       </figure>
+      <!-- 互動區塊：把痛點收斂成一句大哉問。泡泡在上、小熊在下偏左（web/rwd 同結構） -->
+      <div class="redefine diagram-tint rv">
+        <p class="redefine-label" data-k="redefineLabel"></p>
+        <div class="redefine-stage">
+          <div class="redefine-bubble">
+            <p class="redefine-q" data-k="redefineQ"></p>
+          </div>
+          <div class="redefine-bear" data-icon="peach-bearbear" aria-hidden="true"></div>
+        </div>
+      </div>
     </div>
   </section>
 

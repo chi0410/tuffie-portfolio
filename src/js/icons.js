@@ -23,6 +23,7 @@ import raasRms from '../icons/raas-rms.svg?raw';
 import raasRobot from '../icons/raas-robot.svg?raw';
 import raasFlow from '../icons/raas-flow.svg?raw';
 import raasSuite from '../icons/raas-suite.svg?raw';
+import peachBearbear from '../icons/peach-bearbear.svg?raw';
 
 const ICONS = {
   'ai-prototyping': aiPrototyping,
@@ -45,6 +46,7 @@ const ICONS = {
   'raas-robot': raasRobot,
   'raas-flow': raasFlow,
   'raas-suite': raasSuite,
+  'peach-bearbear': peachBearbear,
 };
 
 export function injectIcons() {
