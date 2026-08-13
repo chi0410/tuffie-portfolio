@@ -1209,8 +1209,9 @@ footer .cr {
 
 .cs-figure--flow {
   margin-top: 40px;
-  /* web：核心痛點歸納圖左右各加 1.5% 內距（上下 0，取代原 5px）；rwd 由下方 @media(max-width:760px) .cs-figure 覆蓋回 12px，不受影響 */
-  padding: 0 1.5%;
+  /* web：左右各 1.5% 內距；上下各 18px（約圖高的 10%，讓圖在卡片內有呼吸空間）。
+     rwd 由下方 @media(max-width:760px) .cs-figure 覆蓋回 12px，不受影響 */
+  padding: 18px 1.5%;
 }
 
 .cs-solution-slot {
@@ -2048,7 +2049,7 @@ main > .cs-next-sec:last-child {
   background: rgba(30, 14, 6, 0.34);
   border-radius: var(--radius-l);
   padding: 16px;
-  font-size: 13px;
+  font-size: 16px; /* 六格對話框文字：web／rwd 統一 16px */
   line-height: 1.6;
   color: var(--ondark-text-1);
 }
@@ -2091,7 +2092,7 @@ main > .cs-next-sec:last-child {
   font-family: var(--font-serif-en);
   font-style: italic;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 28px; /* web／rwd 統一 28px */
   line-height: 1.42;
   color: var(--ondark-link); /* #E1E2EF 淡冷紫（白名單允許的冷色強調）；禁用 #676DAF */
 }
@@ -2101,7 +2102,7 @@ main > .cs-next-sec:last-child {
   position: relative;
   width: 104px;
   align-self: flex-start;
-  margin-left: 20%;
+  margin-left: 40%; /* 對話框變窄後往內（往中心）再移 20%：20% → 40% */
 }
 .redefine-bear { width: 100%; }
 .redefine-bear svg { width: 100%; height: auto; display: block; }
@@ -2124,14 +2125,16 @@ main > .cs-next-sec:last-child {
   /* 六宮格 rwd：轉置成「每個角色一排」——第 1 欄角色、第 2 欄表層問題、第 3 欄深入觀察，
      維度標題升為第一列的欄標。以明確格線位置配置，不依賴 DOM 順序。全部置中對齊。 */
   .pm-grid {
-    grid-template-columns: 74px minmax(0, 1fr) minmax(0, 1fr);
+    /* 角色欄縮小（74→52px）把寬度讓給兩個內容欄；三個角色列等高 */
+    grid-template-columns: 52px minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto repeat(3, 1fr);
     gap: 8px;
   }
   .pm-corner { grid-column: 1; grid-row: 1; }
   .pm-colhead {
     grid-column: 1;
     flex-direction: column;
-    align-items: center; /* emoji 與角色名置中 */
+    align-items: flex-start; /* 角色欄置左 */
     gap: 4px;
     padding: 0;
     justify-content: center;
@@ -2149,7 +2152,7 @@ main > .cs-next-sec:last-child {
   }
   .pm-rowhead.pm-d1 { grid-column: 2; }
   .pm-rowhead.pm-d2 { grid-column: 3; }
-  .pm-cell { font-size: 12px; padding: 12px; text-align: center; } /* 內文置中 */
+  .pm-cell { font-size: 16px; padding: 12px; text-align: center; } /* 內文置中、字級同 web 16px */
   .pm-cell.pm-d1 { grid-column: 2; }
   .pm-cell.pm-d2 { grid-column: 3; }
   .pm-cell.pm-r1 { grid-row: 2; }
@@ -2160,7 +2163,7 @@ main > .cs-next-sec:last-child {
 
   /* 互動區塊 rwd：方框置中、小熊與泡泡一起置中（不再偏左） */
   .redefine-box { padding: 24px 22px; margin-bottom: 68px; }
-  .redefine-q { font-size: 22px; }
+  .redefine-q { font-size: 28px; } /* 與 web 同為 28px */
   .redefine-bearwrap { width: 88px; align-self: center; margin-left: 0; }
   .rd-tb1 { top: -22px; }
   .rd-tb2 { top: -48px; }
