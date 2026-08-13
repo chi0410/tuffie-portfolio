@@ -47,7 +47,7 @@
     "probD3": "前端操作與後端資料狀態未能一致更新，導致使用者誤以為同步失敗或機器人發生故障。",
     "flowWeb": "/assets/case-diagrams/flow-comparison-web-tw.png",
     "flowRwd": "/assets/case-diagrams/flow-comparison-rwd-tw.png",
-    "redefineLabel": "因此，我將這個問題重新定義為：",
+    "redefineLabel": "因此，我將這個問題重新定義為",
     "redefineQ": "如何讓用戶在操作前理解影響、操作中確認變化、操作後掌握裝置的最終狀態？",
     "flowAlt": "流程對照圖：使用者預期的操作流程，與實際操作體驗之間的落差對照",
 
