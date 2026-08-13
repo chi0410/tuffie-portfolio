@@ -2092,7 +2092,7 @@ main > .cs-next-sec:last-child {
   font-family: var(--font-serif-en);
   font-style: italic;
   font-weight: 600;
-  font-size: 28px; /* web／rwd 統一 28px */
+  font-size: 26px; /* web／rwd 統一 26px */
   line-height: 1.42;
   color: var(--ondark-link); /* #E1E2EF 淡冷紫（白名單允許的冷色強調）；禁用 #676DAF */
 }
@@ -2102,7 +2102,7 @@ main > .cs-next-sec:last-child {
   position: relative;
   width: 104px;
   align-self: flex-start;
-  margin-left: 40%; /* 對話框變窄後往內（往中心）再移 20%：20% → 40% */
+  margin-left: 30%; /* 往內移 10%（最終值，非疊加）：原始 20% + 10% = 30% */
 }
 .redefine-bear { width: 100%; }
 .redefine-bear svg { width: 100%; height: auto; display: block; }
@@ -2134,10 +2134,11 @@ main > .cs-next-sec:last-child {
   .pm-colhead {
     grid-column: 1;
     flex-direction: column;
-    align-items: flex-start; /* 角色欄置左 */
+    align-items: center; /* 欄位本身置左（52px 窄欄在最左），欄內 emoji + 角色名置中對齊 */
     gap: 4px;
     padding: 0;
     justify-content: center;
+    text-align: center;
   }
   .pm-colhead.pm-r1 { grid-row: 2; }
   .pm-colhead.pm-r2 { grid-row: 3; }
@@ -2163,7 +2164,7 @@ main > .cs-next-sec:last-child {
 
   /* 互動區塊 rwd：方框置中、小熊與泡泡一起置中（不再偏左） */
   .redefine-box { padding: 24px 22px; margin-bottom: 68px; }
-  .redefine-q { font-size: 28px; } /* 與 web 同為 28px */
+  .redefine-q { font-size: 26px; } /* 與 web 同為 26px */
   .redefine-bearwrap { width: 88px; align-self: center; margin-left: 0; }
   .rd-tb1 { top: -22px; }
   .rd-tb2 { top: -48px; }
