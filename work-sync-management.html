@@ -84,21 +84,23 @@
       <p class="cs-lead rv" data-k="resLead"></p>
       <p class="cs-body rv" data-k="resBody"></p>
       <!-- 六宮格矩陣：3 欄角色 × 2 列維度；第一列 B 底色卡（表層）、第二列玻璃卡（深入） -->
+      <!-- web：3 欄角色 × 2 列維度；rwd：轉置成每個角色一排（角色／表層／深入），
+           位置 class（pm-r1~3 角色、pm-d1~2 維度）供 rwd 明確配置格線 -->
       <div class="pm-grid rv">
         <div class="pm-corner" aria-hidden="true"></div>
-        <div class="pm-colhead"><span class="pm-ico" aria-hidden="true">🙋</span><span class="pm-rname" data-k="pmRole1"></span></div>
-        <div class="pm-colhead"><span class="pm-ico" aria-hidden="true">🎧</span><span class="pm-rname" data-k="pmRole2"></span></div>
-        <div class="pm-colhead"><span class="pm-ico" aria-hidden="true">⚙️</span><span class="pm-rname" data-k="pmRole3"></span></div>
+        <div class="pm-colhead pm-r1"><span class="pm-ico" aria-hidden="true">🙋</span><span class="pm-rname" data-k="pmRole1"></span></div>
+        <div class="pm-colhead pm-r2"><span class="pm-ico" aria-hidden="true">🎧</span><span class="pm-rname" data-k="pmRole2"></span></div>
+        <div class="pm-colhead pm-r3"><span class="pm-ico" aria-hidden="true">⚙️</span><span class="pm-rname" data-k="pmRole3"></span></div>
 
-        <div class="pm-rowhead" data-k="pmDim1"></div>
-        <div class="pm-cell" data-k="pmD1R1"></div>
-        <div class="pm-cell" data-k="pmD1R2"></div>
-        <div class="pm-cell" data-k="pmD1R3"></div>
+        <div class="pm-rowhead pm-d1" data-k="pmDim1"></div>
+        <div class="pm-cell pm-d1 pm-r1" data-k="pmD1R1"></div>
+        <div class="pm-cell pm-d1 pm-r2" data-k="pmD1R2"></div>
+        <div class="pm-cell pm-d1 pm-r3" data-k="pmD1R3"></div>
 
-        <div class="pm-rowhead" data-k="pmDim2"></div>
-        <div class="pm-cell pm-cell--deep" data-k="pmD2R1"></div>
-        <div class="pm-cell pm-cell--deep" data-k="pmD2R2"></div>
-        <div class="pm-cell pm-cell--deep" data-k="pmD2R3"></div>
+        <div class="pm-rowhead pm-d2" data-k="pmDim2"></div>
+        <div class="pm-cell pm-cell--deep pm-d2 pm-r1" data-k="pmD2R1"></div>
+        <div class="pm-cell pm-cell--deep pm-d2 pm-r2" data-k="pmD2R2"></div>
+        <div class="pm-cell pm-cell--deep pm-d2 pm-r3" data-k="pmD2R3"></div>
       </div>
     </div>
   </section>
@@ -120,14 +122,22 @@
           <img data-src-k="flowWeb" data-alt-k="flowAlt" src="/assets/case-diagrams/flow-comparison-web-tw.png" alt="" loading="lazy">
         </picture>
       </figure>
-      <!-- 互動區塊：把痛點收斂成一句大哉問。泡泡在上、小熊在下偏左（web/rwd 同結構） -->
-      <div class="redefine diagram-tint rv">
+      <!-- 互動區塊：把痛點收斂成一句大哉問。方框在上、小熊在下（web/rwd 同結構）；
+           無外層底色卡，方框自帶玻璃底；三顆思考泡泡自舉手處往上飄、排成微倒 C，最大顆疊進方框 -->
+      <div class="redefine rv">
         <p class="redefine-label" data-k="redefineLabel"></p>
         <div class="redefine-stage">
-          <div class="redefine-bubble">
+          <div class="redefine-box">
             <p class="redefine-q" data-k="redefineQ"></p>
           </div>
-          <div class="redefine-bear" data-icon="peach-bearbear" aria-hidden="true"></div>
+          <!-- 泡泡與小熊平行擺放：小熊容器由 injectIcons 以 innerHTML 注入 SVG，
+               泡泡若放在裡面會被覆蓋，故置於外層 wrap -->
+          <div class="redefine-bearwrap">
+            <span class="rd-tb rd-tb1" aria-hidden="true"></span>
+            <span class="rd-tb rd-tb2" aria-hidden="true"></span>
+            <span class="rd-tb rd-tb3" aria-hidden="true"></span>
+            <div class="redefine-bear" data-icon="peach-bearbear" aria-hidden="true"></div>
+          </div>
         </div>
       </div>
     </div>
