@@ -3,7 +3,29 @@
 
 const KEY = 'tuffie-lang';
 
+// 網址參數指定語言：?lang=en 顯示英文、?lang=tw（或 zh）顯示中文。
+// 容錯：不分大小寫，也接受 en-US／zh-TW 這類寫法；無法辨識就回 null 交給後面的判斷。
+function getLangFromUrl() {
+  try {
+    const raw = new URLSearchParams(window.location.search).get('lang');
+    if (!raw) return null;
+    const value = raw.trim().toLowerCase();
+    if (value === 'en' || value.startsWith('en-')) return 'en';
+    if (value === 'tw' || value === 'cn' || value === 'zh' || value.startsWith('zh')) return 'zh';
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// 判斷順序：網址參數 → localStorage 記憶 → 預設語言
 export function getStoredLang(fallback = 'zh') {
+  const fromUrl = getLangFromUrl();
+  if (fromUrl) {
+    // 一併記住：分享出去的連結只有該頁帶參數，記住才能讓後續頁面維持同一語言
+    setStoredLang(fromUrl);
+    return fromUrl;
+  }
   try {
     const value = localStorage.getItem(KEY);
     return value === 'zh' || value === 'en' ? value : fallback;
