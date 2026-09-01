@@ -2250,6 +2250,15 @@ body.ct-open .ct-fab {
   pointer-events: none;
 }
 
+/* 彈窗開啟時鎖住背景捲動。用 position:fixed 而非只有 overflow:hidden——
+   iOS Safari 對 body 的 overflow:hidden 不生效，背景仍會滑動。
+   捲動位置由 JS 記錄並在關閉時還原。 */
+body.ct-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* --- 遮罩 --- */
 .ct-scrim {
   position: fixed;
@@ -2262,8 +2271,12 @@ body.ct-open .ct-fab {
   transition: opacity var(--duration-base) var(--ease);
 }
 
-.ct-scrim[hidden] {
-  display: none;
+/* hidden 屬性由瀏覽器內建樣式實作，權重低於任何作者端的 display 宣告
+   （例如 .ct-form 的 display:flex），會出現「屬性設了卻沒真的隱藏」。
+   在元件範圍內統一強制，避免這類問題再犯。 */
+.ct-scrim[hidden],
+.ct-scrim [hidden] {
+  display: none !important;
 }
 
 .ct-scrim.is-open {
@@ -2470,6 +2483,26 @@ body.ct-open .ct-fab {
   color: #e1aba1;
 }
 
+/* Link 無效只是溫和提醒、不擋送出，所以比一般警示再降一級：
+   改用次要文字色，不用警示的玫瑰紅 */
+.ct-err-soft {
+  color: var(--ondark-text-2);
+}
+
+.ct-input.is-soft-bad {
+  border-color: rgba(234, 203, 184, 0.5);
+}
+
+.ct-linkwrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ct-linkwrap + .ct-linkwrap {
+  margin-top: 10px;
+}
+
 /* --- 交流主題膠囊 --- */
 .ct-topics {
   display: flex;
@@ -2511,10 +2544,6 @@ body.ct-open .ct-fab {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.ct-linkrow + .ct-linkrow {
-  margin-top: 10px;
 }
 
 .ct-linkrow .ct-input {
@@ -2615,7 +2644,7 @@ body.ct-open .ct-fab {
 }
 
 .ct-submit:disabled {
-  cursor: default;
+  cursor: not-allowed; /* 必填未齊時，滑過就知道還不能送 */
   background: rgba(255, 255, 255, 0.06);
 }
 

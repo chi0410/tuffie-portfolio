@@ -7,7 +7,11 @@
     "emailPh": "請留下 Email，讓我能回覆你。",
     "emailErr": "請填寫有效的 Email",
     "topicLabel": "交流主題",
-    "topics": ["網站設計", "社群合作", "聊聊想法"],
+    "topics": [
+      "網站設計",
+      "社群合作",
+      "聊聊想法"
+    ],
     "topicErr": "請選擇一個交流主題",
     "identityLabel": "你的身份 / 公司 / 品牌",
     "identityPh": "請讓我更認識你。",
@@ -24,7 +28,8 @@
     "submitted": "已送出",
     "successTitle": "收到你的來信了！",
     "successBody": "我會盡快透過 Email 與你聯繫，期待與你進一步交流。",
-    "errorMsg": "送出失敗，請稍後再試一次。"
+    "errorMsg": "送出失敗，請稍後再試一次。",
+    "linkErr": "此連結無效"
   },
   "en": {
     "fab": "Write to me",
@@ -34,7 +39,11 @@
     "emailPh": "Leave your email so I can reply.",
     "emailErr": "Please enter a valid email address",
     "topicLabel": "Topic",
-    "topics": ["Web Design", "Collaboration", "Just Chatting"],
+    "topics": [
+      "Web Design",
+      "Collaboration",
+      "Just Chatting"
+    ],
     "topicErr": "Please choose a topic",
     "identityLabel": "Who you are / Company / Brand",
     "identityPh": "Tell me a little about yourself.",
@@ -49,8 +58,9 @@
     "submit": "Send",
     "submitting": "Sending",
     "submitted": "Sent",
-    "successTitle": "Your message is on its way!",
-    "successBody": "I'll get back to you by email as soon as I can. Looking forward to talking.",
-    "errorMsg": "Something went wrong. Please try again."
+    "successTitle": "Message sent!",
+    "successBody": "I'll reply by email soon. Talk soon!",
+    "errorMsg": "Something went wrong. Please try again.",
+    "linkErr": "This link doesn't look valid"
   }
 }
