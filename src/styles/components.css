@@ -2865,19 +2865,22 @@ body.ct-open {
     border: none;
     border-radius: 0;
     box-shadow: none;
-    /* 底色與桌機完全一致。桌機由下而上是四層：
-         頁面 → .ct-scrim 的 rgba(24,11,4,.7) → 卡片漸層 → ::before 玻璃層
-       手機的卡片是不透明滿版，會把遮罩整個蓋掉，等於少了壓暗那層，
-       實測底色從 #7d615e 變成 #a07367（亮 51%）、文字對比 5.00:1 掉到 3.64:1。
-       所以這裡把遮罩那層一併疊進卡片背景，四層順序與值都跟桌機相同。
-       （滿版不用 backdrop-filter：整片模糊很吃行動裝置效能，
-         而背後本來就是平滑漸層，模糊它幾乎不改變顏色。） */
+    /* 底色＝桌機卡片的「中段深度」，整片平鋪、不隨位置變化。
+       桌機卡片只佔畫面一小塊，取到的是各層的中段；手機滿版會把每一層
+       從最亮拉到最深，導致上半部太淺（實測上半部對主文字只有 3.86:1，
+       下半部卻有 8.58:1）。所以這裡把每一層都取中段後平鋪：
+         全站背景中段 #8A4520
+         → 遮罩 rgba(24,11,4,.7)（桌機 .ct-scrim 的值）
+         → 卡片漸層中段 rgba(147,110,121,.475)
+            （即 rgba(190,110,66,.5) 與 rgba(103,109,175,.45) 的中點）
+         → 玻璃層中段 rgba(255,255,255,.16)（見下方 ::before）
+       疊出來是 #7d615e，與桌機卡片中段完全相同，
+       對 --ondark-text-1 的對比 5.00:1，整片一致。
+       （滿版不用 backdrop-filter：整片模糊很吃行動裝置效能。） */
     background:
-      linear-gradient(120deg, rgba(190, 110, 66, 0.5), rgba(103, 109, 175, 0.45)),
+      linear-gradient(rgba(147, 110, 121, 0.475), rgba(147, 110, 121, 0.475)),
       linear-gradient(rgba(24, 11, 4, 0.7), rgba(24, 11, 4, 0.7)),
-      var(--bg-glow-light),
-      var(--bg-glow-shadow),
-      var(--bg-gradient-main);
+      linear-gradient(#8a4520, #8a4520);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     /* 滿版不適合桌機那種「膠囊長大成卡片」的變形，改為淡入＋輕微上移 */
@@ -2886,9 +2889,10 @@ body.ct-open {
     transition: opacity var(--duration-base) var(--ease), transform var(--duration-slow) var(--ease);
   }
 
-  /* 玻璃層要留著，它是桌機底色的第三層。滿版時整張卡片一起淡入，
-     不需要它自己再淡一次，所以直接給 opacity:1。 */
+  /* 玻璃層同樣取中段平鋪（桌機是 145deg 的 .20 → .16 → .02 漸層）。
+     滿版時整張卡片一起淡入，不需要它自己再淡一次，所以 opacity 固定 1。 */
   .ct-card::before {
+    background: rgba(255, 255, 255, 0.16);
     opacity: 1;
     transition: none;
   }
