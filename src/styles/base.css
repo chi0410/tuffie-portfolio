@@ -84,7 +84,7 @@ a {
   z-index: 1;
 }
 
-/* 毛呢針織紋 — 全頁固定層，只鋪一次 */
+/* 毛呢針織紋的「水平線」— 全頁固定層，只鋪一次，靜止不動態 */
 .knit {
   position: fixed;
   inset: 0;
@@ -94,14 +94,15 @@ a {
   z-index: 1;
 }
 
-.knit path {
-  animation: crawl 18s linear infinite;
-}
-
-@keyframes crawl {
-  to {
-    stroke-dashoffset: -90;
-  }
+/* 垂直線波浪層 — 由 src/js/bg-wave.js 建立並繪製（單一 canvas，見該檔說明）。
+   與 .knit 同層同高度，內容仍靠 z-index 2 疊在其上。 */
+.knit-wave {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* 內容一律疊在 grain/knit 之上 */
@@ -117,7 +118,5 @@ footer {
   html {
     scroll-behavior: auto;
   }
-  .knit path {
-    animation: none;
-  }
+  /* 垂直線波浪：bg-wave.js 偵測到此設定時不啟動 rAF，只畫一張靜止畫面 */
 }
