@@ -357,6 +357,7 @@ export function initContact() {
     // 捲動容器沒有版面，scrollTop 讀到的永遠是 0、寫入也無效，
     // 瀏覽器仍記著上次的位置並在重新顯示時還原。
     scrollBox.scrollTop = 0;
+    syncPanelHeight();
     syncMask();
     triggers.forEach((el) => el.setAttribute('aria-expanded', 'true'));
     // 鎖住背景捲動：記下位置後把 body 固定住（見 components.css 的 body.ct-open）
@@ -385,6 +386,7 @@ export function initContact() {
     document.body.classList.remove('ct-open');
     document.body.style.top = '';
     document.body.style.paddingRight = '';
+    card.style.height = '';
     window.scrollTo(0, lockedScrollY);
     closeTimer = setTimeout(() => {
       closeTimer = 0;
@@ -413,12 +415,41 @@ export function initContact() {
     renderSubmit();
   }
 
+  const narrow = () => window.matchMedia('(max-width: 768px)').matches;
+
+  // 手機滿版的鍵盤處理核心。
+  // 鍵盤彈出時「版面視窗」不會變、只有「可見視窗」(visualViewport) 會縮，
+  // 所以 100vh / 100dvh 都量不到鍵盤——必須改用 visualViewport 的高度當面板高度。
+  // 面板一縮，裡面的送出列（flex 底部）就自然被推到鍵盤上方，不會被蓋住。
+  function syncPanelHeight() {
+    if (scrim.hidden) return;
+    if (!narrow()) {
+      card.style.height = '';
+      return;
+    }
+    const vv = window.visualViewport;
+    card.style.height = Math.round(vv ? vv.height : window.innerHeight) + 'px';
+    syncMask();
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', syncPanelHeight);
+    window.visualViewport.addEventListener('scroll', syncPanelHeight);
+  }
+  window.addEventListener('resize', syncPanelHeight);
+
   // 捲到底就取消底部淡出遮罩（依設計檔）
   const syncMask = () => {
     const atBottom = scrollBox.scrollHeight - scrollBox.scrollTop - scrollBox.clientHeight < 8;
     scrollBox.classList.toggle('is-bottom', atBottom);
   };
   scrollBox.addEventListener('scroll', syncMask);
+  // 手機聚焦某個欄位時，等鍵盤與可見視窗穩定後再把它捲進視野，
+  // 否則此刻算出來的位置是鍵盤還沒出現前的，會捲錯。
+  scrollBox.addEventListener('focusin', (e) => {
+    if (!narrow()) return;
+    setTimeout(() => e.target.scrollIntoView({ block: 'nearest' }), 300);
+  });
   // 卡片展開是 400ms 的動畫，開啟當下算出來的遮罩狀態並不準
   // （那時卡片還收合著、內容當然「捲不到底」），必須在尺寸穩定後重算，
   // 否則底部淡出會一直留著，把最後一個欄位淡到看不見。

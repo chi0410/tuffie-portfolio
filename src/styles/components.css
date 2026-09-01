@@ -2790,37 +2790,65 @@ body.ct-open {
     display: none;
   }
 
-  /* header 距底 16px、高 48px（頂端離視窗底 64px），80px 剛好留 16px 呼吸 */
-  .ct-fab {
-    bottom: 80px;
-    right: 20px;
-    padding: 11px 20px;
+  /* ---- 手機滿版：像開一個新頁面，不是浮在頁面上的小卡片 ---- */
+  .ct-scrim {
+    /* 滿版面板會蓋住整個畫面，再疊一層 backdrop 模糊只是白吃效能 */
+    background: rgba(24, 11, 4, 0.6);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .ct-card {
-    bottom: 80px;
-    right: 20px;
-    left: 20px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: auto;
+    max-width: none;
+    max-height: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* 用全站背景，讀起來像開了一個新頁面；同時避開滿版的 backdrop-filter */
+    background: var(--bg-glow-light), var(--bg-glow-shadow), var(--bg-gradient-main);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    /* 滿版不適合桌機那種「膠囊長大成卡片」的變形，改為淡入＋輕微上移 */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--duration-base) var(--ease), transform var(--duration-slow) var(--ease);
+  }
+
+  .ct-card::before {
+    display: none; /* 玻璃層在滿版下不需要 */
   }
 
   .ct-scrim.is-open .ct-card {
     width: auto;
-    max-height: var(--ct-h, 70vh);
+    max-height: none;
+    border-radius: 0;
+    opacity: 1;
+    transform: none;
   }
 
   .ct-head {
-    padding: 30px 24px 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px 0;
   }
 
   .ct-scroll {
-    padding: 20px 24px 64px;
-    gap: 22px;
+    padding: 20px 24px 24px;
+    gap: 20px;
   }
 
+  /* 送出列固定在面板底部：面板高度會跟著 visualViewport 縮，
+     鍵盤彈出時這一列會被推到鍵盤上方，不會被永久蓋住。
+     安全區內距是為了 iPhone 底部的 home indicator。
+     margin-top 歸零：桌機那個「按鈕壓在淡出內容上」的重疊，
+     在滿版下會讓送出鈕直接蓋住最後一個輸入框，看起來像壞掉。 */
   .ct-actions {
     flex-wrap: wrap;
-    padding: 0 24px 24px;
+    margin-top: 0;
+    padding: 14px 24px calc(env(safe-area-inset-bottom, 0px) + 20px);
   }
 
   .ct-submit {
@@ -2832,8 +2860,10 @@ body.ct-open {
   }
 
   .ct-close {
-    top: 16px;
+    top: calc(env(safe-area-inset-top, 0px) + 16px);
     right: 16px;
+    width: 40px;
+    height: 40px; /* 滿版下加大點擊區，好按 */
   }
 }
 
