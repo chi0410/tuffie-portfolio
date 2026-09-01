@@ -178,16 +178,51 @@ export function initContact() {
   // 三顆膠囊只建立一次。切換選取時「就地更新」而不是重建 DOM——
   // 若在 click 事件冒泡途中把被點的按鈕移除，它會變成沒有祖先的孤兒節點，
   // 背景關閉判斷的 closest('.ct-card') 就會落空、誤判成點到背景而關掉彈窗。
+
   function buildTopics() {
     topicsBox.innerHTML = '';
     TOPIC_VALUES.forEach((value) => {
       const b = el('button', 'ct-topic', { type: 'button' });
       b.dataset.value = value;
-      b.addEventListener('click', () => {
-        topic = topic === value ? '' : value; // 再點一次可取消（依設計檔）
+      const applyTopic = (next) => {
+        topic = next;
         if (submitted) validate();
         syncTopics();
         renderSubmit();
+      };
+      const choose = () => applyTopic(topic === value ? '' : value); // 再點一次可取消（依設計檔）
+      // 在 pointerdown 就選取，而不是等 click。
+      // 手指按下到 click 派送之間，版面會位移：點膠囊會讓輸入框失焦 →
+      // 驗證跑起來 → 錯誤提示展開，實測把膠囊往下推 26px（膠囊才 42px 高）；
+      // 手機上還會再疊一層鍵盤收起造成的面板變高。等到 click 時，
+      // 膠囊早已不在手指底下 —— 這就是「要按兩下」的成因。
+      // 用狀態旗標而非時間差來判斷「這次 click 是不是剛才那根手指帶出來的」。
+      // 時間差會受裝置與節流影響，狀態是確定的。
+      let byPointer = false;
+      let topicBefore = '';
+      b.addEventListener('pointerdown', (e) => {
+        if (!e.isPrimary) return;
+        byPointer = true;
+        topicBefore = topic; // 記住按下前的值，滑開時才還得回去
+        choose();
+      });
+      b.addEventListener('pointercancel', () => {
+        // 手指按下後滑開（例如其實是想捲動）：還原成按下前的選取。
+        // 不能用 choose() 還原——它是切換，連按兩次會變成「無選取」，
+        // 而不是回到原本選的那一顆。
+        if (byPointer) applyTopic(topicBefore);
+        byPointer = false;
+      });
+      // 鍵盤操作一定先有 keydown，藉此確保鍵盤這條路不會被旗標擋掉
+      b.addEventListener('keydown', () => {
+        byPointer = false;
+      });
+      b.addEventListener('click', () => {
+        if (byPointer) {
+          byPointer = false; // 這次 click 是 pointerdown 的後續，已處理過
+          return;
+        }
+        choose(); // 鍵盤 Enter／空白鍵
       });
       topicsBox.append(b);
     });
@@ -453,6 +488,7 @@ export function initContact() {
   }
 
   const narrow = () => window.matchMedia('(max-width: 768px)').matches;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // 手機滿版的鍵盤處理核心。
   // 鍵盤彈出時「版面視窗」不會變、只有「可見視窗」(visualViewport) 會縮，
@@ -481,11 +517,22 @@ export function initContact() {
     syncMask();
   }
 
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', syncPanelHeight);
-    window.visualViewport.addEventListener('scroll', syncPanelHeight);
+  // 鍵盤開合期間 visualViewport 會連續送出事件，每次都重算版面會卡頓，
+  // 用 rAF 節流成每幀最多一次。
+  let panelRaf = 0;
+  function schedulePanelSync() {
+    if (panelRaf) return;
+    panelRaf = requestAnimationFrame(() => {
+      panelRaf = 0;
+      syncPanelHeight();
+    });
   }
-  window.addEventListener('resize', syncPanelHeight);
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', schedulePanelSync);
+    window.visualViewport.addEventListener('scroll', schedulePanelSync);
+  }
+  window.addEventListener('resize', schedulePanelSync);
 
   // 捲到底就取消底部淡出遮罩（依設計檔）
   const syncMask = () => {
@@ -501,7 +548,10 @@ export function initContact() {
     // block:'center' 讓正在填的欄位停在畫面中央，不會貼著鍵盤邊緣。
     setTimeout(() => {
       syncPanelHeight(); // 換欄位時 iOS 可能重新推移可見視窗，要重新對齊
-      e.target.scrollIntoView({ block: 'center' });
+      e.target.scrollIntoView({
+        block: 'center',
+        behavior: prefersReduced.matches ? 'auto' : 'smooth',
+      });
     }, 300);
   });
   // 鍵盤收合後可見視窗會復原，但 resize 不一定會補送，這裡主動再對一次

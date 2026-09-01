@@ -2536,6 +2536,7 @@ body.ct-open {
 }
 
 .ct-topic {
+  touch-action: manipulation; /* 去掉行動瀏覽器的點擊延遲，反應更即時 */
   padding: 9px 20px;
   font-family: inherit;
   font-size: 15px;
