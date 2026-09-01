@@ -320,6 +320,11 @@ export function initContact() {
     card.style.setProperty('--ct-w', Math.max(280, Math.min(640, w - 80)) + 'px');
     card.style.setProperty('--ct-h', Math.max(360, Math.min(700, h - 80)) + 'px');
     scrim.hidden = false;
+    // 捲回頂端必須在「顯示之後」做：隱藏時彈窗是 display:none，
+    // 捲動容器沒有版面，scrollTop 讀到的永遠是 0、寫入也無效，
+    // 瀏覽器仍記著上次的位置並在重新顯示時還原。
+    scrollBox.scrollTop = 0;
+    syncMask();
     fab.setAttribute('aria-expanded', 'true');
     // 鎖住背景捲動：記下位置後把 body 固定住（見 components.css 的 body.ct-open）
     lockedScrollY = window.scrollY;
