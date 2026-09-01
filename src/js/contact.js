@@ -449,7 +449,9 @@ export function initContact() {
     const cardRect = card.getBoundingClientRect();
     const mailRect = navMail.getBoundingClientRect();
     scrim.classList.add('is-sending');
-    document.body.classList.add('ct-sending'); // 放出底部 bar，表單才有信封可以收進去
+    // 立刻解鎖背景：此刻面板還蓋著整個畫面，還原捲動位置看不見；
+    // 同時 body 不再有 ct-open，底部 bar 就露出來了，表單才有信封可以收進去。
+    unlockScroll();
 
     // 關動態或量不到信封：不做精靈動畫，直接收起表單並讓信封打勾
     if (prefersReduced.matches || !mailRect.width || !cardRect.width) {
@@ -489,13 +491,21 @@ export function initContact() {
   }
 
   // 收尾：隱藏彈窗、解鎖背景捲動、清掉行內樣式並重置表單
-  function teardown() {
-    scrim.classList.remove('is-open', 'is-sending');
-    triggers.forEach((el) => el.setAttribute('aria-expanded', 'false'));
-    document.body.classList.remove('ct-open', 'ct-sending');
+  // 解除背景捲動鎖並還原捲動位置。抽出來是為了能提早呼叫：
+  // 這一步會讓整頁瞬間換位，留到動畫結束才做，會在使用者正盯著信封時
+  // 讓背景跳一下、連帶讓信封看起來閃動。
+  function unlockScroll() {
+    if (!document.body.classList.contains('ct-open')) return;
+    document.body.classList.remove('ct-open');
     document.body.style.top = '';
     document.body.style.paddingRight = '';
     window.scrollTo(0, lockedScrollY);
+  }
+
+  function teardown() {
+    scrim.classList.remove('is-open', 'is-sending');
+    triggers.forEach((el) => el.setAttribute('aria-expanded', 'false'));
+    unlockScroll();
     scrim.hidden = true;
     card.classList.remove('is-genie');
     card.removeAttribute('style'); // 清掉精靈動畫設的 transform / opacity / filter
