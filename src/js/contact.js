@@ -37,8 +37,11 @@ const CHECK_ICON =
   'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
   '<path d="M5 12.5 10 17.5 19 7.5"/></svg>';
 
-const FLY_MS = 420; // 表單收進信封的時間
-const SENT_MS = 2200; // 信封維持成功狀態的總時間
+// 收進信封的時間軸，依 handoff/prototype/form-genie-final.html
+const GENIE_MS = 600; // 表單被「吸進」信封的時間
+const GREEN_AT = 480; // 信封變綠 + 彈跳（在精靈動畫收尾前就開始，接得上）
+const CHECK_AT = 780; // 換成勾勾並畫出來
+const SENT_MS = 3000; // 之後復原成信封
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Link 欄位：https:// 可省略（一般人習慣直接貼 example.com/xxx），
@@ -439,35 +442,42 @@ export function initContact() {
   // 落點不寫死：動畫當下量信封的真實位置，算出把面板中心移到信封中心
   // 所需的位移與縮放。語言切換讓 bar 變寬、或安全區高度不同，落點都會準。
   function flyIntoEnvelope() {
-    const from = card.getBoundingClientRect();
-    const to = navMail.getBoundingClientRect();
-    if (!to.width || !from.width) {
-      close(); // 量不到就退回一般關閉，不要卡住
+    const cardRect = card.getBoundingClientRect();
+    const mailRect = navMail.getBoundingClientRect();
+    scrim.classList.add('is-sending'); // 遮罩淡出，信封才看得見
+
+    // 關動態或量不到信封：不做精靈動畫，直接收起表單並讓信封打勾
+    if (prefersReduced.matches || !mailRect.width || !cardRect.width) {
+      teardown();
       playEnvelopeSuccess();
       return;
     }
-    const scale = Math.min(to.width / from.width, to.height / from.height);
-    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
-    const dy = to.top + to.height / 2 - (from.top + from.height / 2);
-    const fly = prefersReduced.matches ? 0 : FLY_MS;
-    card.style.transformOrigin = 'center center';
-    card.style.transition = `transform ${fly}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${fly}ms ease-in`;
-    card.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+
+    // 落點：把 transform-origin 設在信封的實際位置（換算成卡片內座標），
+    // 縮放時整張表單就會朝那個點收，不必另外算位移。
+    // prototype 用固定的 50% 100%（示意往下收），這裡改用真實 icon 位置。
+    const ox = mailRect.left + mailRect.width / 2 - cardRect.left;
+    const oy = mailRect.top + mailRect.height / 2 - cardRect.top;
+    card.style.transformOrigin = `${ox}px ${oy}px`;
+    card.classList.add('is-genie');
+    void card.offsetWidth; // 先套用起始狀態，下面的變更才會跑 transition
+    // 神似 Mac 精靈：往窄拉 + 收縮 + 模糊淡出，像被吸進信封
+    card.style.transform = 'scaleX(0.12) scaleY(0.5)';
     card.style.opacity = '0';
-    scrim.classList.add('is-sending'); // 遮罩淡出，信封才看得見
-    setTimeout(() => {
-      teardown();
-      playEnvelopeSuccess();
-    }, fly);
+    card.style.filter = 'blur(2px)';
+
+    playEnvelopeSuccess(GREEN_AT);
+    setTimeout(teardown, GENIE_MS);
   }
 
-  function playEnvelopeSuccess() {
+  // delay：信封開始變綠的時間點。精靈動畫時會在收尾前就先變綠，動作才接得上。
+  function playEnvelopeSuccess(delay = 0) {
     clearTimeout(sentTimer);
-    navMail.classList.add('is-sent'); // 變綠 + 輕輕跳一下
-    const step = prefersReduced.matches ? 0 : 260;
-    setTimeout(() => navMail.classList.add('is-check'), step); // 換成勾勾並畫出來
+    const quick = prefersReduced.matches;
+    setTimeout(() => navMail.classList.add('is-sent', 'is-pop'), quick ? 0 : delay);
+    setTimeout(() => navMail.classList.add('is-check'), quick ? 0 : CHECK_AT);
     sentTimer = setTimeout(() => {
-      navMail.classList.remove('is-sent', 'is-check');
+      navMail.classList.remove('is-sent', 'is-pop', 'is-check');
     }, SENT_MS);
   }
 
@@ -480,7 +490,8 @@ export function initContact() {
     document.body.style.paddingRight = '';
     window.scrollTo(0, lockedScrollY);
     scrim.hidden = true;
-    card.removeAttribute('style'); // 清掉飛入時設的 transform / opacity / transition
+    card.classList.remove('is-genie');
+    card.removeAttribute('style'); // 清掉精靈動畫設的 transform / opacity / filter
     reset();
   }
 

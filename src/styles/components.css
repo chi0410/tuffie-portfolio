@@ -2784,8 +2784,8 @@ body.ct-open {
   color: #8fb99a; /* 柔和綠 */
 }
 
-.ct-navmail.is-sent .ct-navmail-icon {
-  animation: ctSentBounce 320ms var(--ease);
+.ct-navmail.is-pop {
+  animation: ctSentPop 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .ct-navmail.is-check .ct-navmail-icon {
@@ -2797,18 +2797,18 @@ body.ct-open {
 }
 
 .ct-navmail.is-check .ct-navmail-check path {
-  stroke-dasharray: 22;
-  stroke-dashoffset: 22;
-  animation: ctSentDraw 380ms var(--ease) forwards;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: ctSentDraw 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes ctSentBounce {
+@keyframes ctSentPop {
   0%,
   100% {
-    transform: translateY(0);
+    transform: scale(1);
   }
   40% {
-    transform: translateY(-5px);
+    transform: scale(1.22);
   }
 }
 
@@ -2901,6 +2901,14 @@ body.ct-open {
     transform: none;
   }
 
+  /* 送出時的精靈收合：前慢後快，像被吸進信封（曲線取自 prototype） */
+  .ct-card.is-genie {
+    transition:
+      transform 600ms cubic-bezier(0.55, 0.06, 0.68, 0.19),
+      opacity 550ms ease-in,
+      filter 600ms cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  }
+
   .ct-head {
     padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px 0;
   }
@@ -2943,7 +2951,7 @@ body.ct-open {
     animation: none;
   }
 
-  .ct-navmail.is-sent .ct-navmail-icon {
+  .ct-navmail.is-pop {
     animation: none;
   }
 
