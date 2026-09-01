@@ -314,8 +314,11 @@ export function initContact() {
   }
   addLinkBtn.addEventListener('click', () => {
     addLinkRow();
-    // 卡片已達高度上限時新欄位會落在視野外，主動捲過去
-    linksBox.lastElementChild?.scrollIntoView({ block: 'nearest' });
+    // 直接聚焦新出現的那一欄，使用者不必再點一次就能打字。
+    // 手機的「置中 + 鍵盤不遮」不必在這裡重寫：聚焦會觸發 scrollBox 的
+    // focusin，那邊已經處理好等鍵盤穩定、重算面板高度、平滑捲到畫面中央。
+    const rows = linksBox.querySelectorAll('.ct-input');
+    rows[rows.length - 1]?.focus();
     syncMask();
   });
 
