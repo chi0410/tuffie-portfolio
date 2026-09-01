@@ -227,6 +227,7 @@ export function initContact() {
       del.innerHTML = '&minus;';
       del.addEventListener('click', () => {
         wrap.remove();
+        refreshEnterHints();
         renderAddLink();
         syncMask();
       });
@@ -234,6 +235,7 @@ export function initContact() {
     }
     wrap.append(row, hint);
     linksBox.append(wrap);
+    refreshEnterHints();
     renderAddLink();
     syncMask();
   }
@@ -291,10 +293,37 @@ export function initContact() {
   });
 
   // ---- 送出 ---------------------------------------------------------------
-  // 只有真的按下「送出」才送。瀏覽器的「隱含送出」——在單行輸入框按 Enter
-  // （手機鍵盤的 Go／完成鍵也算）——會直接提交表單，對這種表單是誤觸來源。
+  // 依填寫順序排出「可打字的欄位」。交流主題是按鈕、不列入。
+  const textFields = () => [
+    inputs.email,
+    inputs.identity,
+    inputs.message,
+    ...linksBox.querySelectorAll('.ct-input'),
+  ];
+
+  // 手機鍵盤右下角的動作鍵：不是最後一欄顯示「下一個」，最後一欄顯示「完成」。
+  // textarea 不設，讓它維持換行鍵。
+  function refreshEnterHints() {
+    const list = textFields();
+    list.forEach((el, i) => {
+      if (el.tagName === 'TEXTAREA') return;
+      el.setAttribute('enterkeyhint', i === list.length - 1 ? 'done' : 'next');
+    });
+  }
+
+  // Enter 的三種行為：
+  // - 單行輸入框：跳到下一個可打字的欄位（跳過去後由 focusin 負責置中）
+  // - textarea：不攔，維持換行
+  // - 最後一欄：收鍵盤，不送出
+  // 一律 preventDefault 也順便擋掉瀏覽器的「隱含送出」——在單行輸入框按 Enter
+  // （手機鍵盤的 Go／完成鍵也算）會直接提交表單，是誤觸來源。
   form.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT') e.preventDefault();
+    if (e.key !== 'Enter' || e.target.tagName !== 'INPUT') return;
+    e.preventDefault();
+    const list = textFields();
+    const next = list[list.indexOf(e.target) + 1];
+    if (next) next.focus();
+    else e.target.blur();
   });
 
   form.addEventListener('submit', async (e) => {
@@ -468,9 +497,11 @@ export function initContact() {
   // 否則此刻算出來的位置是鍵盤還沒出現前的，會捲錯。
   scrollBox.addEventListener('focusin', (e) => {
     if (!narrow()) return;
+    // 等鍵盤與可見視窗穩定（約 300ms）再處理，太早算的是鍵盤出現前的位置。
+    // block:'center' 讓正在填的欄位停在畫面中央，不會貼著鍵盤邊緣。
     setTimeout(() => {
       syncPanelHeight(); // 換欄位時 iOS 可能重新推移可見視窗，要重新對齊
-      e.target.scrollIntoView({ block: 'nearest' });
+      e.target.scrollIntoView({ block: 'center' });
     }, 300);
   });
   // 鍵盤收合後可見視窗會復原，但 resize 不一定會補送，這裡主動再對一次
