@@ -2856,8 +2856,9 @@ body.ct-open {
 
   /* ---- 手機滿版：像開一個新頁面，不是浮在頁面上的小卡片 ---- */
   .ct-scrim {
-    /* 滿版面板會蓋住整個畫面，再疊一層 backdrop 模糊只是白吃效能 */
-    background: rgba(24, 11, 4, 0.6);
+    /* 面板本身是半透明玻璃、由它的 backdrop-filter 直接糊背後的頁面，
+       遮罩若再壓一層深色會讓整體比 prototype 深很多，所以這裡透明 */
+    background: transparent;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -2870,39 +2871,37 @@ body.ct-open {
     width: auto;
     max-width: none;
     max-height: none;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 0;
     box-shadow: none;
-    /* 底色＝桌機卡片的「中段深度」，整片平鋪、不隨位置變化。
-       桌機卡片只佔畫面一小塊，取到的是各層的中段；手機滿版會把每一層
-       從最亮拉到最深，導致上半部太淺（實測上半部對主文字只有 3.86:1，
-       下半部卻有 8.58:1）。所以這裡把每一層都取中段後平鋪：
-         全站背景中段 #8A4520
-         → 遮罩 rgba(24,11,4,.7)（桌機 .ct-scrim 的值）
-         → 卡片漸層中段 rgba(147,110,121,.475)
-            （即 rgba(190,110,66,.5) 與 rgba(103,109,175,.45) 的中點）
-         → 玻璃層中段 rgba(255,255,255,.16)（見下方 ::before）
-       疊出來是 #7d615e，與桌機卡片中段完全相同，
-       對 --ondark-text-1 的對比 5.00:1，整片一致。
-       （滿版不用 backdrop-filter：整片模糊很吃行動裝置效能。） */
+    /* 深咖啡玻璃（依 handoff/prototype/form-coffee-a.html 的「淺（.62）」那版）。
+       底層 .62 已經夠不透明，滿版時吃到的背景漸層只剩 38%，
+       上下深淺差因此收斂；實測最淺處（上緣）主文字仍有 7.45:1、
+       次要文字 5.47:1，皆遠超 AA。 */
     background:
-      linear-gradient(rgba(147, 110, 121, 0.475), rgba(147, 110, 121, 0.475)),
-      linear-gradient(rgba(24, 11, 4, 0.7), rgba(24, 11, 4, 0.7)),
-      linear-gradient(#8a4520, #8a4520);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+      linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.01)),
+      rgba(40, 20, 10, 0.62);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
     /* 滿版不適合桌機那種「膠囊長大成卡片」的變形，改為淡入＋輕微上移 */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity var(--duration-base) var(--ease), transform var(--duration-slow) var(--ease);
   }
 
-  /* 玻璃層同樣取中段平鋪（桌機是 145deg 的 .20 → .16 → .02 漸層）。
-     滿版時整張卡片一起淡入，不需要它自己再淡一次，所以 opacity 固定 1。 */
+  /* 桌機那層玻璃在這裡不需要：深咖啡玻璃的漸層已經寫在 background 第一層 */
   .ct-card::before {
-    background: rgba(255, 255, 255, 0.16);
-    opacity: 1;
-    transition: none;
+    display: none;
+  }
+
+  /* 面板是 62% 的半透明玻璃，底部固定 bar 會從底下透出來、壓在送出鈕上。
+     填寫期間把 bar 收起來；送出時要讓表單收進信封，那時再放出來（見 .ct-sending）。 */
+  body.ct-open header {
+    visibility: hidden;
+  }
+
+  body.ct-sending header {
+    visibility: visible;
   }
 
   .ct-scrim.is-open .ct-card {
@@ -2939,6 +2938,12 @@ body.ct-open {
     flex-wrap: wrap;
     margin-top: 0;
     padding: 14px 24px calc(env(safe-area-inset-bottom, 0px) + 20px);
+  }
+
+  /* 三顆膠囊在 375px 下總寬 326px、容器 325px，差 1px 就換行
+     （新增的 1px 邊框吃掉的）。間距收 2px 補回來。 */
+  .ct-topics {
+    gap: 8px;
   }
 
   .ct-submit {

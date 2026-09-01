@@ -448,7 +448,8 @@ export function initContact() {
   function flyIntoEnvelope() {
     const cardRect = card.getBoundingClientRect();
     const mailRect = navMail.getBoundingClientRect();
-    scrim.classList.add('is-sending'); // 遮罩淡出，信封才看得見
+    scrim.classList.add('is-sending');
+    document.body.classList.add('ct-sending'); // 放出底部 bar，表單才有信封可以收進去
 
     // 關動態或量不到信封：不做精靈動畫，直接收起表單並讓信封打勾
     if (prefersReduced.matches || !mailRect.width || !cardRect.width) {
@@ -491,7 +492,7 @@ export function initContact() {
   function teardown() {
     scrim.classList.remove('is-open', 'is-sending');
     triggers.forEach((el) => el.setAttribute('aria-expanded', 'false'));
-    document.body.classList.remove('ct-open');
+    document.body.classList.remove('ct-open', 'ct-sending');
     document.body.style.top = '';
     document.body.style.paddingRight = '';
     window.scrollTo(0, lockedScrollY);
