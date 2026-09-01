@@ -3,9 +3,11 @@ import { injectIcons } from './icons.js';
 import { initReveal } from './reveal.js';
 import { initFlow } from './case02-flow.js';
 import { initBgWave } from './bg-wave.js';
+import { initContact } from './contact.js';
 
 injectIcons();
 initCaseBrandI18n();
 initReveal();
 initFlow();
 initBgWave();
+initContact();

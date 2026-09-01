@@ -2170,3 +2170,595 @@ main > .cs-next-sec:last-child {
   .rd-tb2 { top: -48px; }
   .rd-tb3 { top: -80px; }
 }
+
+/* ==========================================================================
+   Contact —— 右下角浮動按鈕 + 彈窗表單（四頁共用，由 contact.js 掛載）
+   依 handoff/prototype/Contact Section (standalone).html 還原
+   ========================================================================== */
+
+/* --- 浮動按鈕：平常只有 logo，hover 才展開成膠囊 --- */
+.ct-fab {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 90; /* 低於 header(100)、toast(200)，高於背景層 */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 26px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ondark-text-1);
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+}
+
+.ct-fab:hover,
+.ct-fab:focus-visible {
+  gap: 10px;
+  transform: translateY(-2px);
+  border-color: rgba(250, 240, 234, 0.7);
+  background: linear-gradient(120deg, rgba(190, 110, 66, 0.5), rgba(103, 109, 175, 0.45));
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.ct-fab-logo {
+  display: block;
+  flex: none;
+  transition: transform 350ms linear;
+}
+
+.ct-fab:hover .ct-fab-logo,
+.ct-fab:focus-visible .ct-fab-logo {
+  transform: rotate(-360deg);
+}
+
+.ct-fab-label {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 350ms linear, opacity var(--duration-base) var(--ease);
+}
+
+.ct-fab:hover .ct-fab-label,
+.ct-fab:focus-visible .ct-fab-label {
+  max-width: 160px;
+  opacity: 1;
+}
+
+.ct-fab-arrow {
+  display: block;
+  flex: none;
+  transition: transform var(--duration-base) var(--ease);
+}
+
+.ct-fab:hover .ct-fab-arrow,
+.ct-fab:focus-visible .ct-fab-arrow {
+  transform: translateX(5px);
+}
+
+/* 表單開啟時把按鈕藏起來（卡片是從它的位置長出來的） */
+body.ct-open .ct-fab {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- 遮罩 --- */
+.ct-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(24, 11, 4, 0.7);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease);
+}
+
+.ct-scrim[hidden] {
+  display: none;
+}
+
+.ct-scrim.is-open {
+  opacity: 1;
+}
+
+/* --- 卡片：從按鈕位置的小膠囊「長大」成表單 --- */
+.ct-card {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 200px;
+  max-height: 56px;
+  border-radius: var(--radius-full);
+  opacity: 0.6;
+  transform-origin: 100% 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: 0 24px 60px rgba(40, 16, 4, 0.35);
+  background: linear-gradient(120deg, rgba(190, 110, 66, 0.5), rgba(103, 109, 175, 0.45));
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
+  transition:
+    width var(--duration-slow) var(--ease),
+    max-height var(--duration-slow) var(--ease),
+    border-radius var(--duration-slow) var(--ease),
+    opacity var(--duration-slow) var(--ease);
+}
+
+/* 玻璃底獨立一層淡入：漸層之間無法補間，設計檔是在動畫中段直接換底，
+   這裡改用延遲淡入達到同樣效果、但過渡更順 */
+.ct-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glass-dark-bg);
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.ct-scrim.is-open .ct-card {
+  width: var(--ct-w, 640px);
+  max-height: var(--ct-h, 700px);
+  border-radius: 24px;
+  opacity: 1;
+}
+
+.ct-scrim.is-open .ct-card::before {
+  opacity: 1;
+  transition-delay: 200ms; /* 展開到一半才換底，對齊設計檔的 t > 0.5 */
+}
+
+.ct-body {
+  position: relative; /* 疊在 ::before 玻璃底之上 */
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ct-close {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(250, 240, 234, 0.6);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+}
+
+.ct-close:hover,
+.ct-close:focus-visible {
+  color: var(--primary-20);
+  border-color: rgba(250, 240, 234, 0.7);
+}
+
+/* --- 標題 --- */
+.ct-head {
+  flex: none;
+  padding: 38px 44px 0;
+}
+
+.ct-eyebrow {
+  font-family: 'Cormorant Infant', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  color: var(--ondark-text-2);
+}
+
+.ct-title {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+  color: var(--ondark-text-1);
+  margin-top: 4px;
+}
+
+/* --- 表單 --- */
+.ct-form {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ct-form.is-locked {
+  opacity: 0.6;
+}
+
+.ct-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 26px 44px 76px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  /* 沒捲到底時底部淡出，暗示下面還有內容（依設計檔）；捲到底由 JS 加 is-bottom 取消 */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 96px), rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 96px), rgba(0, 0, 0, 0) 100%);
+}
+
+.ct-scroll.is-bottom {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.ct-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ct-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ondark-text-2);
+}
+
+.ct-req {
+  color: #e1aba1;
+}
+
+.ct-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px; /* 16px 以下 iOS Safari 聚焦時會自動放大整頁 */
+  color: var(--ondark-text-1);
+  background: rgba(20, 9, 4, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-l);
+  outline: none;
+  transition: border-color var(--duration-base) var(--ease),
+    background var(--duration-base) var(--ease), box-shadow var(--duration-base) var(--ease);
+}
+
+.ct-input::placeholder {
+  color: rgba(250, 240, 234, 0.45);
+}
+
+.ct-input:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.ct-input:focus {
+  border-color: rgba(250, 240, 234, 0.7);
+  background: rgba(20, 9, 4, 0.4);
+  box-shadow: 0 0 0 3px rgba(234, 203, 184, 0.14);
+}
+
+.ct-input.is-bad {
+  border-color: rgba(225, 171, 161, 0.75);
+}
+
+.ct-textarea {
+  min-height: 92px;
+  line-height: 1.9;
+  resize: vertical;
+}
+
+.ct-err {
+  font-size: 13px;
+  color: #e1aba1;
+}
+
+/* --- 交流主題膠囊 --- */
+.ct-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ct-topic {
+  padding: 9px 20px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(250, 240, 234, 0.7);
+  background: rgba(20, 9, 4, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+}
+
+.ct-topic:hover:not(:disabled) {
+  border-color: rgba(250, 240, 234, 0.7);
+  transform: translateY(-2px);
+}
+
+.ct-topic[aria-pressed='true'] {
+  font-weight: 500;
+  color: var(--ondark-text-1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04));
+  border-color: rgba(250, 240, 234, 0.7);
+}
+
+.ct-topics.is-bad .ct-topic[aria-pressed='false'] {
+  border-color: rgba(225, 171, 161, 0.75);
+}
+
+/* --- Link 欄位 --- */
+.ct-linkrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ct-linkrow + .ct-linkrow {
+  margin-top: 10px;
+}
+
+.ct-linkrow .ct-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.ct-linkdel {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
+  color: rgba(250, 240, 234, 0.55);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+}
+
+.ct-linkdel:hover {
+  color: var(--primary-20);
+  border-color: rgba(250, 240, 234, 0.7);
+}
+
+.ct-addlink {
+  align-self: flex-start;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px 7px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: rgba(250, 240, 234, 0.75);
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+}
+
+.ct-addlink[hidden] {
+  display: none;
+}
+
+.ct-addlink:hover {
+  color: var(--ondark-text-1);
+  border-color: rgba(250, 240, 234, 0.7);
+}
+
+/* --- 送出 --- */
+.ct-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 0 44px 30px;
+  margin-top: -28px; /* 送出鈕壓在淡出的內容上，依設計檔 */
+}
+
+.ct-formerr {
+  font-size: 13px;
+  color: #e1aba1;
+  margin-right: auto;
+}
+
+.ct-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 150px;
+  padding: 14px 34px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-full);
+  color: var(--ondark-text-1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  backdrop-filter: blur(var(--glass-dark-blur));
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease);
+}
+
+.ct-submit:hover:not(:disabled) {
+  border-color: rgba(250, 240, 234, 0.7);
+  transform: translateY(-2px);
+  background: linear-gradient(120deg, rgba(190, 110, 66, 0.5), rgba(103, 109, 175, 0.45));
+}
+
+.ct-submit:disabled {
+  cursor: default;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ct-spin {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(250, 240, 234, 0.3);
+  border-top-color: var(--ondark-text-1);
+  border-radius: var(--radius-full);
+  animation: ctSpin 700ms linear infinite;
+}
+
+.ct-submit.is-loading .ct-spin {
+  display: inline-block;
+}
+
+@keyframes ctSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- 成功畫面 --- */
+.ct-done {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 40px 44px;
+  animation: ctRise 400ms var(--ease);
+}
+
+.ct-done[hidden] {
+  display: none;
+}
+
+.ct-done-title {
+  font-family: 'Cormorant Infant', serif;
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1.3;
+  color: #c2c5df;
+}
+
+.ct-done-body {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--ondark-text-1);
+}
+
+.ct-done-art {
+  flex: none;
+  width: 73px;
+}
+
+.ct-done-art svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@keyframes ctRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- rwd：手機版 header 是貼底的固定 bar，按鈕與卡片都要讓開 --- */
+@media (max-width: 768px) {
+  /* header 距底 16px、高 48px（頂端離視窗底 64px），80px 剛好留 16px 呼吸 */
+  .ct-fab {
+    bottom: 80px;
+    right: 20px;
+    padding: 11px 20px;
+  }
+
+  .ct-card {
+    bottom: 80px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+  }
+
+  .ct-scrim.is-open .ct-card {
+    width: auto;
+    max-height: var(--ct-h, 70vh);
+  }
+
+  .ct-head {
+    padding: 30px 24px 0;
+  }
+
+  .ct-scroll {
+    padding: 20px 24px 64px;
+    gap: 22px;
+  }
+
+  .ct-actions {
+    flex-wrap: wrap;
+    padding: 0 24px 24px;
+  }
+
+  .ct-submit {
+    width: 100%;
+  }
+
+  .ct-done {
+    padding: 30px 24px;
+  }
+
+  .ct-close {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-fab,
+  .ct-fab-logo,
+  .ct-fab-label,
+  .ct-fab-arrow,
+  .ct-scrim,
+  .ct-card,
+  .ct-card::before,
+  .ct-topic,
+  .ct-submit {
+    transition: none;
+  }
+
+  .ct-done {
+    animation: none;
+  }
+
+  .ct-spin {
+    animation-duration: 2s;
+  }
+}
