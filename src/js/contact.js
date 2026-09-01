@@ -31,6 +31,15 @@ const MAIL_ICON =
   '<rect x="3" y="5.5" width="18" height="13" rx="3"/>' +
   '<path d="m3.6 8 7.2 4.9a2.1 2.1 0 0 0 2.4 0L20.4 8"/></svg>';
 
+// 送出成功後信封要變成的勾勾。用 stroke-dasharray 讓它「畫出來」。
+const CHECK_ICON =
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+  '<path d="M5 12.5 10 17.5 19 7.5"/></svg>';
+
+const FLY_MS = 420; // 表單收進信封的時間
+const SENT_MS = 2200; // 信封維持成功狀態的總時間
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Link 欄位：https:// 可省略（一般人習慣直接貼 example.com/xxx），
 // 但至少要有「網域.後綴」的樣子，純文字不算網址。
@@ -117,7 +126,9 @@ export function initContact() {
     'aria-haspopup': 'dialog',
     'aria-expanded': 'false',
   });
-  navMail.innerHTML = MAIL_ICON;
+  navMail.innerHTML =
+    `<span class="ct-navmail-icon">${MAIL_ICON}</span>` +
+    `<span class="ct-navmail-check">${CHECK_ICON}</span>`;
   document.querySelector('header nav')?.append(navMail);
   const triggers = [fab, navMail];
 
@@ -144,6 +155,7 @@ export function initContact() {
   let closeTimer = 0;
   let lockedScrollY = 0;
   let lastTrigger = null;
+  let sentTimer = 0;
 
   // ---- 文案套用 ------------------------------------------------------------
   function applyCopy() {
@@ -179,54 +191,70 @@ export function initContact() {
   // 若在 click 事件冒泡途中把被點的按鈕移除，它會變成沒有祖先的孤兒節點，
   // 背景關閉判斷的 closest('.ct-card') 就會落空、誤判成點到背景而關掉彈窗。
 
+  // 目前這根手指按下的膠囊。pointerdown 當下就選取（趕在版面位移之前），
+  // 之後依放開的位置決定「保留」或「還原」。
+  let pendingTopic = null;
+
+  function applyTopic(next) {
+    topic = next;
+    if (submitted) validate();
+    syncTopics();
+    renderSubmit();
+  }
+
+  const toggleValue = (value) => (topic === value ? '' : value); // 再點一次可取消（依設計檔）
+
   function buildTopics() {
     topicsBox.innerHTML = '';
     TOPIC_VALUES.forEach((value) => {
       const b = el('button', 'ct-topic', { type: 'button' });
       b.dataset.value = value;
-      const applyTopic = (next) => {
-        topic = next;
-        if (submitted) validate();
-        syncTopics();
-        renderSubmit();
-      };
-      const choose = () => applyTopic(topic === value ? '' : value); // 再點一次可取消（依設計檔）
-      // 在 pointerdown 就選取，而不是等 click。
-      // 手指按下到 click 派送之間，版面會位移：點膠囊會讓輸入框失焦 →
-      // 驗證跑起來 → 錯誤提示展開，實測把膠囊往下推 26px（膠囊才 42px 高）；
-      // 手機上還會再疊一層鍵盤收起造成的面板變高。等到 click 時，
-      // 膠囊早已不在手指底下 —— 這就是「要按兩下」的成因。
-      // 用狀態旗標而非時間差來判斷「這次 click 是不是剛才那根手指帶出來的」。
-      // 時間差會受裝置與節流影響，狀態是確定的。
-      let byPointer = false;
-      let topicBefore = '';
-      b.addEventListener('pointerdown', (e) => {
-        if (!e.isPrimary) return;
-        byPointer = true;
-        topicBefore = topic; // 記住按下前的值，滑開時才還得回去
-        choose();
-      });
-      b.addEventListener('pointercancel', () => {
-        // 手指按下後滑開（例如其實是想捲動）：還原成按下前的選取。
-        // 不能用 choose() 還原——它是切換，連按兩次會變成「無選取」，
-        // 而不是回到原本選的那一顆。
-        if (byPointer) applyTopic(topicBefore);
-        byPointer = false;
-      });
-      // 鍵盤操作一定先有 keydown，藉此確保鍵盤這條路不會被旗標擋掉
-      b.addEventListener('keydown', () => {
-        byPointer = false;
-      });
-      b.addEventListener('click', () => {
-        if (byPointer) {
-          byPointer = false; // 這次 click 是 pointerdown 的後續，已處理過
-          return;
-        }
-        choose(); // 鍵盤 Enter／空白鍵
-      });
       topicsBox.append(b);
     });
   }
+
+  // 在 pointerdown 就選取，而不是等 click。
+  // 手指按下到 click 派送之間，版面會位移：點膠囊會讓輸入框失焦 → 驗證跑起來
+  // → 錯誤提示展開，實測把膠囊往下推 26px（膠囊才 42px 高）；手機上還會再疊一層
+  // 鍵盤收起造成的面板變高。等到 click 時膠囊早已不在手指底下 ——
+  // 這就是「要按兩下」的成因。
+  topicsBox.addEventListener('pointerdown', (e) => {
+    const b = e.target.closest('.ct-topic');
+    if (!b || !e.isPrimary || b.disabled) return;
+    pendingTopic = { btn: b, prev: topic };
+    applyTopic(toggleValue(b.dataset.value));
+  });
+
+  // 手指在膠囊外放開（其實是想捲動）→ 還原成按下前的那一顆。
+  // 綁在 document 而非按鈕上：放開的位置本來就可能不在按鈕內，
+  // 只靠 pointercancel 不夠——部分瀏覽器這種情況只送 pointerup。
+  document.addEventListener('pointerup', (e) => {
+    if (!pendingTopic) return;
+    if (pendingTopic.btn.contains(e.target)) return; // 正常放開，等 click 收尾
+    applyTopic(pendingTopic.prev);
+    pendingTopic = null;
+  });
+
+  document.addEventListener('pointercancel', () => {
+    if (!pendingTopic) return;
+    applyTopic(pendingTopic.prev);
+    pendingTopic = null;
+  });
+
+  // 鍵盤操作前先清掉待處理狀態，確保 Enter／空白鍵不會被吃掉
+  topicsBox.addEventListener('keydown', () => {
+    pendingTopic = null;
+  });
+
+  topicsBox.addEventListener('click', (e) => {
+    const b = e.target.closest('.ct-topic');
+    if (!b) return;
+    if (pendingTopic && pendingTopic.btn === b) {
+      pendingTopic = null; // 這次 click 是 pointerdown 的後續，已處理過
+      return;
+    }
+    applyTopic(toggleValue(b.dataset.value)); // 鍵盤 Enter／空白鍵
+  });
 
   function syncTopics() {
     const labels = t().topics;
@@ -392,9 +420,13 @@ export function initContact() {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       status = 'success';
       renderSubmit();
-      q('.ct-form').hidden = true;
-      q('.ct-head').hidden = true;
-      q('.ct-done').hidden = false;
+      if (narrow()) {
+        flyIntoEnvelope(); // 手機：表單收進底部信封，不出現整頁成功畫面
+      } else {
+        q('.ct-form').hidden = true;
+        q('.ct-head').hidden = true;
+        q('.ct-done').hidden = false;
+      }
     } catch {
       status = 'idle';
       card.style.height = '';
@@ -402,6 +434,55 @@ export function initContact() {
       renderSubmit();
     }
   });
+
+  // ---- 送出成功：手機把表單收進底部的信封 --------------------------------
+  // 落點不寫死：動畫當下量信封的真實位置，算出把面板中心移到信封中心
+  // 所需的位移與縮放。語言切換讓 bar 變寬、或安全區高度不同，落點都會準。
+  function flyIntoEnvelope() {
+    const from = card.getBoundingClientRect();
+    const to = navMail.getBoundingClientRect();
+    if (!to.width || !from.width) {
+      close(); // 量不到就退回一般關閉，不要卡住
+      playEnvelopeSuccess();
+      return;
+    }
+    const scale = Math.min(to.width / from.width, to.height / from.height);
+    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+    const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+    const fly = prefersReduced.matches ? 0 : FLY_MS;
+    card.style.transformOrigin = 'center center';
+    card.style.transition = `transform ${fly}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${fly}ms ease-in`;
+    card.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+    card.style.opacity = '0';
+    scrim.classList.add('is-sending'); // 遮罩淡出，信封才看得見
+    setTimeout(() => {
+      teardown();
+      playEnvelopeSuccess();
+    }, fly);
+  }
+
+  function playEnvelopeSuccess() {
+    clearTimeout(sentTimer);
+    navMail.classList.add('is-sent'); // 變綠 + 輕輕跳一下
+    const step = prefersReduced.matches ? 0 : 260;
+    setTimeout(() => navMail.classList.add('is-check'), step); // 換成勾勾並畫出來
+    sentTimer = setTimeout(() => {
+      navMail.classList.remove('is-sent', 'is-check');
+    }, SENT_MS);
+  }
+
+  // 收尾：隱藏彈窗、解鎖背景捲動、清掉行內樣式並重置表單
+  function teardown() {
+    scrim.classList.remove('is-open', 'is-sending');
+    triggers.forEach((el) => el.setAttribute('aria-expanded', 'false'));
+    document.body.classList.remove('ct-open');
+    document.body.style.top = '';
+    document.body.style.paddingRight = '';
+    window.scrollTo(0, lockedScrollY);
+    scrim.hidden = true;
+    card.removeAttribute('style'); // 清掉飛入時設的 transform / opacity / transition
+    reset();
+  }
 
   // ---- 開關 ---------------------------------------------------------------
   function open() {
@@ -462,8 +543,7 @@ export function initContact() {
     window.scrollTo(0, lockedScrollY);
     closeTimer = setTimeout(() => {
       closeTimer = 0;
-      scrim.hidden = true;
-      reset();
+      teardown();
     }, CLOSE_MS);
     // 焦點還給實際按下的那個入口：另一個此時是 display:none，
     // 對它聚焦會失敗、焦點就掉回 body 了

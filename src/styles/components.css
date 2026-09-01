@@ -2769,6 +2769,61 @@ body.ct-open {
   display: block;
 }
 
+/* 送出成功回饋：信封變綠 → 輕輕跳一下 → 換成畫出來的勾勾 → 約 2 秒後復原。
+   信封沿用 bar 現有的樣子，不加任何底框。 */
+.ct-navmail-icon,
+.ct-navmail-check {
+  display: block;
+}
+
+.ct-navmail-check {
+  display: none;
+}
+
+.ct-navmail.is-sent {
+  color: #8fb99a; /* 柔和綠 */
+}
+
+.ct-navmail.is-sent .ct-navmail-icon {
+  animation: ctSentBounce 320ms var(--ease);
+}
+
+.ct-navmail.is-check .ct-navmail-icon {
+  display: none;
+}
+
+.ct-navmail.is-check .ct-navmail-check {
+  display: block;
+}
+
+.ct-navmail.is-check .ct-navmail-check path {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: ctSentDraw 380ms var(--ease) forwards;
+}
+
+@keyframes ctSentBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes ctSentDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 表單收進信封時遮罩要淡出，否則信封被蓋住、看不到接住的動作 */
+.ct-scrim.is-sending {
+  background: transparent;
+  transition: background var(--duration-base) var(--ease);
+}
+
 .ct-navmail:hover,
 .ct-navmail:focus-visible {
   color: var(--primary-20);
@@ -2871,6 +2926,15 @@ body.ct-open {
 @media (prefers-reduced-motion: reduce) {
   .ct-fab-logo svg,
   .ct-fab-arrow > span {
+    animation: none;
+  }
+
+  .ct-navmail.is-sent .ct-navmail-icon {
+    animation: none;
+  }
+
+  .ct-navmail.is-check .ct-navmail-check path {
+    stroke-dashoffset: 0;
     animation: none;
   }
 
