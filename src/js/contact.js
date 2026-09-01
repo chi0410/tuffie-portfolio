@@ -34,8 +34,8 @@ const MAIL_ICON =
 // 送出成功後信封要變成的勾勾。用 stroke-dasharray 讓它「畫出來」。
 const CHECK_ICON =
   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-  '<path d="M5 12.5 10 17.5 19 7.5"/></svg>';
+  'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+  '<path d="M5 13l4 4L19 7"/></svg>';
 
 // 收進信封的時間軸，依 handoff/prototype/form-genie-final.html
 const GENIE_MS = 600; // 表單被「吸進」信封的時間
@@ -194,9 +194,12 @@ export function initContact() {
   // 若在 click 事件冒泡途中把被點的按鈕移除，它會變成沒有祖先的孤兒節點，
   // 背景關閉判斷的 closest('.ct-card') 就會落空、誤判成點到背景而關掉彈窗。
 
-  // 目前這根手指按下的膠囊。pointerdown 當下就選取（趕在版面位移之前），
-  // 之後依放開的位置決定「保留」或「還原」。
-  let pendingTopic = null;
+  // 膠囊的指標處理。兩個狀態各自有明確的清除時機，不會殘留：
+  //   gesture       —— 這根手指按下的膠囊，pointerup / pointercancel 必定清掉
+  //   suppressClick —— pointerdown 已處理過、待會兒那次 click 要略過，
+  //                    下一次 pointerdown 一定清掉
+  let gesture = null;
+  let suppressClick = null;
 
   function applyTopic(next) {
     topic = next;
@@ -216,6 +219,10 @@ export function initContact() {
     });
   }
 
+  // 任何新的指標互動都先把上一次的 click 抑制清掉，避免殘留把下一次點擊吃掉。
+  // 用捕獲階段，確保比下面的 pointerdown 先跑。
+  document.addEventListener('pointerdown', () => { suppressClick = null; }, true);
+
   // 在 pointerdown 就選取，而不是等 click。
   // 手指按下到 click 派送之間，版面會位移：點膠囊會讓輸入框失焦 → 驗證跑起來
   // → 錯誤提示展開，實測把膠囊往下推 26px（膠囊才 42px 高）；手機上還會再疊一層
@@ -224,39 +231,36 @@ export function initContact() {
   topicsBox.addEventListener('pointerdown', (e) => {
     const b = e.target.closest('.ct-topic');
     if (!b || !e.isPrimary || b.disabled) return;
-    pendingTopic = { btn: b, prev: topic };
+    gesture = { btn: b, prev: topic, id: e.pointerId };
     applyTopic(toggleValue(b.dataset.value));
   });
 
-  // 手指在膠囊外放開（其實是想捲動）→ 還原成按下前的那一顆。
-  // 綁在 document 而非按鈕上：放開的位置本來就可能不在按鈕內，
-  // 只靠 pointercancel 不夠——部分瀏覽器這種情況只送 pointerup。
+  // pointerup 必定跟在 pointerdown 之後，所以手勢狀態一定會在這裡結束。
+  // ⚠️ 這裡不做「在按鈕外放開就還原」：那會把「這次手勢被放棄」和
+  // 「之後一次無關的互動」混為一談 —— 先前就是因此造成
+  // 「選完標籤、去點下一個欄位時標籤被取消」。
   document.addEventListener('pointerup', (e) => {
-    if (!pendingTopic) return;
-    if (pendingTopic.btn.contains(e.target)) return; // 正常放開，等 click 收尾
-    applyTopic(pendingTopic.prev);
-    pendingTopic = null;
+    if (!gesture || e.pointerId !== gesture.id) return;
+    suppressClick = gesture.btn; // 接下來那次 click 是這次手勢的後續，要略過
+    gesture = null;
   });
 
-  document.addEventListener('pointercancel', () => {
-    if (!pendingTopic) return;
-    applyTopic(pendingTopic.prev);
-    pendingTopic = null;
-  });
-
-  // 鍵盤操作前先清掉待處理狀態，確保 Enter／空白鍵不會被吃掉
-  topicsBox.addEventListener('keydown', () => {
-    pendingTopic = null;
+  // 瀏覽器接管手勢（使用者其實是想捲動）才還原，這是唯一可靠的「放棄」訊號
+  document.addEventListener('pointercancel', (e) => {
+    if (!gesture || e.pointerId !== gesture.id) return;
+    applyTopic(gesture.prev);
+    gesture = null;
+    suppressClick = null;
   });
 
   topicsBox.addEventListener('click', (e) => {
     const b = e.target.closest('.ct-topic');
     if (!b) return;
-    if (pendingTopic && pendingTopic.btn === b) {
-      pendingTopic = null; // 這次 click 是 pointerdown 的後續，已處理過
+    if (suppressClick === b) {
+      suppressClick = null;
       return;
     }
-    applyTopic(toggleValue(b.dataset.value)); // 鍵盤 Enter／空白鍵
+    applyTopic(toggleValue(b.dataset.value)); // 鍵盤 Enter／空白鍵走這條
   });
 
   function syncTopics() {
@@ -453,16 +457,18 @@ export function initContact() {
       return;
     }
 
-    // 落點：把 transform-origin 設在信封的實際位置（換算成卡片內座標），
-    // 縮放時整張表單就會朝那個點收，不必另外算位移。
-    // prototype 用固定的 50% 100%（示意往下收），這裡改用真實 icon 位置。
-    const ox = mailRect.left + mailRect.width / 2 - cardRect.left;
-    const oy = mailRect.top + mailRect.height / 2 - cardRect.top;
-    card.style.transformOrigin = `${ox}px ${oy}px`;
+    // 變形結構與 prototype 相同：translate + scaleX + scaleY，origin 在底部中央。
+    // prototype 的 translateY(180px) 是示意值；這裡改成「卡片底部中央 → 信封中心」
+    // 的實際位移，動作一樣但落點對準真實的 icon。
+    const ox = cardRect.left + cardRect.width / 2;
+    const oy = cardRect.bottom;
+    const dx = mailRect.left + mailRect.width / 2 - ox;
+    const dy = mailRect.top + mailRect.height / 2 - oy;
+    card.style.transformOrigin = '50% 100%';
     card.classList.add('is-genie');
     void card.offsetWidth; // 先套用起始狀態，下面的變更才會跑 transition
-    // 神似 Mac 精靈：往窄拉 + 收縮 + 模糊淡出，像被吸進信封
-    card.style.transform = 'scaleX(0.12) scaleY(0.5)';
+    // 神似 Mac 精靈：往下滑 + 往窄拉 + 收縮 + 模糊淡出，像被吸進信封
+    card.style.transform = `translate(${Math.round(dx)}px, ${Math.round(dy)}px) scaleX(0.12) scaleY(0.5)`;
     card.style.opacity = '0';
     card.style.filter = 'blur(2px)';
 

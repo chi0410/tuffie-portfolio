@@ -2756,6 +2756,9 @@ body.ct-open {
 /* 手機底部 bar 的信封入口；桌機不顯示，桌機用右下角浮動按鈕 */
 .ct-navmail {
   display: none;
+  position: relative;
+  width: 18px;
+  height: 18px;
   align-items: center;
   padding: 0;
   background: none;
@@ -2770,14 +2773,19 @@ body.ct-open {
 }
 
 /* 送出成功回饋：信封變綠 → 輕輕跳一下 → 換成畫出來的勾勾 → 約 2 秒後復原。
-   信封沿用 bar 現有的樣子，不加任何底框。 */
+   信封沿用 bar 現有的樣子，不加任何底框。
+   兩個 icon 疊在一起用 opacity 交叉淡入（prototype 的作法），
+   而不是 display 硬切，換場才不會突兀。 */
 .ct-navmail-icon,
 .ct-navmail-check {
+  position: absolute;
+  inset: 0;
   display: block;
+  transition: opacity 300ms ease;
 }
 
 .ct-navmail-check {
-  display: none;
+  opacity: 0;
 }
 
 .ct-navmail.is-sent {
@@ -2789,11 +2797,11 @@ body.ct-open {
 }
 
 .ct-navmail.is-check .ct-navmail-icon {
-  display: none;
+  opacity: 0;
 }
 
 .ct-navmail.is-check .ct-navmail-check {
-  display: block;
+  opacity: 1;
 }
 
 .ct-navmail.is-check .ct-navmail-check path {
