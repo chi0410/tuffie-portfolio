@@ -2439,6 +2439,13 @@ body.ct-open {
   mask-image: none;
 }
 
+/* 送出鈕壓在淡出內容上的效果只在「還能往下捲」時才有意義。
+   內容已經全部看得到時取消重疊，否則最後一個欄位（新增連結鈕）
+   會被送出列壓住、只剩幾 px 的空隙。 */
+.ct-scroll.is-bottom + .ct-actions {
+  margin-top: 0;
+}
+
 .ct-field {
   display: flex;
   flex-direction: column;
