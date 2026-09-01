@@ -2812,8 +2812,13 @@ body.ct-open {
   opacity: 1;
 }
 
+/* 畫線的緩動不能用回彈曲線。stroke-dashoffset 從 24 走向 0 時，回彈會 overshoot
+   到負值（實測最低 -2.32），而負的 offset 會把虛線的「起點」往前推 ——
+   被吃掉的是勾勾的開頭那一截（實測全長的 12%），看起來就是畫到一半縮回去再補上。
+   （prototype 的畫線同樣用回彈曲線，所以也有這個瑕疵，這裡刻意不照抄。
+     彈跳 pop 則維持回彈：那是縮放，overshoot 正是要的效果。） */
 .ct-navmail.is-check .ct-navmail-check path {
-  animation: ctSentDraw 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: ctSentDraw 500ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 @keyframes ctSentPop {
