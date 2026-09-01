@@ -291,6 +291,12 @@ export function initContact() {
   });
 
   // ---- 送出 ---------------------------------------------------------------
+  // 只有真的按下「送出」才送。瀏覽器的「隱含送出」——在單行輸入框按 Enter
+  // （手機鍵盤的 Go／完成鍵也算）——會直接提交表單，對這種表單是誤觸來源。
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT') e.preventDefault();
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (status !== 'idle') return;
@@ -301,8 +307,9 @@ export function initContact() {
     if (incomplete()) return;
 
     formErr.hidden = true;
-    // 先鎖住卡片高度，換成成功畫面時才不會整張跳動（依設計檔）
-    card.style.height = card.offsetHeight + 'px';
+    // 桌機先鎖住卡片高度，換成成功畫面時才不會整張跳動（依設計檔）。
+    // 手機滿版沒有這個問題，而且鎖了會跟 visualViewport 的高度同步互相覆寫。
+    if (!narrow()) card.style.height = card.offsetHeight + 'px';
     status = 'loading';
     renderSubmit();
 
@@ -387,6 +394,7 @@ export function initContact() {
     document.body.style.top = '';
     document.body.style.paddingRight = '';
     card.style.height = '';
+    card.style.top = '';
     window.scrollTo(0, lockedScrollY);
     closeTimer = setTimeout(() => {
       closeTimer = 0;
@@ -425,10 +433,22 @@ export function initContact() {
     if (scrim.hidden) return;
     if (!narrow()) {
       card.style.height = '';
+      card.style.top = '';
       return;
     }
     const vv = window.visualViewport;
-    card.style.height = Math.round(vv ? vv.height : window.innerHeight) + 'px';
+    if (!vv) {
+      card.style.height = window.innerHeight + 'px';
+      return;
+    }
+    card.style.height = Math.round(vv.height) + 'px';
+    // ⚠️ 只補高度不夠。面板是 position:fixed，對齊的是「版面視窗」；
+    // iOS 聚焦畫面下半的欄位時會把「可見視窗」往下推（offsetTop > 0），
+    // 版面視窗卻不動。不補這個位移，面板就整個偏上：
+    // 標題被推出畫面、送出鈕掉到看不見的地方，
+    // 而且使用者看到的位置與元素實際位置錯開 —— 點欄位會命中送出鈕。
+    // 用 top 而非 transform：transform 留給滿版的淡入上移動畫，會打架。
+    card.style.top = Math.round(vv.offsetTop) + 'px';
     syncMask();
   }
 
@@ -448,7 +468,15 @@ export function initContact() {
   // 否則此刻算出來的位置是鍵盤還沒出現前的，會捲錯。
   scrollBox.addEventListener('focusin', (e) => {
     if (!narrow()) return;
-    setTimeout(() => e.target.scrollIntoView({ block: 'nearest' }), 300);
+    setTimeout(() => {
+      syncPanelHeight(); // 換欄位時 iOS 可能重新推移可見視窗，要重新對齊
+      e.target.scrollIntoView({ block: 'nearest' });
+    }, 300);
+  });
+  // 鍵盤收合後可見視窗會復原，但 resize 不一定會補送，這裡主動再對一次
+  scrollBox.addEventListener('focusout', () => {
+    if (!narrow()) return;
+    setTimeout(syncPanelHeight, 300);
   });
   // 卡片展開是 400ms 的動畫，開啟當下算出來的遮罩狀態並不準
   // （那時卡片還收合著、內容當然「捲不到底」），必須在尺寸穩定後重算，
