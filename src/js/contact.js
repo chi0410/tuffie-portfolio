@@ -21,6 +21,15 @@ const CLOSE_MS = 380;
 
 const LOGO = `<svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.1175 13.8899C17.3637 14.1118 17.8175 13.9525 17.8167 13.5904C17.8142 12.1772 16.8748 10.8123 15.8662 9.91634C15.8445 9.89716 15.8219 9.88131 15.8069 9.85544C15.8027 9.84793 15.7986 9.83792 15.8027 9.82958C15.8052 9.82541 15.8094 9.82291 15.8144 9.8204C15.8344 9.81039 15.8553 9.80789 15.8762 9.80122C16.1139 9.72697 16.3617 9.67608 16.6095 9.64521C16.8631 9.61351 17.1192 9.6035 17.3745 9.61684C17.6298 9.63019 17.8726 9.66356 18.1162 9.71862C18.3598 9.77369 18.5925 9.8471 18.8211 9.9397C19.0497 10.0323 19.2666 10.1424 19.476 10.2692C19.6854 10.396 19.8815 10.5395 20.0667 10.698C20.2519 10.8566 20.4229 11.0292 20.5797 11.2145C20.7366 11.3997 20.8776 11.5991 21.001 11.8093C21.1245 12.0195 21.2313 12.2423 21.3164 12.4709C21.4015 12.6994 21.4691 12.9447 21.5124 13.19C21.5558 13.4353 21.5783 13.6989 21.575 13.9558C21.5717 14.2128 21.5475 14.4522 21.5024 14.6967C21.0653 17.0701 17.6448 19.225 15.5016 19.9008C14.674 20.1619 14.1976 19.8599 13.4526 19.5329C10.4743 18.2273 6.74266 15.4834 8.84917 11.7926C10.7897 8.39298 15.9746 9.17385 16.8689 12.9522C16.929 13.2075 16.9332 13.7231 17.1184 13.8899H17.1175Z" fill="#F4E1D5"/><path d="M20.5064 6.00524C20.0776 5.95852 19.6888 6.20713 19.3309 6.40819C18.9488 6.62343 18.5267 6.76608 18.1087 6.89623C17.2303 7.16987 16.3167 7.33005 15.3974 7.37176C14.6474 7.40596 13.9099 7.33589 13.1599 7.41681C12.4016 7.49857 11.6515 7.65541 10.9232 7.88066C10.7005 7.9499 10.4802 8.02916 10.2617 8.11091C10.1799 8.14178 9.65266 8.40457 9.59926 8.3662C9.12457 8.01915 8.70744 7.91903 8.15933 7.68127C6.52751 6.97215 4.55949 7.25663 3.26054 8.49467C3.12956 8.61981 2.99441 8.72326 3.02945 8.92933C3.05448 9.07532 3.60259 9.48578 3.75109 9.58756C4.18073 9.88122 4.68713 10.1348 5.19937 10.2458C5.22022 10.3434 5.18602 10.3125 5.14597 10.3392C3.7052 11.2694 2.82255 12.6451 3.02945 14.4388C3.07951 14.8693 3.68685 14.8109 4.01221 14.7942C5.76583 14.7058 7.10399 13.5244 7.76305 11.9961C7.82812 11.8459 7.89653 11.6974 7.96912 11.5514C8.33703 10.8139 8.80838 10.2333 9.4224 9.78778C9.72607 9.56754 10.0648 9.37983 10.4435 9.22299C10.7722 9.08617 11.1109 8.97438 11.4555 8.88344C12.3373 8.64985 13.3192 8.71158 14.1702 9.04195C14.2127 9.05864 14.2519 9.00941 14.2261 8.97104C14.1218 8.81169 14.196 8.58728 14.3779 8.52805C14.4764 8.49551 14.5915 8.50802 14.6941 8.50719C15.6285 8.49634 16.5637 8.41375 17.4772 8.21269C18.1046 8.07504 18.7294 7.88733 19.3359 7.68127C19.6997 7.5578 20.0768 7.47521 20.4397 7.34923C20.7584 7.23828 21.1588 7.10396 21.198 6.71186C21.2464 6.31558 20.856 6.04445 20.5047 6.00607L20.5064 6.00524Z" fill="#F4E1D5"/></svg>`;
 
+// 手機底部 bar 的聯絡入口。用 inline SVG 而非 ✉ emoji：
+// emoji 在各平台會渲染成彩色圖案，跟 bar 上的單色文字不搭；
+// SVG 用 currentColor 就能自動吃到 nav 的顏色與 hover。
+const MAIL_ICON =
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+  'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+  '<rect x="3" y="5.5" width="18" height="13" rx="3"/>' +
+  '<path d="m3.6 8 7.2 4.9a2.1 2.1 0 0 0 2.4 0L20.4 8"/></svg>';
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Link 欄位：https:// 可省略（一般人習慣直接貼 example.com/xxx），
 // 但至少要有「網域.後綴」的樣子，純文字不算網址。
@@ -100,6 +109,17 @@ export function initContact() {
 
   document.body.append(fab, scrim);
 
+  // 手機版入口：塞進 header 的 nav（手機時 header 整條會變成底部固定 bar）。
+  // 桌機以 CSS 隱藏，維持右下角的浮動按鈕。
+  const navMail = el('button', 'ct-navmail', {
+    type: 'button',
+    'aria-haspopup': 'dialog',
+    'aria-expanded': 'false',
+  });
+  navMail.innerHTML = MAIL_ICON;
+  document.querySelector('header nav')?.append(navMail);
+  const triggers = [fab, navMail];
+
   const q = (s) => scrim.querySelector(s);
   const card = q('.ct-card');
   const form = q('.ct-form');
@@ -122,12 +142,14 @@ export function initContact() {
   let submitted = false;
   let closeTimer = 0;
   let lockedScrollY = 0;
+  let lastTrigger = null;
 
   // ---- 文案套用 ------------------------------------------------------------
   function applyCopy() {
     const c = t();
     scrim.dataset.lang = lang; // 供 CSS 針對語言微調（成功標題的英文字級）
     fab.setAttribute('aria-label', c.fab);
+    navMail.setAttribute('aria-label', c.fab);
     fab.querySelector('.ct-fab-label').textContent = c.fab;
     q('.ct-close').setAttribute('aria-label', c.close);
     q('.ct-title').textContent = c.title;
@@ -330,7 +352,7 @@ export function initContact() {
     // 瀏覽器仍記著上次的位置並在重新顯示時還原。
     scrollBox.scrollTop = 0;
     syncMask();
-    fab.setAttribute('aria-expanded', 'true');
+    triggers.forEach((el) => el.setAttribute('aria-expanded', 'true'));
     // 鎖住背景捲動：記下位置後把 body 固定住（見 components.css 的 body.ct-open）
     lockedScrollY = window.scrollY;
     const barWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -348,7 +370,7 @@ export function initContact() {
   function close() {
     if (scrim.hidden) return;
     scrim.classList.remove('is-open');
-    fab.setAttribute('aria-expanded', 'false');
+    triggers.forEach((el) => el.setAttribute('aria-expanded', 'false'));
     // 解鎖並還原到原本的捲動位置
     document.body.classList.remove('ct-open');
     document.body.style.top = '';
@@ -359,7 +381,9 @@ export function initContact() {
       scrim.hidden = true;
       reset();
     }, CLOSE_MS);
-    fab.focus({ preventScroll: true });
+    // 焦點還給實際按下的那個入口：另一個此時是 display:none，
+    // 對它聚焦會失敗、焦點就掉回 body 了
+    (lastTrigger || fab).focus({ preventScroll: true });
   }
 
   function reset() {
@@ -387,7 +411,12 @@ export function initContact() {
   scrollBox.addEventListener('scroll', syncMask);
   window.addEventListener('resize', syncMask);
 
-  fab.addEventListener('click', open);
+  triggers.forEach((el) =>
+    el.addEventListener('click', () => {
+      lastTrigger = el;
+      open();
+    })
+  );
   q('.ct-close').addEventListener('click', close);
   scrim.addEventListener('click', (e) => {
     if (e.target === scrim) close(); // 只有點在遮罩本身才關；比 closest 更耐脫離 DOM 的節點

@@ -2745,8 +2745,44 @@ body.ct-open {
   }
 }
 
+/* 手機底部 bar 的信封入口；桌機不顯示，桌機用右下角浮動按鈕 */
+.ct-navmail {
+  display: none;
+  align-items: center;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(250, 240, 234, 0.75); /* 與 nav a 同色 */
+  transition: color var(--duration-base) var(--ease);
+}
+
+.ct-navmail svg {
+  display: block;
+}
+
+.ct-navmail:hover,
+.ct-navmail:focus-visible {
+  color: var(--primary-20);
+}
+
 /* --- rwd：手機版 header 是貼底的固定 bar，按鈕與卡片都要讓開 --- */
 @media (max-width: 768px) {
+  /* 手機 bar 拿掉 My Edge（桌機導覽維持）。
+     四頁的寫法有 #edge 與 /#edge 兩種，用結尾比對一併命中 */
+  header nav a[href$='#edge'] {
+    display: none;
+  }
+
+  /* 手機改用 bar 上的信封當聯絡入口，浮動按鈕收起來，避免兩個入口並存 */
+  .ct-navmail {
+    display: inline-flex;
+  }
+
+  .ct-fab {
+    display: none;
+  }
+
   /* header 距底 16px、高 48px（頂端離視窗底 64px），80px 剛好留 16px 呼吸 */
   .ct-fab {
     bottom: 80px;
