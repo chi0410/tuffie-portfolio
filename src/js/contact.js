@@ -318,8 +318,13 @@ export function initContact() {
     const w = window.innerWidth || 640;
     const h = window.innerHeight || 700;
     card.style.setProperty('--ct-w', Math.max(280, Math.min(640, w - 80)) + 'px');
-    card.style.setProperty('--ct-h', Math.max(360, Math.min(700, h - 80)) + 'px');
     scrim.hidden = false;
+    // 卡片高度是內容撐出來的，--ct-h 只是上限。桌機拿掉原本 700px 的硬上限、
+    // 直接給到螢幕可用高度：內容放得下就完整顯示、不出現捲軸，放不下才捲動。
+    // 手機維持 700px 上限，本來就靠捲動。
+    const wide = window.matchMedia('(min-width: 769px)').matches;
+    const cap = wide ? h - 80 : Math.min(700, h - 80);
+    card.style.setProperty('--ct-h', Math.max(360, cap) + 'px');
     // 捲回頂端必須在「顯示之後」做：隱藏時彈窗是 display:none，
     // 捲動容器沒有版面，scrollTop 讀到的永遠是 0、寫入也無效，
     // 瀏覽器仍記著上次的位置並在重新顯示時還原。

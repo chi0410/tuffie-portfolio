@@ -2386,7 +2386,7 @@ body.ct-open {
 /* --- 標題 --- */
 .ct-head {
   flex: none;
-  padding: 38px 44px 0;
+  padding: 24px 44px 0;
 }
 
 .ct-eyebrow {
@@ -2395,7 +2395,7 @@ body.ct-open {
   font-weight: 600;
   font-size: 18px;
   letter-spacing: 0.16em;
-  line-height: 1.5;
+  line-height: 1.3;
   color: var(--ondark-text-2);
 }
 
@@ -2425,10 +2425,10 @@ body.ct-open {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 26px 44px 76px;
+  padding: 20px 44px 32px;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 18px;
   /* 沒捲到底時底部淡出，暗示下面還有內容（依設計檔）；捲到底由 JS 加 is-bottom 取消 */
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 96px), rgba(0, 0, 0, 0) 100%);
   mask-image: linear-gradient(to bottom, #000 calc(100% - 96px), rgba(0, 0, 0, 0) 100%);
@@ -2442,7 +2442,7 @@ body.ct-open {
 .ct-field {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ct-label {
@@ -2459,7 +2459,7 @@ body.ct-open {
 
 .ct-input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 16px;
   font-family: inherit;
   font-size: 16px; /* 16px 以下 iOS Safari 聚焦時會自動放大整頁 */
   color: var(--ondark-text-1);
@@ -2490,13 +2490,14 @@ body.ct-open {
 }
 
 .ct-textarea {
-  min-height: 92px;
+  min-height: 76px;
   line-height: 1.9;
   resize: vertical;
 }
 
 .ct-err {
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.5;
   color: #e1aba1;
 }
 
@@ -2592,7 +2593,7 @@ body.ct-open {
 
 .ct-addlink {
   align-self: flex-start;
-  margin-top: 10px;
+  margin-top: 8px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2623,7 +2624,7 @@ body.ct-open {
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  padding: 0 44px 30px;
+  padding: 0 44px 18px;
   margin-top: -28px; /* 送出鈕壓在淡出的內容上，依設計檔 */
 }
 
