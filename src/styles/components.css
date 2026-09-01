@@ -2210,7 +2210,16 @@ main > .cs-next-sec:last-child {
 .ct-fab-logo {
   display: block;
   flex: none;
-  transition: transform 350ms linear;
+  opacity: 0.75; /* 靜置時淡一階，hover 才回到滿版 */
+  transition: transform 350ms linear, opacity var(--duration-base) var(--ease);
+}
+
+/* 常駐呼吸：沿用全站 icon 的 iconFloat（3.2s ease-in-out，0 → -7px → 0）。
+   動畫掛在內層，外層留給 hover 的旋轉與位移，兩個 transform 才不會互相覆蓋。 */
+.ct-fab-logo svg,
+.ct-fab-arrow > span {
+  display: block;
+  animation: iconFloat 3.2s ease-in-out infinite;
 }
 
 .ct-fab:hover .ct-fab-logo,
@@ -2236,12 +2245,20 @@ main > .cs-next-sec:last-child {
 .ct-fab-arrow {
   display: block;
   flex: none;
-  transition: transform var(--duration-base) var(--ease);
+  opacity: 0.75;
+  transition: transform var(--duration-base) var(--ease), opacity var(--duration-base) var(--ease);
 }
 
 .ct-fab:hover .ct-fab-arrow,
 .ct-fab:focus-visible .ct-fab-arrow {
   transform: translateX(5px);
+}
+
+.ct-fab:hover .ct-fab-logo,
+.ct-fab:focus-visible .ct-fab-logo,
+.ct-fab:hover .ct-fab-arrow,
+.ct-fab:focus-visible .ct-fab-arrow {
+  opacity: 1;
 }
 
 /* 表單開啟時把按鈕藏起來（卡片是從它的位置長出來的） */
@@ -2692,6 +2709,12 @@ body.ct-open {
   color: #c2c5df;
 }
 
+/* 英文標題走 Cormorant Infant 的拉丁字，視覺上比中文襯線小一號，補 2px 補回來。
+   語言由 contact.js 寫在 .ct-scrim 的 data-lang 上。 */
+.ct-scrim[data-lang='en'] .ct-done-title {
+  font-size: 28px;
+}
+
 .ct-done-body {
   margin-top: 8px;
   font-size: 15px;
@@ -2771,6 +2794,11 @@ body.ct-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ct-fab-logo svg,
+  .ct-fab-arrow > span {
+    animation: none;
+  }
+
   .ct-fab,
   .ct-fab-logo,
   .ct-fab-label,

@@ -41,7 +41,7 @@ export function initContact() {
   fab.innerHTML =
     `<span class="ct-fab-logo">${LOGO}</span>` +
     '<span class="ct-fab-label"></span>' +
-    '<span class="ct-fab-arrow" aria-hidden="true">&rarr;</span>';
+    '<span class="ct-fab-arrow" aria-hidden="true"><span>&rarr;</span></span>';
 
   const scrim = el('div', 'ct-scrim', { hidden: '' });
   scrim.innerHTML = `
@@ -126,6 +126,7 @@ export function initContact() {
   // ---- 文案套用 ------------------------------------------------------------
   function applyCopy() {
     const c = t();
+    scrim.dataset.lang = lang; // 供 CSS 針對語言微調（成功標題的英文字級）
     fab.setAttribute('aria-label', c.fab);
     fab.querySelector('.ct-fab-label').textContent = c.fab;
     q('.ct-close').setAttribute('aria-label', c.close);
