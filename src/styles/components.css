@@ -847,9 +847,19 @@ footer .cr {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  /* 版面從左右並排改成上下堆疊後，照片改為橫式滿版：
+     寬度不設限，撐滿 grid 欄寬 —— 也就是跟下方內容區塊同寬、左右對齊。 */
   .about-intro-photo {
-    max-width: 320px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
+  }
+  /* 直式 3/4 改橫式 3:2，上下裁掉、保留中間。
+     原圖 1000×1242，置中裁 3:2 取到 y 287–954：
+     上面切掉攤位天花板與燈具、下面切掉空桌面與地板，人臉與操作動作全在裡面
+     （人物髮際線在 y≈345，離裁切上緣還有 58px，不會削到頭），
+     所以用預設的置中裁切即可，不需要另外調 object-position。 */
+  .about-intro-photo img {
+    aspect-ratio: 3 / 2;
   }
 }
 
@@ -877,9 +887,6 @@ footer .cr {
   }
   .about-intro {
     padding: 150px 0 90px;
-  }
-  .about-intro-photo {
-    max-width: 260px;
   }
   h1.display .lg {
     margin: 0 8px;
