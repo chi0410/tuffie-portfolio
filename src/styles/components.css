@@ -2840,7 +2840,13 @@ body.ct-open {
 
 .ct-navmail-closed {
   opacity: 1;
-  transition: opacity 300ms var(--ct-smooth);
+  transform: none;
+  /* 收尾回場用「過渡」而不是動畫：過渡一定從當下的實際值接續，
+     不會有動畫重新從頭播、或基底值先露一幀的風險。
+     透明度用前段偏快的曲線：勾勾是 200ms 淡出，信封若用一般的緩入會落後，
+     兩者交會處畫面會凹下去（實測會掉到 0.73）。前段拉快後補得上，交叉更平。
+     縮放仍用順滑曲線，保留輕輕放大的手感。 */
+  transition: opacity 240ms cubic-bezier(0.2, 0.9, 0.35, 1), transform 300ms var(--ct-smooth);
 }
 
 /* 綠色閉合信封（a9 新增的一拍）：合起的瞬間先變綠，再接實心綠。
@@ -2927,16 +2933,28 @@ body.ct-open {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 34;
-  stroke-dashoffset: 34;
+  /* 基底是「已經畫好」（offset 0），不是未畫。
+     ⚠️ 這是關鍵：原本基底是 34、靠 animation 的 forwards 保持畫好的狀態，
+     但 forwards 只在動畫還存在時有效——is-done 一移除，動畫連同它保持的
+     終點值一起消失，線條會瞬間彈回未畫、整條不見。而勾勾此時還在淡出、
+     信封才剛要浮起來，畫面上會空掉兩三幀，那就是「閃一下」。
+     改成基底畫好、進場時用 backwards 在延遲期間保持未畫，退場就不會彈。 */
+  stroke-dashoffset: 0;
   /* header 有一條 svg * { vector-effect: non-scaling-stroke }（給 bar 縮放用），
      那會讓 stroke-width 不再隨 viewBox 縮放、勾線變成兩倍粗。這裡取消。 */
   vector-effect: none;
 }
 
 /* 勾勾取代信封：四張各自用自己的過渡淡出（比照 prototype 的 .stage.done .ev），
-   不是把整個 box 一次關掉——這樣收尾時才交得回 .is-reveal 的漸顯動畫。 */
+   不是把整個 box 一次關掉——這樣收尾時米白信封才淡得回來。 */
 .ct-navmail.is-done .ct-navmail-env {
   opacity: 0;
+}
+
+/* 勾勾期間把米白信封壓成略縮，移除 is-done 時就會一邊淡回一邊放大回原尺寸
+   ——原本 revealIn 那個「快速漸顯」的感覺，改用過渡達成 */
+.ct-navmail.is-done .ct-navmail-closed {
+  transform: scale(0.94);
 }
 
 .ct-navmail.is-done .ct-navmail-chk {
@@ -2945,10 +2963,13 @@ body.ct-open {
 }
 
 .ct-navmail.is-done .ct-navmail-chk path {
-  animation: ctSentDraw 460ms var(--ct-smooth) 60ms forwards;
+  animation: ctSentDraw 460ms var(--ct-smooth) 60ms backwards;
 }
 
 @keyframes ctSentDraw {
+  from {
+    stroke-dashoffset: 34;
+  }
   to {
     stroke-dashoffset: 0;
   }
@@ -2969,21 +2990,7 @@ body.ct-open {
   }
 }
 
-/* 收尾回米白閉合時的快速漸顯（a9 新增）：不要直接出現，輕輕淡回並帶一點放大 */
-.ct-navmail.is-reveal .ct-navmail-closed {
-  animation: ctEnvReveal 340ms var(--ct-soft-bounce);
-}
 
-@keyframes ctEnvReveal {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 /* 表單收進信封時遮罩要淡出，否則信封被蓋住、看不到接住的動作 */
 .ct-scrim.is-sending {
@@ -3140,8 +3147,7 @@ body.ct-open {
     animation: none;
   }
 
-  .ct-navmail-box.is-pop,
-  .ct-navmail.is-reveal .ct-navmail-closed {
+  .ct-navmail-box.is-pop {
     animation: none;
   }
 

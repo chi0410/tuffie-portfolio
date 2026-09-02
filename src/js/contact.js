@@ -50,11 +50,10 @@ const GENIE_MS = 600; // 表單被「吸進」信封的時間
 const ENV_CLOSE_AT = 640; // 合起成綠色閉合 + 盒身彈跳；接在表單被吞進去（GENIE_MS 600）之後
 const ENV_SOLID_AT = 900; // 換成實心綠。a9 把這段從 1000 提前，合起後接得更緊
 const ENV_CHECK_AT = 1420; // 信封退場、換成大綠勾勾
-// 回米白閉合，並播一次快速漸顯。
-// a9 原本是 3300，勾勾要停 1880ms（畫線 520ms + 乾等 1360ms）太久，
-// 提前到 2600：勾勾共顯示 1180ms、畫完後還留約 660ms，看得清楚又不拖。
-const ENV_REVEAL_AT = 2600;
-const ENV_REVEAL_MS = 340; // 漸顯動畫長度，跑完才把狀態清乾淨
+// 勾勾退場、米白信封淡回（300ms 過渡，見 components.css）。
+// a9 原本 3300、上一輪改 2600，仍偏久：畫線在 1940ms 就結束，之後都是乾等。
+// 2250 讓勾勾共顯示 830ms、畫完仍留約 310ms，看得清楚又不拖。
+const ENV_BACK_AT = 2250;
 
 // 一般關閉（沒送出）時，信封「多開著一拍」再闔上。
 // 不立刻闔的原因：關閉當下面板正在收合（CLOSE_MS 380），視線被面板帶走，
@@ -500,7 +499,7 @@ export function initContact() {
 
   // 信封狀態切換。這些狀態互斥，統一從這裡進出，避免殘留。
   function setEnvelope(state) {
-    navMail.classList.remove('is-open', 'is-closing', 'is-solid', 'is-done', 'is-reveal');
+    navMail.classList.remove('is-open', 'is-closing', 'is-solid', 'is-done');
     if (state) navMail.classList.add(state);
     // 回到平常狀態時把彈跳也清掉，下一次才觸發得起來
     else navMail.querySelector('.ct-navmail-box')?.classList.remove('is-pop');
@@ -533,8 +532,9 @@ export function initContact() {
     });
     at(ENV_SOLID_AT, () => setEnvelope('is-solid')); // 實心綠信封
     at(ENV_CHECK_AT, () => setEnvelope('is-done')); // 勾取代信封
-    at(ENV_REVEAL_AT, () => setEnvelope('is-reveal')); // 回米白閉合＋快速漸顯
-    at(ENV_REVEAL_AT + ENV_REVEAL_MS, () => setEnvelope(null)); // 漸顯跑完才清狀態
+    // 收尾只要清掉狀態：米白信封會依 CSS 的過渡淡回並放大回原尺寸，
+    // 同時勾勾淡出（線條維持畫好的樣子，不會瞬間消失），兩者交疊、不留空檔
+    at(ENV_BACK_AT, () => setEnvelope(null));
   }
 
   // 收尾：隱藏彈窗、解鎖背景捲動、清掉行內樣式並重置表單
