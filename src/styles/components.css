@@ -1954,6 +1954,26 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
   header {
     top: auto;
     bottom: 16px; /* 單純貼視窗底；rwd 不顯示 footer，故不需預留 footer 高度、也不必閃避 */
+
+    /* 捲動縮放（follow IG）：往下滑縮小、往上滑或點按鈕放大，載入時是大態。
+       ⚠️ 只用 transform: scale 整體等比縮放，不改 padding／字級／gap／寬度——
+          改排版會讓按鈕各自移位，變化很突兀。bar 永遠以「大態的完整尺寸」排版。
+       ⚠️ 這條 bar 就是桌機的 header，本來就用 translateX(-50%) 置中，
+          所以必須把兩個變形串著寫，只寫 scale 會蓋掉置中、bar 會歪掉。
+          以 bottom center 為原點：水平中心與底邊都不位移，往底部收放。 */
+    transform: translateX(-50%) scale(1);
+    transform-origin: bottom center;
+    transition: transform 480ms var(--ease);
+  }
+
+  header.is-bar-small {
+    transform: translateX(-50%) scale(0.82);
+  }
+
+  /* 線條粗細不隨縮放改變（縮小時不變細、放回大態也不會顯得笨重）。
+     寫在 CSS 而不是 SVG 屬性上，聯絡信封是 contact.js 注入的也一併吃到 */
+  header svg * {
+    vector-effect: non-scaling-stroke;
   }
   /* rwd 不顯示 footer（含 IG icon）；web 照常顯示 */
   footer {
@@ -3010,5 +3030,14 @@ body.ct-open {
 
   .ct-spin {
     animation-duration: 2s;
+  }
+}
+
+/* 關閉動態偏好：底部 bar 直接切換大小態、不做過渡（縮放本身保留，
+   否則捲動時 bar 佔用的視覺份量會與其他人看到的不一致）。
+   置於檔尾以來源順序覆蓋前面 ≤768 的 transition。 */
+@media (prefers-reduced-motion: reduce) and (max-width: 768px) {
+  header {
+    transition: none;
   }
 }

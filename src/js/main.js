@@ -5,6 +5,7 @@ import { initToast } from './toast.js';
 import { initReveal } from './reveal.js';
 import { initBgWave } from './bg-wave.js';
 import { initContact } from './contact.js';
+import { initBottomBar } from './bottom-bar.js';
 
 initHeaderScrollSpy();
 injectIcons();
@@ -13,3 +14,4 @@ initToast(currentLangCopy);
 initReveal();
 initBgWave();
 initContact();
+initBottomBar();

@@ -6,6 +6,7 @@ import { initTabs, initAccordion } from './proposal.js';
 import { initReveal } from './reveal.js';
 import { initBgWave } from './bg-wave.js';
 import { initContact } from './contact.js';
+import { initBottomBar } from './bottom-bar.js';
 
 initProposalI18n();
 initTabs();
@@ -13,3 +14,4 @@ initAccordion();
 initReveal();
 initBgWave();
 initContact();
+initBottomBar();
