@@ -172,6 +172,14 @@
   font-size: 14px;
 }
 
+/* 單位換到數字前面時（英文 From NT$ 80,000），間距跟著換到右邊。
+   靠 :first-child 判斷位置、不看語言——DOM 排成什麼樣，樣式就跟著對，
+   排序邏輯只有 proposal-i18n.js 一處在管。 */
+.ps-price .ps-price-unit:first-child {
+  margin-left: 0;
+  margin-right: 0.3em;
+}
+
 /* ==========================================================================
    核心服務卡
    ========================================================================== */
@@ -352,6 +360,14 @@
   --stage-no-w: 132px;
   --stage-gap: 18px;
   --pay-bleed: 17px;
+}
+
+/* 英文階段名比中文長，132px 會讓 03／05／07 擠成兩行（最長的
+   「05. Development Preview」需要 177px）。放寬共用的欄寬變數即可——
+   工作階段與付款卡同時跟著調整，對齊成一直線的關係不變。
+   手機版此欄改為 auto（階段名在上、說明在下），不受影響。 */
+html[lang='en'] .acc-body {
+  --stage-no-w: 180px;
 }
 
 /* 玻璃卡用負 margin 往外撐才有內距、字又能對齊工作階段，
@@ -665,6 +681,14 @@
   .vs-tabs button {
     padding: 8px 15px;
     font-size: 13px;
+  }
+
+  /* 英文標籤（Maintenance／Extra Pages／Add-ons）比中文寬，
+     375px 只差 3px 就換行。內距收 3px 讓它留在一行。
+     ⚠️ 320px 極窄機仍會排成兩行——文字本身就 206px，
+     再壓內距會讓膠囊變得又扁又擠，寧可讓它自然換行。 */
+  html[lang='en'] .vs-tabs button {
+    padding: 8px 12px;
   }
 
   /* 三欄表格（網站維護／加購項目）在窄螢幕擠不下，改單欄堆疊：

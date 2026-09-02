@@ -48,6 +48,18 @@ function apply() {
   // 螢幕閱讀器用英文語音念中文。以字典是否真的有內容來判斷，補完後自動生效。
   const enReady = proposalCopy.en.h1 !== undefined;
   document.documentElement.lang = lang === 'en' && enReady ? 'en' : 'zh-Hant';
+
+  // 核心服務價格的單位換邊：中文「起」接在數字後（NT$ 80,000 起），
+  // 英文 From 習慣放數字前（From NT$ 80,000）。
+  // 直接搬 DOM 節點而不是用 CSS 的 order——order 只換視覺，
+  // 螢幕閱讀器仍照 DOM 唸，英文會變成「NT$ 80,000 From」。
+  const unitFirst = lang === 'en' && enReady;
+  document.querySelectorAll('.ps-price--l').forEach((price) => {
+    const unit = price.querySelector('.ps-price-unit');
+    if (!unit) return;
+    if (unitFirst) price.prepend(unit);
+    else price.append(unit);
+  });
   const btn = document.getElementById('langBtn');
   if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中';
 }
