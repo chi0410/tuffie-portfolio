@@ -130,6 +130,11 @@
         <button type="button" role="tab" id="vs-tab-addon" aria-controls="vs-panel-addon" aria-selected="false" tabindex="-1" data-k="tabAddon"></button>
       </div>
 
+      <!-- 三個面板包一層容器，捲動淡入掛在容器上：整區進場一次。
+           不掛在 .vs-panel 上——面板本身有 vsFade 切換動畫，兩個動畫會打架；
+           且隱藏的面板要等點了 tab 才進場，等於每次切換都重播一次 50px 上升。 -->
+      <div class="rv">
+
       <!-- 網站維護 -->
       <div class="vs-panel" role="tabpanel" id="vs-panel-maint" aria-labelledby="vs-tab-maint">
         <h3 class="ps-h3" data-k="maintTitle"></h3>
@@ -219,6 +224,8 @@
           </tbody>
         </table>
       </div>
+
+      </div><!-- /.rv 面板容器 -->
     </div>
   </section>
 
@@ -226,6 +233,9 @@
   <section class="ps-sec ps-sec--last">
     <div class="wrap">
       <h2 class="ps-h2 rv" data-k="sumSecTitle"></h2>
+      <!-- 表格與註解包成一塊、整塊淡入一次。
+           .rv 若下放到每個 <tr> 會變成逐列進場，比價的人得等它一列一列跑完 -->
+      <div class="rv">
       <table class="ps-table ps-table--2">
         <thead>
           <tr>
@@ -244,6 +254,7 @@
         </tbody>
       </table>
       <p class="ps-note ps-note--plain" data-k="sumNote"></p>
+      </div><!-- /.rv 表格區塊 -->
     </div>
   </section>
 
