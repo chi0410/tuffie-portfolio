@@ -2840,7 +2840,16 @@ body.ct-open {
 
 .ct-navmail-closed {
   opacity: 1;
-  transition: opacity 250ms var(--ct-smooth);
+  transition: opacity 300ms var(--ct-smooth);
+}
+
+/* 綠色閉合信封（a9 新增的一拍）：合起的瞬間先變綠，再接實心綠。
+   用的是同一張 env-closed.svg——fill 已是 currentColor，這裡只把 color 換成綠。
+   淡入比米白那張快（180ms），「啪」地合起來才有力道。 */
+.ct-navmail-closed-green {
+  opacity: 0;
+  color: var(--ct-check);
+  transition: opacity 180ms var(--ct-smooth);
 }
 
 /* 打開：淡入 + 由下往上長出來（clip-path）+ 輕微回彈，模擬蓋子往上掀 */
@@ -2855,8 +2864,9 @@ body.ct-open {
 .ct-navmail-solid {
   opacity: 0;
   color: var(--ct-check);
-  transform: scale(0.8);
-  transition: opacity 320ms var(--ct-smooth), transform 420ms var(--ct-soft-bounce);
+  transform: scale(0.82);
+  /* a9 把這兩段加快（320→240、420→320），整串才不會有一步一步的拖沓感 */
+  transition: opacity 240ms var(--ct-smooth), transform 320ms var(--ct-soft-bounce);
 }
 
 .ct-navmail.is-open .ct-navmail-closed {
@@ -2869,8 +2879,19 @@ body.ct-open {
   transform: scale(1.03);
 }
 
+/* 合起：米白與打開都退場，換上綠色閉合 */
+.ct-navmail.is-closing .ct-navmail-closed,
+.ct-navmail.is-closing .ct-navmail-open {
+  opacity: 0;
+}
+
+.ct-navmail.is-closing .ct-navmail-closed-green {
+  opacity: 1;
+}
+
 .ct-navmail.is-solid .ct-navmail-closed,
-.ct-navmail.is-solid .ct-navmail-open {
+.ct-navmail.is-solid .ct-navmail-open,
+.ct-navmail.is-solid .ct-navmail-closed-green {
   opacity: 0;
 }
 
@@ -2905,9 +2926,10 @@ body.ct-open {
   vector-effect: none;
 }
 
-.ct-navmail.is-done .ct-navmail-box {
+/* 勾勾取代信封：四張各自用自己的過渡淡出（比照 prototype 的 .stage.done .ev），
+   不是把整個 box 一次關掉——這樣收尾時才交得回 .is-reveal 的漸顯動畫。 */
+.ct-navmail.is-done .ct-navmail-env {
   opacity: 0;
-  transition: opacity 200ms var(--ct-smooth);
 }
 
 .ct-navmail.is-done .ct-navmail-chk {
@@ -2922,6 +2944,37 @@ body.ct-open {
 @keyframes ctSentDraw {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* 合起那一拍的彈跳（a9 新增）。掛在 box 上，四張信封一起彈，盒身不會各自跑掉 */
+.ct-navmail-box.is-pop {
+  animation: ctEnvPop 420ms var(--ct-soft-bounce);
+}
+
+@keyframes ctEnvPop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.16);
+  }
+}
+
+/* 收尾回米白閉合時的快速漸顯（a9 新增）：不要直接出現，輕輕淡回並帶一點放大 */
+.ct-navmail.is-reveal .ct-navmail-closed {
+  animation: ctEnvReveal 340ms var(--ct-soft-bounce);
+}
+
+@keyframes ctEnvReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -3066,6 +3119,7 @@ body.ct-open {
 
   /* 關動態：信封三態直接切換、勾勾直接畫好，不跑長動畫 */
   .ct-navmail-closed,
+  .ct-navmail-closed-green,
   .ct-navmail-open,
   .ct-navmail-solid,
   .ct-navmail-chk,
@@ -3076,6 +3130,11 @@ body.ct-open {
 
   .ct-navmail.is-done .ct-navmail-chk path {
     stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .ct-navmail-box.is-pop,
+  .ct-navmail.is-reveal .ct-navmail-closed {
     animation: none;
   }
 

@@ -32,6 +32,7 @@ const LOGO = `<svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns=
 // 原檔的 fill 已改成 currentColor，顏色才能交給 CSS 控制（送出時變綠）。
 const ENVELOPE =
   `<span class="ct-navmail-env ct-navmail-closed">${envClosedSvg}</span>` +
+  `<span class="ct-navmail-env ct-navmail-closed-green">${envClosedSvg}</span>` +
   `<span class="ct-navmail-env ct-navmail-open">${envOpenSvg}</span>` +
   `<span class="ct-navmail-env ct-navmail-solid">${envSolidSvg}</span>`;
 
@@ -44,12 +45,13 @@ const CHECK_ICON =
 // 收進信封的時間軸，依 handoff/prototype/form-genie-final.html
 const GENIE_MS = 600; // 表單被「吸進」信封的時間
 
-// 信封送出動畫的時間軸，依 handoff/prototype/envelope-anim-final.html。
+// 信封送出動畫的時間軸，依 handoff/prototype/envelope-anim-final.html（a9）。
 // 起點是「表單已經打開、信封是開著的」狀態，所以不需要再播一次打開。
-const ENV_CLOSE_AT = 620; // 蓋子闔上——剛好接在表單被吞進去（GENIE_MS 600）之後
-const ENV_SOLID_AT = 1000; // 變成實心綠信封
-const ENV_CHECK_AT = 1520; // 信封消失、換成大綠勾勾
-const ENV_RESET_AT = 3500; // 回到閉合信封
+const ENV_CLOSE_AT = 640; // 合起成綠色閉合 + 盒身彈跳；接在表單被吞進去（GENIE_MS 600）之後
+const ENV_SOLID_AT = 900; // 換成實心綠。a9 把這段從 1000 提前，合起後接得更緊
+const ENV_CHECK_AT = 1420; // 信封退場、換成大綠勾勾
+const ENV_REVEAL_AT = 3300; // 回米白閉合，並播一次快速漸顯
+const ENV_REVEAL_MS = 340; // 漸顯動畫長度，跑完才把狀態清乾淨
 
 // 一般關閉（沒送出）時，信封「多開著一拍」再闔上。
 // 不立刻闔的原因：關閉當下面板正在收合（CLOSE_MS 380），視線被面板帶走，
@@ -493,10 +495,12 @@ export function initContact() {
     setTimeout(teardown, GENIE_MS);
   }
 
-  // 信封狀態切換。三個狀態互斥，統一從這裡進出，避免殘留。
+  // 信封狀態切換。這些狀態互斥，統一從這裡進出，避免殘留。
   function setEnvelope(state) {
-    navMail.classList.remove('is-open', 'is-solid', 'is-done');
+    navMail.classList.remove('is-open', 'is-closing', 'is-solid', 'is-done', 'is-reveal');
     if (state) navMail.classList.add(state);
+    // 回到平常狀態時把彈跳也清掉，下一次才觸發得起來
+    else navMail.querySelector('.ct-navmail-box')?.classList.remove('is-pop');
   }
 
   // 送出成功的信封動畫，時序照 handoff/prototype/envelope-anim-final.html：
@@ -513,11 +517,21 @@ export function initContact() {
       return;
     }
 
+    const box = navMail.querySelector('.ct-navmail-box');
     const at = (ms, fn) => envTimers.push(setTimeout(fn, ms));
-    at(ENV_CLOSE_AT, () => setEnvelope(null)); // 闔上（回到閉合線條）
+
+    at(ENV_CLOSE_AT, () => {
+      setEnvelope('is-closing'); // 合起成綠色閉合
+      // 重新觸發彈跳：先移除、強制 reflow，再加回去。
+      // 少了中間那次 reflow，瀏覽器會把「移除再加上」視為沒變化，動畫不會重播。
+      box?.classList.remove('is-pop');
+      void box?.offsetWidth;
+      box?.classList.add('is-pop');
+    });
     at(ENV_SOLID_AT, () => setEnvelope('is-solid')); // 實心綠信封
     at(ENV_CHECK_AT, () => setEnvelope('is-done')); // 勾取代信封
-    at(ENV_RESET_AT, () => setEnvelope(null)); // 回閉合
+    at(ENV_REVEAL_AT, () => setEnvelope('is-reveal')); // 回米白閉合＋快速漸顯
+    at(ENV_REVEAL_AT + ENV_REVEAL_MS, () => setEnvelope(null)); // 漸顯跑完才清狀態
   }
 
   // 收尾：隱藏彈窗、解鎖背景捲動、清掉行內樣式並重置表單
