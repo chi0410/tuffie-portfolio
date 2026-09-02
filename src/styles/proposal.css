@@ -1,0 +1,798 @@
+/* ==========================================================================
+   報價頁（/private-services）專屬樣式
+
+   來歷：這頁原本是 Claude Design 匯出的獨立檔案，整份文件用 inline style、
+   包在固定寬 8.5in 的 <doc-page> 紙張元件裡，RWD 只能靠比對 inline style
+   字串的選擇器硬壓。2026-09 重整為網站的一頁：改用 tokens.css 的變數、
+   正常的 class 與 media query，背景／header／footer／聯絡表單全部沿用網站既有元件。
+
+   ⚠️ 重整時逐項保留的既有設計決策（動之前請先確認你知道原因）：
+     - 合作階段：工作階段列與付款玻璃卡共用 --stage-no-w，字才會對齊成一直線
+     - 付款卡上下不畫分隔線（用 .is-nb，不依賴較新的 :has）
+     - 加值服務 tab 間距桌機 14px／手機 10px（手機不能再加寬，320px 會換行）
+     - 表格在窄螢幕改單欄堆疊
+   ========================================================================== */
+
+.ps-page {
+  /* 報價文件的版心比全站窄：1120px 的價格表會太空、讀起來散 */
+  --ps-page-w: 880px;
+  /* 核心服務卡的暖色實底（非玻璃，白名單外不用玻璃材質） */
+  --ps-core-bg: linear-gradient(115deg, #6B3218 0%, var(--primary-text) 100%);
+  /* 深色墊底卡：擴充頁面的三張方案卡 */
+  --ps-plate-bg: rgba(30, 14, 6, 0.34);
+  --ps-hairline: rgba(255, 255, 255, 0.16);
+  --ps-th-line: rgba(255, 255, 255, 0.24);
+}
+
+.ps-page .wrap {
+  max-width: var(--ps-page-w);
+}
+
+/* header 的 <nav> 只在手機承載信封 icon（由 contact.js append 進來），
+   桌機沒有任何可見內容，但它仍是 flex 項目、會讓 header 的 gap 算兩次，
+   把膠囊撐出一段空隙。桌機直接收掉。
+   ⚠️ 不能用 :empty——信封 icon 一直都在 DOM 裡，只是桌機被 display:none。 */
+@media (min-width: 769px) {
+  .ps-page header nav {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   頁首
+   ========================================================================== */
+
+.ps-hero {
+  padding: 150px 0 34px;
+}
+
+.ps-hero .wrap {
+  border-bottom: 1px solid var(--divider-ondark);
+  padding-bottom: 34px;
+}
+
+.ps-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ondark-muted);
+  margin-bottom: 18px;
+}
+
+.ps-h1 {
+  font-family: var(--font-serif-zh);
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 1.4;
+  color: var(--ondark-text-1);
+  margin-bottom: 18px;
+}
+
+.ps-lead {
+  max-width: 640px;
+  font-size: 16px;
+  color: var(--ondark-text-2);
+}
+
+/* ==========================================================================
+   區塊與標題
+   ========================================================================== */
+
+.ps-sec {
+  padding-top: 48px;
+}
+
+.ps-sec--last {
+  padding-top: 52px;
+  padding-bottom: 96px;
+}
+
+.ps-h2 {
+  font-family: var(--font-serif-zh);
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--primary-20);
+  margin-bottom: 20px;
+}
+
+/* 有副標時標題與副標黏成一組，間距讓副標接手 */
+.ps-h2 + .ps-sub {
+  margin-top: -12px;
+}
+
+.ps-h3 {
+  font-family: var(--font-serif-zh);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--ondark-text-1);
+  margin-bottom: 8px;
+}
+
+.ps-sub {
+  max-width: 660px;
+  color: var(--ondark-text-2);
+  margin-bottom: 22px;
+}
+
+/* 全大寫小標（基礎範圍、合作階段、表頭） */
+.ps-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ondark-muted);
+}
+
+/* 靛紫左線註解：#676DAF 只做實色細節（線），不做透明光暈或文字色 */
+.ps-note {
+  margin-top: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--secondary-100);
+  font-size: 13px;
+  color: rgba(250, 240, 234, 0.72);
+}
+
+.ps-note--plain {
+  margin-top: 18px;
+  padding-left: 0;
+  border-left: none;
+  color: var(--ondark-muted);
+}
+
+/* ==========================================================================
+   價格數字：英文大字級用 Cormorant Infant 斜體，單位退回無襯線
+   ========================================================================== */
+
+.ps-price {
+  font-family: var(--font-serif-en);
+  font-style: italic;
+  color: var(--primary-20);
+  white-space: nowrap;
+}
+
+.ps-price--l {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.ps-price--m {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.ps-price-unit {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 15px;
+  margin-left: 0.3em;
+}
+
+.ps-price--m .ps-price-unit {
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   核心服務卡
+   ========================================================================== */
+
+.ps-core {
+  background: var(--ps-core-bg);
+  border-radius: var(--radius-block, 24px);
+  padding: 32px 36px;
+  box-shadow: 0 20px 50px rgba(40, 16, 4, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ps-core-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ps-core-title {
+  font-family: var(--font-serif-zh);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--ondark-text-1);
+}
+
+.ps-core-desc {
+  font-size: 15px;
+  color: var(--ondark-text-2);
+}
+
+.ps-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--ps-hairline);
+  padding-top: 18px;
+}
+
+.ps-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.ps-pills li {
+  border: 1px solid rgba(250, 240, 234, 0.4);
+  border-radius: var(--radius-full);
+  padding: 5px 14px;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   擴充頁面：三張墊底卡
+   ========================================================================== */
+
+.ps-plates {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ps-plate {
+  background: var(--ps-plate-bg);
+  border-radius: 18px;
+  padding: 24px 26px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 24px;
+}
+
+.ps-plate-title {
+  font-family: var(--font-serif-zh);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ondark-text-1);
+}
+
+.ps-plate .ps-price {
+  text-align: right;
+}
+
+.ps-plate-desc,
+.ps-plate-items {
+  grid-column: 1 / -1;
+}
+
+.ps-plate-desc {
+  font-size: 14px;
+  color: var(--ondark-text-2);
+}
+
+.ps-plate-items {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--ondark-muted);
+}
+
+/* ==========================================================================
+   表格
+   ========================================================================== */
+
+.ps-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.ps-table--2 {
+  font-size: 15px;
+}
+
+.ps-table th {
+  text-align: left;
+  padding: 0 16px 10px 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ondark-muted);
+  border-bottom: 1px solid var(--ps-th-line);
+}
+
+.ps-table td {
+  padding: 13px 16px 13px 0;
+  vertical-align: top;
+  border-top: 1px solid var(--divider-ondark);
+}
+
+.ps-table--2 td {
+  padding: 14px 16px 14px 0;
+}
+
+.ps-td-name {
+  color: var(--primary-20);
+  font-weight: 500;
+}
+
+.ps-table th.ps-td-fee,
+.ps-table td.ps-td-fee {
+  text-align: right;
+  padding-right: 0;
+  white-space: nowrap;
+}
+
+.ps-table--3 td.ps-td-fee {
+  font-size: 19px;
+}
+
+.ps-table--2 td.ps-td-fee {
+  font-size: 20px;
+}
+
+/* 冷色價格（另行估價、+25%）：用 --ondark-link，不用 --secondary-100 當文字色 */
+.ps-td-cool {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 14px;
+  color: var(--ondark-link);
+}
+
+/* 欄寬 */
+.ps-table--3 th:first-child { width: 22%; }
+.ps-table--3 th.ps-td-fee { width: 20%; }
+#vs-panel-addon .ps-table--3 th.ps-td-fee { width: 18%; }
+.ps-table--2 th.ps-td-fee { width: 34%; }
+
+/* ==========================================================================
+   合作階段：工作階段列（純文字）＋ 付款節點（玻璃卡）
+   兩者共用 --stage-no-w，字自然對齊成一直線
+   ========================================================================== */
+
+.acc-body {
+  --stage-no-w: 132px;
+  --stage-gap: 18px;
+  --pay-bleed: 17px;
+}
+
+/* 玻璃卡用負 margin 往外撐才有內距、字又能對齊工作階段，
+   但 .acc-inner 的 overflow:hidden（平滑展開必需）會把它裁掉。
+   這裡把裁切邊界往外推同樣距離、再用內距把內容拉回原位：
+   內容位置不變，負 margin 的卡片落在裁切範圍內。 */
+.acc-inner {
+  padding-left: var(--pay-bleed, 17px);
+  padding-right: var(--pay-bleed, 17px);
+  margin-left: calc(var(--pay-bleed, 17px) * -1);
+  margin-right: calc(var(--pay-bleed, 17px) * -1);
+}
+
+/* align-items:center → 階段名對齊到描述的垂直中線，描述變長時標題也跟著置中 */
+.stage {
+  display: flex;
+  align-items: center;
+  gap: var(--stage-gap);
+  padding: 15px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stage:last-child {
+  border-bottom: none;
+}
+
+/* 付款卡的上一列不畫底線，避免卡片上方多一條線（改用 class，不依賴較新的 :has） */
+.stage.is-nb {
+  border-bottom: none;
+}
+
+/* 階段標題沿用報價頁原本的樣式（14px / 500 / 無襯線），不放大 */
+.stage-no {
+  flex: none;
+  width: var(--stage-no-w);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--primary-20);
+}
+
+.stage-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ondark-text-2);
+}
+
+.stage-free {
+  color: var(--ondark-text-1);
+  font-weight: 600;
+}
+
+.stage-note {
+  display: block;
+  font-size: 12px;
+  color: rgba(250, 240, 234, 0.62);
+  margin-top: 5px;
+}
+
+/* 付款節點：玻璃卡 + 冷色系文字，與工作階段的暖米色區隔；上下皆無分隔線 */
+.pay {
+  display: flex;
+  align-items: center;
+  gap: var(--stage-gap);
+  background: var(--glass-dark-bg);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-l);
+  /* -17px + 1px 邊框 + 20px 內距 = 4px，正好等於工作階段的 padding-left */
+  padding: 16px 20px;
+  margin: 10px calc(var(--pay-bleed, 17px) * -1);
+}
+
+.pay-title {
+  flex: none;
+  width: var(--stage-no-w);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.7;
+  color: var(--ondark-link);
+}
+
+.pay-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(225, 226, 239, 0.78);
+}
+
+/* ==========================================================================
+   手風琴（通用元件：任何 [data-accordion] 都適用，可多組並存）
+   ========================================================================== */
+
+.acc {
+  margin-top: 2px;
+}
+
+.acc-head {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 觸發鈕比照首頁專案卡的 Read more：13.5px / 500 / --ondark-link，hover 轉 --secondary-60 */
+.acc-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ondark-link);
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease);
+}
+
+.acc-trigger:hover {
+  color: var(--secondary-60);
+}
+
+.acc-trigger:focus-visible {
+  outline: 2px solid rgba(250, 240, 234, 0.85);
+  outline-offset: 3px;
+  border-radius: var(--radius-s);
+}
+
+/* 箭頭旋轉 180 度，沿用網站 .arr 的 transform 過渡慣例 */
+.acc-arw {
+  display: inline-block;
+  font-size: 12px;
+  transition: transform var(--duration-base) var(--ease);
+}
+
+.acc-trigger[aria-expanded='true'] .acc-arw {
+  transform: rotate(180deg);
+}
+
+/* 平滑展開：grid-template-rows 0fr → 1fr，不需要量高度 */
+.acc-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 380ms var(--ease);
+}
+
+.acc-content.open {
+  grid-template-rows: 1fr;
+}
+
+/* 收合時一併移出可及性樹與 Tab 順序；延後到收合動畫結束才隱藏 */
+.acc-inner {
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear 380ms;
+}
+
+.acc-content.open .acc-inner {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.acc-body {
+  padding-top: 14px;
+  margin-top: 10px;
+  border-top: 1px solid var(--ps-hairline);
+}
+
+.acc-body .ps-label {
+  display: block;
+  margin-bottom: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acc-content,
+  .acc-arw,
+  .acc-trigger,
+  .acc-inner {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   加值服務分頁（膠囊樣式，比照網站「中／EN」語言切換鈕）
+   ========================================================================== */
+
+.vs-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.vs-tabs button {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--ondark-text-2);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--ps-hairline);
+  border-radius: var(--radius-full);
+  padding: 9px 22px;
+  cursor: pointer;
+  transition: color 200ms ease, background 200ms ease, border-color 200ms ease;
+}
+
+.vs-tabs button:hover {
+  color: var(--ondark-text-1);
+  border-color: rgba(250, 240, 234, 0.7);
+}
+
+.vs-tabs button[aria-selected='true'] {
+  font-weight: 500;
+  color: var(--primary-deep-2);
+  background: var(--ondark-text-1);
+  border-color: var(--ondark-text-1);
+}
+
+.vs-tabs button:focus-visible {
+  outline: 2px solid rgba(250, 240, 234, 0.85);
+  outline-offset: 2px;
+}
+
+.vs-panel[hidden] {
+  display: none;
+}
+
+.vs-panel {
+  animation: vsFade 450ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vs-panel:focus {
+  outline: none;
+}
+
+@keyframes vsFade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-tabs button {
+    transition: none;
+  }
+  .vs-panel {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   手機版（≤768px）
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .ps-hero {
+    /* header 在手機是貼底的 bar，頂部不需要為它預留空間 */
+    padding-top: 50px;
+  }
+
+  .ps-h1 {
+    font-size: 26px;
+  }
+
+  .ps-h2 {
+    font-size: 21px;
+  }
+
+  .ps-h3,
+  .ps-core-title {
+    font-size: 18px;
+  }
+
+  .ps-price--l {
+    font-size: 26px;
+  }
+
+  .ps-price--m {
+    font-size: 20px;
+  }
+
+  /* 核心服務卡：內距收窄 */
+  .ps-core {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  /* 墊底卡：價格從並排改為堆疊在標題下方、靠左 */
+  .ps-plate {
+    padding: 18px 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .ps-plate .ps-price {
+    text-align: left;
+  }
+
+  /* 加值服務分頁膠囊：縮小以便三顆排一列。
+     ⚠️ gap 不能再加寬——320px 窄機下三顆共 255px、容器僅 280px，餘裕只剩 5px */
+  .vs-tabs {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .vs-tabs button {
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+
+  /* 三欄表格（網站維護／加購項目）在窄螢幕擠不下，改單欄堆疊：
+     方案名 → 說明 → 費用，逐列以細線分隔 */
+  .ps-table--3,
+  .ps-table--3 tbody,
+  .ps-table--3 tr,
+  .ps-table--3 td {
+    display: block;
+    width: auto;
+  }
+
+  .ps-table--3 thead {
+    display: none;
+  }
+
+  .ps-table--3 tr {
+    padding: 13px 0;
+    border-top: 1px solid var(--divider-ondark);
+  }
+
+  .ps-table--3 td {
+    border: none;
+    padding: 0;
+  }
+
+  .ps-table--3 td.ps-td-fee {
+    text-align: left;
+    white-space: normal;
+  }
+
+  .ps-table--3 td + td {
+    margin-top: 5px;
+  }
+
+  /* 兩欄表格（價格總覽）維持兩欄，收窄第一欄 */
+  .ps-table--2 {
+    font-size: 13px;
+  }
+
+  .ps-table--2 td:first-child {
+    width: 33%;
+  }
+
+  /* 合作階段：左欄 132px 在窄螢幕塞不下，改成階段名在上、說明在下。
+     堆疊後主軸換成垂直，align-items 會變成水平對齊，要改回靠左 */
+  .acc-body {
+    --pay-bleed: 12px;
+  }
+
+  .stage,
+  .pay {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .stage-no,
+  .pay-title {
+    width: auto;
+  }
+
+  .stage {
+    padding: 13px 2px;
+  }
+
+  .pay {
+    padding: 14px;
+  }
+
+  .acc-trigger {
+    font-size: 13px;
+  }
+
+  /* 底部留白：手機的 header bar 貼底浮著，最後一段內容要讓開 */
+  .ps-sec--last {
+    padding-bottom: 90px;
+  }
+}
+
+/* 極窄機（iPhone SE 等 320px）：網站版心左右留白 28px，比重整前的 20px 寬，
+   三顆膠囊會換成兩行。這一層只收膠囊本身的內距與間距，375px 以上完全不受影響。 */
+@media (max-width: 360px) {
+  .vs-tabs {
+    gap: 8px;
+  }
+
+  .vs-tabs button {
+    padding: 8px 12px;
+  }
+}
+
+/* ==========================================================================
+   列印／存 PDF：分頁鈕隱藏，三個面板全部展開，
+   客戶列印時才不會只印到第一個服務
+   ========================================================================== */
+
+@media print {
+  .vs-tabs {
+    display: none;
+  }
+
+  .vs-panel[hidden] {
+    display: block !important;
+  }
+
+  .vs-panel + .vs-panel {
+    margin-top: 36px;
+  }
+
+  .vs-panel {
+    animation: none;
+  }
+
+  /* 手風琴內容全部展開 */
+  .acc-content {
+    grid-template-rows: 1fr;
+  }
+
+  .acc-inner {
+    visibility: visible;
+    overflow: visible;
+  }
+
+  .acc-head,
+  header,
+  footer,
+  .ct-fab {
+    display: none;
+  }
+}

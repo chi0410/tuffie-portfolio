@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Services｜Tuffie Chang</title>
+<meta name="description" content="從需求梳理、資訊架構到上線交付，由我方負責全權的規劃、設計與開發。">
+<meta name="theme-color" content="#7E3D1C">
+<!-- ⚠️ 給特定客戶的報價，不公開：不進選單／導覽／sitemap，只靠網址存取。
+     Vercel 另有 X-Robots-Tag 一層（見 vercel.json），兩層都要保留。 -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Private Services｜Tuffie Chang">
+<meta property="og:description" content="從需求梳理、資訊架構到上線交付，由我方負責全權的規劃、設計與開發。">
+<meta property="og:url" content="https://tuffiechang.com/private-services">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/styles/tokens.css">
+<link rel="stylesheet" href="/src/styles/base.css">
+<link rel="stylesheet" href="/src/styles/components.css">
+<link rel="stylesheet" href="/src/styles/proposal.css">
+</head>
+<body class="ps-page">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
+<svg class="knit" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="knitp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 0.5 H16" stroke="rgba(250,240,234,0.10)" stroke-width="1" stroke-dasharray="4 5"/></pattern></defs><rect width="100%" height="100%" fill="url(#knitp)"/></svg>
+
+<!-- 精簡版 header：只有 logo、聯絡入口、語言切換，沒有 Works／About／Resume／My Edge。
+     <nav> 必須存在但留空——contact.js 會把手機版的信封 icon append 進 header nav；
+     桌機時它是空的，由 proposal.css 的 nav:empty 收掉，避免多撐出一段空隙。 -->
+<header>
+  <a class="logo" href="/">Tuffie</a>
+  <nav></nav>
+  <button class="lang" id="langBtn" aria-label="切換網站語言">EN</button>
+</header>
+
+<main id="main">
+
+  <!-- 頁首 -->
+  <section class="ps-hero">
+    <div class="wrap">
+      <p class="ps-eyebrow rv" data-k="eyebrow"></p>
+      <h1 class="ps-h1 rv" data-k="h1"></h1>
+      <p class="ps-lead rv" data-k="lead"></p>
+    </div>
+  </section>
+
+  <!-- 核心服務 -->
+  <section class="ps-sec">
+    <div class="wrap">
+      <h2 class="ps-h2 rv" data-k="coreSecTitle"></h2>
+
+      <div class="ps-core rv">
+        <div class="ps-core-head">
+          <h3 class="ps-core-title" data-k="coreTitle"></h3>
+          <p class="ps-price ps-price--l">
+            <span data-k="corePrice"></span><span class="ps-price-unit" data-k="corePriceUnit"></span>
+          </p>
+        </div>
+        <p class="ps-core-desc" data-k="coreDesc"></p>
+
+        <div class="ps-scope">
+          <p class="ps-label" data-k="coreScopeLabel"></p>
+          <ul class="ps-pills">
+            <li data-k="corePill1"></li>
+            <li data-k="corePill2"></li>
+            <li data-k="corePill3"></li>
+            <li data-k="corePill4"></li>
+            <li data-k="corePill5"></li>
+          </ul>
+        </div>
+
+        <!-- 手風琴：合作階段。通用元件，同頁可並存多組 -->
+        <div class="acc" data-accordion>
+          <div class="acc-head">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="acc-stages"
+                    data-label-collapsed-k="accShow" data-label-expanded-k="accHide">
+              <span class="acc-txt" data-k="accShow"></span><span class="acc-arw" aria-hidden="true">&darr;</span>
+            </button>
+          </div>
+          <div class="acc-content" id="acc-stages" role="region" aria-labelledby="acc-stages-title">
+            <div class="acc-inner">
+              <div class="acc-body">
+                <h4 class="ps-label" id="acc-stages-title" data-k="stagesTitle"></h4>
+
+                <!-- is-nb（no border）：下一列是付款玻璃卡，這列不畫底線，卡片上方才不會多一條 -->
+                <div class="stage is-nb">
+                  <span class="stage-no" data-k="st0No"></span>
+                  <span class="stage-desc">
+                    <span class="stage-free" data-k="st0Free"></span><span data-k="st0Desc"></span>
+                    <span class="stage-note" data-k="st0Note"></span>
+                  </span>
+                </div>
+                <div class="pay">
+                  <span class="pay-title" data-k="payDepositTitle"></span>
+                  <span class="pay-desc" data-k="payDepositDesc"></span>
+                </div>
+                <div class="stage"><span class="stage-no" data-k="st1No"></span><span class="stage-desc" data-k="st1Desc"></span></div>
+                <div class="stage"><span class="stage-no" data-k="st2No"></span><span class="stage-desc" data-k="st2Desc"></span></div>
+                <div class="stage"><span class="stage-no" data-k="st3No"></span><span class="stage-desc" data-k="st3Desc"></span></div>
+                <div class="stage"><span class="stage-no" data-k="st4No"></span><span class="stage-desc" data-k="st4Desc"></span></div>
+                <div class="stage"><span class="stage-no" data-k="st5No"></span><span class="stage-desc" data-k="st5Desc"></span></div>
+                <div class="stage is-nb"><span class="stage-no" data-k="st6No"></span><span class="stage-desc" data-k="st6Desc"></span></div>
+                <div class="pay">
+                  <span class="pay-title" data-k="payFinalTitle"></span>
+                  <span class="pay-desc" data-k="payFinalDesc"></span>
+                </div>
+                <div class="stage"><span class="stage-no" data-k="st7No"></span><span class="stage-desc" data-k="st7Desc"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 加值服務 -->
+  <section class="ps-sec">
+    <div class="wrap">
+      <h2 class="ps-h2 rv" data-k="vsSecTitle"></h2>
+      <p class="ps-sub rv" data-k="vsSecSub"></p>
+
+      <div class="vs-tabs rv" role="tablist" data-vs-tabs data-aria-k="vsSecTitle">
+        <button type="button" role="tab" id="vs-tab-maint" aria-controls="vs-panel-maint" aria-selected="true" tabindex="0" data-k="tabMaint"></button>
+        <button type="button" role="tab" id="vs-tab-pages" aria-controls="vs-panel-pages" aria-selected="false" tabindex="-1" data-k="tabPages"></button>
+        <button type="button" role="tab" id="vs-tab-addon" aria-controls="vs-panel-addon" aria-selected="false" tabindex="-1" data-k="tabAddon"></button>
+      </div>
+
+      <!-- 網站維護 -->
+      <div class="vs-panel" role="tabpanel" id="vs-panel-maint" aria-labelledby="vs-tab-maint">
+        <h3 class="ps-h3" data-k="maintTitle"></h3>
+        <p class="ps-sub" data-k="maintDesc"></p>
+        <table class="ps-table ps-table--3">
+          <thead>
+            <tr>
+              <th data-k="maintThPlan"></th>
+              <th data-k="maintThInc"></th>
+              <th class="ps-td-fee" data-k="maintThFee"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ps-td-name" data-k="maint1Name"></td>
+              <td data-k="maint1Inc"></td>
+              <td class="ps-td-fee ps-price" data-k="maint1Fee"></td>
+            </tr>
+            <tr>
+              <td class="ps-td-name" data-k="maint2Name"></td>
+              <td data-k="maint2Inc"></td>
+              <td class="ps-td-fee ps-price" data-k="maint2Fee"></td>
+            </tr>
+            <tr>
+              <td class="ps-td-name" data-k="maint3Name"></td>
+              <td data-k="maint3Inc"></td>
+              <td class="ps-td-fee ps-price" data-k="maint3Fee"></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="ps-note" data-k="maintNote"></p>
+      </div>
+
+      <!-- 擴充頁面 -->
+      <div class="vs-panel" role="tabpanel" id="vs-panel-pages" aria-labelledby="vs-tab-pages" hidden>
+        <h3 class="ps-h3" data-k="pagesTitle"></h3>
+        <p class="ps-sub" data-k="pagesDesc"></p>
+        <div class="ps-plates">
+          <div class="ps-plate">
+            <h3 class="ps-plate-title" data-k="pg1Name"></h3>
+            <p class="ps-price ps-price--m"><span data-k="pg1Price"></span><span class="ps-price-unit" data-k="pg1Unit"></span></p>
+            <p class="ps-plate-desc" data-k="pg1Desc"></p>
+            <p class="ps-plate-items" data-k="pg1Items"></p>
+          </div>
+          <div class="ps-plate">
+            <h3 class="ps-plate-title" data-k="pg2Name"></h3>
+            <p class="ps-price ps-price--m"><span data-k="pg2Price"></span><span class="ps-price-unit" data-k="pg2Unit"></span></p>
+            <p class="ps-plate-desc" data-k="pg2Desc"></p>
+            <p class="ps-plate-items" data-k="pg2Items"></p>
+          </div>
+          <div class="ps-plate">
+            <h3 class="ps-plate-title" data-k="pg3Name"></h3>
+            <p class="ps-price ps-price--m"><span data-k="pg3Price"></span><span class="ps-price-unit" data-k="pg3Unit"></span></p>
+            <p class="ps-plate-desc" data-k="pg3Desc"></p>
+            <p class="ps-plate-items" data-k="pg3Items"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 加購項目 -->
+      <div class="vs-panel" role="tabpanel" id="vs-panel-addon" aria-labelledby="vs-tab-addon" hidden>
+        <h3 class="ps-h3" data-k="addonTitle"></h3>
+        <table class="ps-table ps-table--3">
+          <thead>
+            <tr>
+              <th data-k="addonThItem"></th>
+              <th data-k="addonThDesc"></th>
+              <th class="ps-td-fee" data-k="addonThFee"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ps-td-name" data-k="ad1Name"></td>
+              <td data-k="ad1Desc"></td>
+              <td class="ps-td-fee ps-td-cool" data-k="ad1Fee"></td>
+            </tr>
+            <tr>
+              <td class="ps-td-name" data-k="ad2Name"></td>
+              <td data-k="ad2Desc"></td>
+              <td class="ps-td-fee ps-td-cool" data-k="ad2Fee"></td>
+            </tr>
+            <tr>
+              <td class="ps-td-name" data-k="ad3Name"></td>
+              <td data-k="ad3Desc"></td>
+              <td class="ps-td-fee ps-td-cool" data-k="ad3Fee"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 價格總覽 -->
+  <section class="ps-sec ps-sec--last">
+    <div class="wrap">
+      <h2 class="ps-h2 rv" data-k="sumSecTitle"></h2>
+      <table class="ps-table ps-table--2">
+        <thead>
+          <tr>
+            <th data-k="sumThType"></th>
+            <th class="ps-td-fee" data-k="sumThPrice"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td data-k="sum1Name"></td><td class="ps-td-fee ps-price" data-k="sum1Price"></td></tr>
+          <tr><td data-k="sum2Name"></td><td class="ps-td-fee ps-price" data-k="sum2Price"></td></tr>
+          <tr><td data-k="sum3Name"></td><td class="ps-td-fee ps-price" data-k="sum3Price"></td></tr>
+          <tr><td data-k="sum4Name"></td><td class="ps-td-fee ps-price" data-k="sum4Price"></td></tr>
+          <tr><td data-k="sum5Name"></td><td class="ps-td-fee ps-price" data-k="sum5Price"></td></tr>
+          <tr><td data-k="sum6Name"></td><td class="ps-td-fee ps-price" data-k="sum6Price"></td></tr>
+          <tr><td data-k="sum7Name"></td><td class="ps-td-fee ps-price" data-k="sum7Price"></td></tr>
+        </tbody>
+      </table>
+      <p class="ps-note ps-note--plain" data-k="sumNote"></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="cr">&copy; 2026 Tuffie Chang</p>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4E1D5" stroke-width="1.6" stroke-linecap="round" opacity="0.85" role="img" aria-label="Instagram"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="#F4E1D5" stroke="none"/></svg>
+  </div>
+</footer>
+
+<script type="module" src="/src/js/private-services.js"></script>
+</body>
+</html>
