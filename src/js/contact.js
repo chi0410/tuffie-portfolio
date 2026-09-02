@@ -51,6 +51,11 @@ const ENV_SOLID_AT = 1000; // 變成實心綠信封
 const ENV_CHECK_AT = 1520; // 信封消失、換成大綠勾勾
 const ENV_RESET_AT = 3500; // 回到閉合信封
 
+// 一般關閉（沒送出）時，信封「多開著一拍」再闔上。
+// 不立刻闔的原因：關閉當下面板正在收合（CLOSE_MS 380），視線被面板帶走，
+// 蓋子闔上的動作會被蓋過去。等面板退場到一半再闔，動作才落在乾淨的畫面上。
+const ENV_SHUT_DELAY = 200;
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Link 欄位：https:// 可省略（一般人習慣直接貼 example.com/xxx），
 // 但至少要有「網域.後綴」的樣子，純文字不算網址。
@@ -600,9 +605,16 @@ export function initContact() {
     card.style.height = '';
     card.style.top = '';
     window.scrollTo(0, lockedScrollY);
-    // 一般關閉（非送出）：信封收回閉合。送出流程不會走到這裡，
-    // 它的收尾由 playEnvelopeSuccess 的時間軸負責。
-    if (status !== 'success') setEnvelope(null);
+    // 一般關閉（非送出）：信封演出「打開 → 闔上」，單純收起來，
+    // 不變綠也不打勾（那是送出才有的）。送出流程的收尾由
+    // playEnvelopeSuccess 的時間軸負責，不會走到這裡。
+    if (status !== 'success') {
+      envTimers.forEach(clearTimeout);
+      envTimers = [];
+      setEnvelope('is-open'); // 明確定起點，避免前一輪殘留狀態讓闔上沒東西可演
+      const wait = prefersReduced.matches ? 0 : ENV_SHUT_DELAY;
+      envTimers = [setTimeout(() => setEnvelope(null), wait)];
+    }
     closeTimer = setTimeout(() => {
       closeTimer = 0;
       teardown();
