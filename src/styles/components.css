@@ -2780,82 +2780,138 @@ body.ct-open {
   }
 }
 
-/* 手機底部 bar 的信封入口；桌機不顯示，桌機用右下角浮動按鈕 */
+/* ==========================================================================
+   手機底部 bar 的信封入口 + 開合動畫
+   依 handoff/prototype/envelope-anim-final.html；桌機不顯示（桌機用右下角浮動按鈕，
+   那顆是 logo＋箭頭、不是信封，所以不套這組動畫）。
+
+   ⚠️ 三張信封（閉合／打開／實心）必須「同寬 + 齊底」：
+      三個原檔寬度都是 239，高度 144／225／144——高度不同是因為打開的那張
+      多了往上掀的蓋子。統一寬度並以 bottom 對齊後，盒身會落在同一個位置，
+      切換時只有蓋子在變、盒身不跳。
+   ========================================================================== */
+
+:root {
+  /* 信封動畫的緩動與色，依 handoff/prototype/envelope-anim-final.html */
+  --ct-smooth: cubic-bezier(0.33, 0, 0.2, 1); /* 順滑進出 */
+  --ct-soft-bounce: cubic-bezier(0.34, 1.4, 0.5, 1); /* 柔和回彈，不生硬 */
+  --ct-check: #8fb99a; /* 柔和綠 */
+}
+
 .ct-navmail {
   display: none;
   position: relative;
-  width: 18px;
-  height: 18px;
+  /* 高度＝打開那張的完整高度（20 × 225/239 ≈ 19），蓋子掀起來才有空間 */
+  width: 20px;
+  height: 19px;
   align-items: center;
   padding: 0;
   background: none;
   border: none;
   cursor: pointer;
-  color: rgba(250, 240, 234, 0.75); /* 與 nav a 同色 */
-  transition: color var(--duration-base) var(--ease);
+  color: rgba(250, 240, 234, 0.75); /* 與 nav a 同色；送出時整顆轉綠 */
+  transition: color 300ms var(--ct-smooth);
 }
 
-.ct-navmail svg {
-  display: block;
-}
-
-/* 送出成功回饋：信封變綠 → 輕輕跳一下 → 換成畫出來的勾勾 → 約 2 秒後復原。
-   信封沿用 bar 現有的樣子，不加任何底框。
-   兩個 icon 疊在一起用 opacity 交叉淡入（prototype 的作法），
-   而不是 display 硬切，換場才不會突兀。 */
-.ct-navmail-icon,
-.ct-navmail-check {
+.ct-navmail-box {
   position: absolute;
   inset: 0;
+}
+
+/* 齊底對齊的關鍵：三張都貼著左下角、寬度一致，高度各自依比例 */
+.ct-navmail-env {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 20px;
   display: block;
-  transition: opacity 300ms ease;
 }
 
-.ct-navmail-check {
-  opacity: 0;
+.ct-navmail-env svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-/* dasharray／dashoffset 放基底（prototype 的寫法）：.is-check 只負責啟動動畫。
-   若把它們寫在 .is-check 裡，移除 class 的瞬間 offset 會跳成「整條畫好」，
-   淡出時會多一次視覺變化。 */
-.ct-navmail-check path {
-  stroke-dasharray: 24;
-  stroke-dashoffset: 24;
-}
-
-.ct-navmail.is-sent {
-  color: #8fb99a; /* 柔和綠 */
-}
-
-.ct-navmail.is-pop {
-  animation: ctSentPop 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.ct-navmail.is-check .ct-navmail-icon {
-  opacity: 0;
-}
-
-.ct-navmail.is-check .ct-navmail-check {
+.ct-navmail-closed {
   opacity: 1;
+  transition: opacity 250ms var(--ct-smooth);
 }
 
-/* 畫線的緩動不能用回彈曲線。stroke-dashoffset 從 24 走向 0 時，回彈會 overshoot
-   到負值（實測最低 -2.32），而負的 offset 會把虛線的「起點」往前推 ——
-   被吃掉的是勾勾的開頭那一截（實測全長的 12%），看起來就是畫到一半縮回去再補上。
-   （prototype 的畫線同樣用回彈曲線，所以也有這個瑕疵，這裡刻意不照抄。
-     彈跳 pop 則維持回彈：那是縮放，overshoot 正是要的效果。） */
-.ct-navmail.is-check .ct-navmail-check path {
-  animation: ctSentDraw 500ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+/* 打開：淡入 + 由下往上長出來（clip-path）+ 輕微回彈，模擬蓋子往上掀 */
+.ct-navmail-open {
+  opacity: 0;
+  transform-origin: bottom center;
+  clip-path: inset(100% 0 0 0);
+  transition: opacity 300ms var(--ct-smooth), clip-path 420ms var(--ct-soft-bounce),
+    transform 420ms var(--ct-soft-bounce);
 }
 
-@keyframes ctSentPop {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  40% {
-    transform: scale(1.22);
-  }
+.ct-navmail-solid {
+  opacity: 0;
+  color: var(--ct-check);
+  transform: scale(0.8);
+  transition: opacity 320ms var(--ct-smooth), transform 420ms var(--ct-soft-bounce);
+}
+
+.ct-navmail.is-open .ct-navmail-closed {
+  opacity: 0;
+}
+
+.ct-navmail.is-open .ct-navmail-open {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transform: scale(1.03);
+}
+
+.ct-navmail.is-solid .ct-navmail-closed,
+.ct-navmail.is-solid .ct-navmail-open {
+  opacity: 0;
+}
+
+.ct-navmail.is-solid .ct-navmail-solid {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 勾勾：取代信封（信封整組淡出、勾獨立顯示），不是疊在信封上。
+   尺寸比照 prototype 的比例（勾約為信封框的 0.91 倍）。 */
+.ct-navmail-chk {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%) scale(0.7);
+  opacity: 0;
+  transition: opacity 200ms var(--ct-smooth), transform 400ms var(--ct-soft-bounce);
+}
+
+.ct-navmail-chk path {
+  stroke: var(--ct-check);
+  stroke-width: 2.4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 34;
+  stroke-dashoffset: 34;
+  /* header 有一條 svg * { vector-effect: non-scaling-stroke }（給 bar 縮放用），
+     那會讓 stroke-width 不再隨 viewBox 縮放、勾線變成兩倍粗。這裡取消。 */
+  vector-effect: none;
+}
+
+.ct-navmail.is-done .ct-navmail-box {
+  opacity: 0;
+  transition: opacity 200ms var(--ct-smooth);
+}
+
+.ct-navmail.is-done .ct-navmail-chk {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.ct-navmail.is-done .ct-navmail-chk path {
+  animation: ctSentDraw 460ms var(--ct-smooth) 60ms forwards;
 }
 
 @keyframes ctSentDraw {
@@ -3003,11 +3059,17 @@ body.ct-open {
     animation: none;
   }
 
-  .ct-navmail.is-pop {
-    animation: none;
+  /* 關動態：信封三態直接切換、勾勾直接畫好，不跑長動畫 */
+  .ct-navmail-closed,
+  .ct-navmail-open,
+  .ct-navmail-solid,
+  .ct-navmail-chk,
+  .ct-navmail-box,
+  .ct-navmail {
+    transition: none;
   }
 
-  .ct-navmail.is-check .ct-navmail-check path {
+  .ct-navmail.is-done .ct-navmail-chk path {
     stroke-dashoffset: 0;
     animation: none;
   }

@@ -8,6 +8,9 @@
 
 import contactCopy from '../i18n/contact.json';
 import bearSvg from '../icons/peach-bearbear.svg?raw';
+import envClosedSvg from '../icons/env-closed.svg?raw';
+import envOpenSvg from '../icons/env-open.svg?raw';
+import envSolidSvg from '../icons/env-solid.svg?raw';
 import { getStoredLang } from './lang-store.js';
 
 const ENDPOINT =
@@ -22,26 +25,31 @@ const CLOSE_MS = 380;
 
 const LOGO = `<svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.1175 13.8899C17.3637 14.1118 17.8175 13.9525 17.8167 13.5904C17.8142 12.1772 16.8748 10.8123 15.8662 9.91634C15.8445 9.89716 15.8219 9.88131 15.8069 9.85544C15.8027 9.84793 15.7986 9.83792 15.8027 9.82958C15.8052 9.82541 15.8094 9.82291 15.8144 9.8204C15.8344 9.81039 15.8553 9.80789 15.8762 9.80122C16.1139 9.72697 16.3617 9.67608 16.6095 9.64521C16.8631 9.61351 17.1192 9.6035 17.3745 9.61684C17.6298 9.63019 17.8726 9.66356 18.1162 9.71862C18.3598 9.77369 18.5925 9.8471 18.8211 9.9397C19.0497 10.0323 19.2666 10.1424 19.476 10.2692C19.6854 10.396 19.8815 10.5395 20.0667 10.698C20.2519 10.8566 20.4229 11.0292 20.5797 11.2145C20.7366 11.3997 20.8776 11.5991 21.001 11.8093C21.1245 12.0195 21.2313 12.2423 21.3164 12.4709C21.4015 12.6994 21.4691 12.9447 21.5124 13.19C21.5558 13.4353 21.5783 13.6989 21.575 13.9558C21.5717 14.2128 21.5475 14.4522 21.5024 14.6967C21.0653 17.0701 17.6448 19.225 15.5016 19.9008C14.674 20.1619 14.1976 19.8599 13.4526 19.5329C10.4743 18.2273 6.74266 15.4834 8.84917 11.7926C10.7897 8.39298 15.9746 9.17385 16.8689 12.9522C16.929 13.2075 16.9332 13.7231 17.1184 13.8899H17.1175Z" fill="#F4E1D5"/><path d="M20.5064 6.00524C20.0776 5.95852 19.6888 6.20713 19.3309 6.40819C18.9488 6.62343 18.5267 6.76608 18.1087 6.89623C17.2303 7.16987 16.3167 7.33005 15.3974 7.37176C14.6474 7.40596 13.9099 7.33589 13.1599 7.41681C12.4016 7.49857 11.6515 7.65541 10.9232 7.88066C10.7005 7.9499 10.4802 8.02916 10.2617 8.11091C10.1799 8.14178 9.65266 8.40457 9.59926 8.3662C9.12457 8.01915 8.70744 7.91903 8.15933 7.68127C6.52751 6.97215 4.55949 7.25663 3.26054 8.49467C3.12956 8.61981 2.99441 8.72326 3.02945 8.92933C3.05448 9.07532 3.60259 9.48578 3.75109 9.58756C4.18073 9.88122 4.68713 10.1348 5.19937 10.2458C5.22022 10.3434 5.18602 10.3125 5.14597 10.3392C3.7052 11.2694 2.82255 12.6451 3.02945 14.4388C3.07951 14.8693 3.68685 14.8109 4.01221 14.7942C5.76583 14.7058 7.10399 13.5244 7.76305 11.9961C7.82812 11.8459 7.89653 11.6974 7.96912 11.5514C8.33703 10.8139 8.80838 10.2333 9.4224 9.78778C9.72607 9.56754 10.0648 9.37983 10.4435 9.22299C10.7722 9.08617 11.1109 8.97438 11.4555 8.88344C12.3373 8.64985 13.3192 8.71158 14.1702 9.04195C14.2127 9.05864 14.2519 9.00941 14.2261 8.97104C14.1218 8.81169 14.196 8.58728 14.3779 8.52805C14.4764 8.49551 14.5915 8.50802 14.6941 8.50719C15.6285 8.49634 16.5637 8.41375 17.4772 8.21269C18.1046 8.07504 18.7294 7.88733 19.3359 7.68127C19.6997 7.5578 20.0768 7.47521 20.4397 7.34923C20.7584 7.23828 21.1588 7.10396 21.198 6.71186C21.2464 6.31558 20.856 6.04445 20.5047 6.00607L20.5064 6.00524Z" fill="#F4E1D5"/></svg>`;
 
-// 手機底部 bar 的聯絡入口。用 inline SVG 而非 ✉ emoji：
-// emoji 在各平台會渲染成彩色圖案，跟 bar 上的單色文字不搭；
-// SVG 用 currentColor 就能自動吃到 nav 的顏色與 hover。
-const MAIL_ICON =
-  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-  'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-  '<rect x="3" y="5.5" width="18" height="13" rx="3"/>' +
-  '<path d="m3.6 8 7.2 4.9a2.1 2.1 0 0 0 2.4 0L20.4 8"/></svg>';
+// 手機底部 bar 的聯絡入口。三張信封疊在一起，靠切換透明度換狀態：
+//   閉合（線條）＝ 平常 ／ 打開（線條）＝ 開著表單 ／ 實心 ＝ 送出成功變綠
+// 三張都是 left:0 bottom:0 齊底、同寬（見 components.css），
+// 所以切換時盒身停在原位，只有蓋子在動。
+// 原檔的 fill 已改成 currentColor，顏色才能交給 CSS 控制（送出時變綠）。
+const ENVELOPE =
+  `<span class="ct-navmail-env ct-navmail-closed">${envClosedSvg}</span>` +
+  `<span class="ct-navmail-env ct-navmail-open">${envOpenSvg}</span>` +
+  `<span class="ct-navmail-env ct-navmail-solid">${envSolidSvg}</span>`;
 
-// 送出成功後信封要變成的勾勾。用 stroke-dasharray 讓它「畫出來」。
+// 送出成功最後出現的大勾勾——是「取代信封」，不是疊在信封上。
+// 用 stroke-dasharray 讓它畫出來。
 const CHECK_ICON =
-  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-  'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-  '<path d="M5 13l4 4L19 7"/></svg>';
+  '<svg class="ct-navmail-chk" viewBox="0 0 24 24" aria-hidden="true">' +
+  '<path d="M4 12.5 l5 5 L20 6"/></svg>';
 
 // 收進信封的時間軸，依 handoff/prototype/form-genie-final.html
 const GENIE_MS = 600; // 表單被「吸進」信封的時間
-const GREEN_AT = 480; // 信封變綠 + 彈跳（在精靈動畫收尾前就開始，接得上）
-const CHECK_AT = 780; // 換成勾勾並畫出來
-const SENT_MS = 3000; // 之後復原成信封
+
+// 信封送出動畫的時間軸，依 handoff/prototype/envelope-anim-final.html。
+// 起點是「表單已經打開、信封是開著的」狀態，所以不需要再播一次打開。
+const ENV_CLOSE_AT = 620; // 蓋子闔上——剛好接在表單被吞進去（GENIE_MS 600）之後
+const ENV_SOLID_AT = 1000; // 變成實心綠信封
+const ENV_CHECK_AT = 1520; // 信封消失、換成大綠勾勾
+const ENV_RESET_AT = 3500; // 回到閉合信封
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Link 欄位：https:// 可省略（一般人習慣直接貼 example.com/xxx），
@@ -129,9 +137,7 @@ export function initContact() {
     'aria-haspopup': 'dialog',
     'aria-expanded': 'false',
   });
-  navMail.innerHTML =
-    `<span class="ct-navmail-icon">${MAIL_ICON}</span>` +
-    `<span class="ct-navmail-check">${CHECK_ICON}</span>`;
+  navMail.innerHTML = `<span class="ct-navmail-box">${ENVELOPE}</span>${CHECK_ICON}`;
   document.querySelector('header nav')?.append(navMail);
   const triggers = [fab, navMail];
 
@@ -158,7 +164,7 @@ export function initContact() {
   let closeTimer = 0;
   let lockedScrollY = 0;
   let lastTrigger = null;
-  let sentTimer = 0;
+  let envTimers = []; // 信封送出動畫的計時器，重播前要全部清掉
 
   // ---- 文案套用 ------------------------------------------------------------
   function applyCopy() {
@@ -478,19 +484,35 @@ export function initContact() {
     card.style.opacity = '0';
     card.style.filter = 'blur(2px)';
 
-    playEnvelopeSuccess(GREEN_AT);
+    playEnvelopeSuccess();
     setTimeout(teardown, GENIE_MS);
   }
 
-  // delay：信封開始變綠的時間點。精靈動畫時會在收尾前就先變綠，動作才接得上。
-  function playEnvelopeSuccess(delay = 0) {
-    clearTimeout(sentTimer);
-    const quick = prefersReduced.matches;
-    setTimeout(() => navMail.classList.add('is-sent', 'is-pop'), quick ? 0 : delay);
-    setTimeout(() => navMail.classList.add('is-check'), quick ? 0 : CHECK_AT);
-    sentTimer = setTimeout(() => {
-      navMail.classList.remove('is-sent', 'is-pop', 'is-check');
-    }, SENT_MS);
+  // 信封狀態切換。三個狀態互斥，統一從這裡進出，避免殘留。
+  function setEnvelope(state) {
+    navMail.classList.remove('is-open', 'is-solid', 'is-done');
+    if (state) navMail.classList.add(state);
+  }
+
+  // 送出成功的信封動畫，時序照 handoff/prototype/envelope-anim-final.html：
+  //   開著接收 → 620ms 蓋子闔上 → 1000ms 實心綠 → 1520ms 換大綠勾 → 3500ms 回閉合
+  // 進來時信封已經是打開的（開表單時就切過去了），所以這裡直接從「闔上」接下去。
+  function playEnvelopeSuccess() {
+    envTimers.forEach(clearTimeout);
+    envTimers = [];
+
+    // 關動態：不跑長動畫，直接顯示結果再收回
+    if (prefersReduced.matches) {
+      setEnvelope('is-done');
+      envTimers = [setTimeout(() => setEnvelope(null), 1200)];
+      return;
+    }
+
+    const at = (ms, fn) => envTimers.push(setTimeout(fn, ms));
+    at(ENV_CLOSE_AT, () => setEnvelope(null)); // 闔上（回到閉合線條）
+    at(ENV_SOLID_AT, () => setEnvelope('is-solid')); // 實心綠信封
+    at(ENV_CHECK_AT, () => setEnvelope('is-done')); // 勾取代信封
+    at(ENV_RESET_AT, () => setEnvelope(null)); // 回閉合
   }
 
   // 收尾：隱藏彈窗、解鎖背景捲動、清掉行內樣式並重置表單
@@ -553,6 +575,12 @@ export function initContact() {
     // 不用 requestAnimationFrame：分頁在背景時 rAF 會被延後，彈窗會卡在收合狀態。
     void scrim.offsetWidth;
     scrim.classList.add('is-open');
+    // 信封跟著打開（蓋子往上掀）。手機把表單開成滿版時 bar 會被藏起來，
+    // 所以這個動作當下看不到；它真正露臉是在送出時——表單收進來的那一刻
+    // 信封是開著接收的，然後才闔上。
+    envTimers.forEach(clearTimeout);
+    envTimers = [];
+    setEnvelope('is-open');
     // 展開動畫結束後重算一次底部遮罩。ResizeObserver 只在瀏覽器實際
     // 繪製時才送出回呼，分頁在背景（或不渲染）時不會觸發，
     // 這裡用固定時間補一次，確保遮罩狀態一定正確。
@@ -572,6 +600,9 @@ export function initContact() {
     card.style.height = '';
     card.style.top = '';
     window.scrollTo(0, lockedScrollY);
+    // 一般關閉（非送出）：信封收回閉合。送出流程不會走到這裡，
+    // 它的收尾由 playEnvelopeSuccess 的時間軸負責。
+    if (status !== 'success') setEnvelope(null);
     closeTimer = setTimeout(() => {
       closeTimer = 0;
       teardown();
