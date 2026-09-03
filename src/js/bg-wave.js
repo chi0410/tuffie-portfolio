@@ -11,14 +11,14 @@
 
 const GAP = 16; // 線間距，對齊既有 knit pattern 的 16×16 格
 const DASH = [4, 5]; // 虛線疏密，比照水平線的 stroke-dasharray="4 5"（4 實 5 空）
-const AMP = 8; // 左右擺幅（px）——擺幅是波浪感的主要來源，16px 間距下 8 已相當明顯
+const AMP = 13; // 左右擺幅（px）——擺幅是波浪感的主要來源。8 → 13 讓波形更看得出來
 const PERIOD = 4500; // 一次擺動週期（ms）
 const WAVELENGTH = 520; // 波長（px）：相鄰線的相位差由此換算，越大波越平緩
 const MAX_DPR = 2; // 細淡線不需要 3x，設上限省記憶體與填充率
 const FPS = 30; // 節流：5 秒週期的緩慢動態，30fps 已足夠平順，CPU／電力減半
 
 const LINE_TOP = 'rgba(250, 240, 234, 0.03)';
-const LINE_MID = 'rgba(250, 240, 234, 0.28)';
+const LINE_MID = 'rgba(250, 240, 234, 0.38)'; // 0.28 → 0.38：線本身亮一點，擺動才讀得到
 
 export function initBgWave() {
   const canvas = document.createElement('canvas');
@@ -67,7 +67,7 @@ export function initBgWave() {
       // 同一時刻不同 x 的相位不同 → 相鄰線有相位差，整體成為流動的波
       const s = animate ? Math.sin(phase + (x / WAVELENGTH) * Math.PI * 2) : 0;
       const px = x + AMP * s; // 刻意不做 .5 像素對齊，維持與原本 fillRect 相同的柔邊
-      ctx.globalAlpha = 0.75 + 0.25 * s; // 隨擺動微微明暗，呼應 prototype 的脈動
+      ctx.globalAlpha = 0.62 + 0.38 * s; // 隨擺動明暗，對比拉大讓脈動更明顯
       // 逐線 stroke（而非合併成單一 path）才能讓每條線有自己的 alpha
       ctx.beginPath();
       ctx.moveTo(px, 0);
