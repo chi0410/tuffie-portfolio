@@ -454,8 +454,26 @@ export function initContact() {
     });
 
     try {
-      const res = await fetch(ENDPOINT, { method: 'POST', body: payload });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      // 斷網時就別假裝成功了——這是唯一能確定「資料沒送到」的情況。
+      // （onLine 為 true 不保證真的連得上，所以只在明確離線時擋。）
+      if (navigator.onLine === false) throw new Error('offline');
+
+      // ⚠️ 一定要用 no-cors，不能檢查 res.ok。
+      // Apps Script 的 /exec 會 302 轉址到 script.googleusercontent.com，
+      // 而那條轉址鏈沒有帶 CORS 標頭，所以 cors 模式下瀏覽器會擋掉「回應」。
+      // 實測從 tuffiechang.com 發 cors 請求會得到 TypeError: Failed to fetch，
+      // 但請求其實已經送達、資料已經寫進試算表——結果就是
+      // 「後端成功、前端誤報失敗」（金絲桃遇到的正是這個）。
+      // no-cors 讓請求照樣送出（URLSearchParams 產生的 urlencoded 屬於
+      // CORS 安全清單內的 Content-Type，不會觸發預檢），
+      // 但回應變成 opaque：status 恆為 0、ok 恆為 false，
+      // 所以絕對不能再用 res.ok 判斷成功，否則每次都會誤報失敗。
+      //
+      // 取捨：讀不到後端的回覆，就無法區分「送達但後端自己出錯」——
+      // 那種情況會顯示成功。這是刻意選的：寧可少數情況偏樂觀，
+      // 也不要像現在這樣每次都誤報失敗、還讓人重送而寫入重複資料。
+      // 真正的失敗（斷網、DNS 解不出來）fetch 仍會 reject，會走到下面的 catch。
+      await fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: payload });
       status = 'success';
       renderSubmit();
       if (narrow()) {
