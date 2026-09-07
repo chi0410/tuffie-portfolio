@@ -148,7 +148,14 @@ h1.display .lg {
 
 .cta {
   display: inline-block;
-  background: var(--glass-dark-bg);
+  /* ⚠️ 底色不寫在這裡，改由兩層 ::before／::after 交叉淡入淡出（見下方）。
+     原因：linear-gradient 屬於 background-image，而 background-image
+     不是可補間的屬性——兩張不同的漸層之間瀏覽器算不出中間值，只能直接切換，
+     所以原本 hover 時邊框與上浮很平順、唯獨漸層「啪」一聲出現。
+     改成「漸層層一直都在、只動 opacity」就能真正淡入。 */
+  position: relative;
+  isolation: isolate; /* 讓底下兩層的 z-index:-1 只壓在自己的文字之下，不會掉到頁面背景後面 */
+  background: transparent;
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(250, 240, 234, 0.4);
@@ -158,13 +165,51 @@ h1.display .lg {
   letter-spacing: 0.05em;
   padding: 13px 36px;
   border-radius: var(--radius-full);
-  transition: all var(--duration-base) var(--ease);
+  /* 改列出具體屬性，不再用 all——background-image 本來就補間不了，
+     列清楚也比較看得出哪些真的會動 */
+  transition: border-color var(--duration-base) var(--ease),
+    transform var(--duration-base) var(--ease), color var(--duration-base) var(--ease);
+}
+
+/* 兩層底色疊在文字下方，靠 opacity 交叉淡入淡出。
+   z-index:-1 在 isolate 建立的堆疊脈絡裡，會畫在自己的背景之上、文字之下。
+   兩層都在時 ::after 疊在 ::before 上（依 DOM 順序），所以 hover 漸層蓋住玻璃。 */
+.cta::before,
+.cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* 平常態：玻璃 */
+.cta::before {
+  background: var(--glass-dark-bg);
+  opacity: 1;
+  transition: opacity 450ms cubic-bezier(0.33, 0, 0.2, 1);
 }
 
 /* hover 態的漸層混色（暖陶 + 靛紫半透明）直接沿用 prototype 已定案效果；
-   一般規則禁止靛紫做透明光暈／底色，此為 CTA 互動態的既定例外，不自行更動 */
-.cta:hover {
+   一般規則禁止靛紫做透明光暈／底色，此為 CTA 互動態的既定例外，不自行更動。
+   ⚠️ 這個漸層是半透明的（.5／.45），玻璃層必須同步淡出——
+   否則會多墊一層白，hover 的最終顏色就跟原本不一樣了。 */
+.cta::after {
   background: linear-gradient(120deg, rgba(190, 110, 66, 0.5), rgba(103, 109, 175, 0.45));
+  opacity: 0;
+  transition: opacity 450ms cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.cta:hover::before {
+  opacity: 0;
+}
+
+.cta:hover::after {
+  opacity: 1;
+}
+
+.cta:hover {
   border-color: rgba(250, 240, 234, 0.7);
   transform: translateY(-2px);
   color: var(--ondark-text-1);
@@ -792,6 +837,8 @@ footer .cr {
 @media (prefers-reduced-motion: reduce) {
   .card,
   .cta,
+  .cta::before,
+  .cta::after,
   .ct-cell {
     transition: none;
   }
