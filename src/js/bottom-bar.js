@@ -1,4 +1,6 @@
-// 手機底部 bar 的捲動縮放（follow IG 的體驗）
+// 這條 bar（桌機在頂部、手機在底部，是同一個 <header>）的兩個互動：
+//
+// 一、捲動縮放（僅手機，follow IG 的體驗）
 //   往下滑 → 縮小（看內容）
 //   往上滑 → 放大（想操作）
 //   點 bar 上任一項目 → 放大，原本的功能照常執行（跳頁／展開表單／切語言）
@@ -68,4 +70,20 @@ export function initBottomBar() {
   // pointerdown 讓手指一碰就有反應，click 則涵蓋鍵盤操作（Enter 不會產生 pointerdown）。
   bar.addEventListener('pointerdown', grow, true);
   bar.addEventListener('click', grow, true);
+
+  // 二、點擊回饋：點下去整條 bar 柔和放大再回原尺寸（依 prototype 版型 B）。
+  // 桌機與手機都有。動畫本身在 components.css 的 barTap，走 transform；
+  // 手機的捲動縮放走獨立的 scale 屬性，兩者由瀏覽器相乘，不會互相蓋掉。
+  const tap = () => {
+    // 重播動畫要「移除 → 強制 reflow → 加回」，少了中間那次 reflow
+    // 瀏覽器會把這兩步視為沒變化，連點時第二下就不會有反應。
+    bar.classList.remove('is-tapped');
+    void bar.offsetWidth;
+    bar.classList.add('is-tapped');
+  };
+  bar.addEventListener('pointerdown', tap, true);
+  bar.addEventListener('click', tap, true); // 鍵盤 Enter 走這條
+  bar.addEventListener('animationend', (e) => {
+    if (e.animationName === 'barTap') bar.classList.remove('is-tapped');
+  });
 }

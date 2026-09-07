@@ -6,7 +6,13 @@ header {
   position: fixed;
   top: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  /* ⚠️ 水平置中用獨立的 translate 屬性，不是 transform: translateX(-50%)。
+     瀏覽器的套用順序是 translate → scale → transform，
+     置中若寫在 transform 裡，會被手機捲動縮放的 scale(.82) 一起縮掉
+     ——位移只剩 -123px 而非 -150px，bar 會往右偏 27px（實測過）。
+     擺在 translate 就排在 scale 之前，不受縮放影響。
+     transform 則留給點擊回饋的動畫專用。 */
+  translate: -50%;
   z-index: 100;
   background: var(--glass-dark-bg);
   -webkit-backdrop-filter: blur(var(--glass-dark-blur));
@@ -1961,13 +1967,19 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
        ⚠️ 這條 bar 就是桌機的 header，本來就用 translateX(-50%) 置中，
           所以必須把兩個變形串著寫，只寫 scale 會蓋掉置中、bar 會歪掉。
           以 bottom center 為原點：水平中心與底邊都不位移，往底部收放。 */
-    transform: translateX(-50%) scale(1);
+    /* ⚠️ 捲動縮放走「獨立的 scale 屬性」，不是 transform 裡的 scale。
+       原因：點擊回饋（.is-tapped）也要縮放，兩個都寫進 transform 會互相蓋掉——
+       小態 .82 時點擊會直接跳成 1.018。瀏覽器是先套用 scale、再套用 transform，
+       兩者自然相乘，所以小態點擊＝ .82 × 1.018，各自獨立不打架。
+       （沒用 CSS 變數相乘，是因為變數要平滑動畫得註冊 @property，
+         Safari 16.4 才支援；獨立的 scale 屬性 Safari 14.1 就有，舊機也吃得到。） */
+    scale: 1;
     transform-origin: bottom center;
-    transition: transform 480ms var(--ease);
+    transition: scale 480ms var(--ease);
   }
 
   header.is-bar-small {
-    transform: translateX(-50%) scale(0.82);
+    scale: 0.82;
   }
 
   /* 線條粗細不隨縮放改變（縮小時不變細、放回大態也不會顯得笨重）。
@@ -1982,6 +1994,32 @@ html[lang="en"] .flow-vid--down  { top: 65.59%; } /* en：65.01 + 10px（0.58%�
   /* 底部留白：避免最後的內容被固定貼底的 bar 蓋住 */
   body {
     padding-bottom: 24px;
+  }
+}
+
+/* ==========================================================================
+   bar 點擊回饋：點任一項目時整條 bar 柔和放大再回原尺寸
+   依 handoff/prototype/tap-bar-final.html 的「版型 B｜更柔更慢」。
+   桌機頂部 header 與手機底部 bar 是同一個元素，兩邊都套用。
+
+   三個效果各佔一個屬性、互不覆蓋，由瀏覽器依 translate → scale → transform 相乘：
+     translate: -50%   水平置中（固定）
+     scale:     .82    手機捲動縮放
+     transform: scale  這裡的點擊回饋
+   所以捲動小態點擊＝ .82 × 1.018，不會跳成 1.018。
+   ========================================================================== */
+
+header.is-tapped {
+  animation: barTap 500ms cubic-bezier(0.4, 0, 0.3, 1);
+}
+
+@keyframes barTap {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.018);
   }
 }
 
@@ -3147,7 +3185,8 @@ body.ct-open {
     animation: none;
   }
 
-  .ct-navmail-box.is-pop {
+  .ct-navmail-box.is-pop,
+  header.is-tapped {
     animation: none;
   }
 
