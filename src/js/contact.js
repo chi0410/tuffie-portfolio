@@ -576,12 +576,25 @@ export function initContact() {
   // 解除背景捲動鎖並還原捲動位置。抽出來是為了能提早呼叫：
   // 這一步會讓整頁瞬間換位，留到動畫結束才做，會在使用者正盯著信封時
   // 讓背景跳一下、連帶讓信封看起來閃動。
+  // 還原背景捲動位置，而且一定要「瞬間」完成。
+  // base.css 有 html { scroll-behavior: smooth }，不覆寫的話這次 scrollTo 會變成動畫——
+  // 表單開著時 body 是 position:fixed、文件的捲動位置其實是 0，
+  // 於是會看到頁面從頂端一路滾回原位；中途被手指碰到動畫就中斷、位置停在半路。
+  // 桌機、手機都走這裡（原本只有桌機有覆寫，手機的兩條還原路徑都是平滑的）。
+  function restoreScroll() {
+    const root = document.documentElement;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, lockedScrollY);
+    root.style.scrollBehavior = prev;
+  }
+
   function unlockScroll() {
     if (!document.body.classList.contains('ct-open')) return;
     document.body.classList.remove('ct-open');
     document.body.style.top = '';
     document.body.style.paddingRight = '';
-    window.scrollTo(0, lockedScrollY);
+    restoreScroll();
   }
 
   function teardown() {
@@ -623,12 +636,21 @@ export function initContact() {
     syncPanelHeight();
     syncMask();
     triggers.forEach((el) => el.setAttribute('aria-expanded', 'true'));
-    // 鎖住背景捲動：記下位置後把 body 固定住（見 components.css 的 body.ct-open）
-    lockedScrollY = window.scrollY;
-    const barWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.top = `-${lockedScrollY}px`;
-    if (barWidth > 0) document.body.style.paddingRight = `${barWidth}px`; // 捲軸消失造成的位移補償
-    document.body.classList.add('ct-open');
+    // 鎖住背景捲動：記下位置後把 body 固定住（見 components.css 的 body.ct-open）。
+    // ⚠️ 只在「還沒鎖住」時才記錄與套用。open() 若因任何原因被呼叫第二次，
+    //    此時 body 已是 position:fixed、window.scrollY 會讀到 0，
+    //    再記一次就把 lockedScrollY 覆寫成 0——背景瞬間跳到頂端，
+    //    關閉後也還原到頂端。實測重現過：top 由 -1070px 變成 0px、
+    //    還原變成 scrollTo(0, 0)。
+    //    （表單「內部內容」回頂端是上面的 scrollBox.scrollTop = 0，
+    //      跟這裡的背景鎖定是兩回事，不受影響。）
+    if (!document.body.classList.contains('ct-open')) {
+      lockedScrollY = window.scrollY;
+      const barWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.top = `-${lockedScrollY}px`;
+      if (barWidth > 0) document.body.style.paddingRight = `${barWidth}px`; // 捲軸消失造成的位移補償
+      document.body.classList.add('ct-open');
+    }
     // 強制 reflow 讓瀏覽器先套用「收合」狀態，下一行加 class 才會跑 transition。
     // 不用 requestAnimationFrame：分頁在背景時 rAF 會被延後，彈窗會卡在收合狀態。
     void scrim.offsetWidth;
@@ -658,16 +680,7 @@ export function initContact() {
     document.body.style.paddingRight = '';
     card.style.height = '';
     card.style.top = '';
-    // 還原捲動位置。base.css 的 html { scroll-behavior: smooth } 會讓
-    // scrollTo 變成動畫——但表單開著時 body 是 position:fixed、文件的捲動位置
-    // 其實是 0，於是關閉時就看到「從 0% 平滑滾回原位」這段多餘的滾動。
-    // 用行內樣式暫時覆寫掉 smooth，讓這一次還原是瞬間完成的。
-    // 只改 web：手機維持現狀（同樣的情形若要處理再另外交辦）。
-    const root = document.documentElement;
-    const prevBehavior = root.style.scrollBehavior;
-    if (!narrow()) root.style.scrollBehavior = 'auto';
-    window.scrollTo(0, lockedScrollY);
-    if (!narrow()) root.style.scrollBehavior = prevBehavior;
+    restoreScroll();
     // 一般關閉（非送出）：信封演出「打開 → 闔上」，單純收起來，
     // 不變綠也不打勾（那是送出才有的）。送出流程的收尾由
     // playEnvelopeSuccess 的時間軸負責，不會走到這裡。
